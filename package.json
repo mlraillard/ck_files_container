@@ -1,0 +1,29 @@
+{
+  "name": "ck_files_container",
+  "version": "1.0.0",
+  "description": "React Express App for playing ChucK files",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlraillard/ck_files_container.git"
+  },
+  "author": "Michael Raillard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mlraillard/ck_files_container/issues"
+  },
+  "homepage": "https://github.com/mlraillard/ck_files_container#readme",
+  "dependencies": {
+    "concurrently": "^8.2.1",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
