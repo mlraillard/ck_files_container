@@ -3,7 +3,7 @@ import { Container, Title, ScrollArea, Box, Group } from '@mantine/core';
 // import ButtonComponent from './ButtonComponent';
 
 import './main.css'
-import {BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT, BUTTON_PANEL_VERTICAL_MARGIN} from '../../constants';
+import {SERVER_HOST, SERVER_PORT, BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT, BUTTON_PANEL_VERTICAL_MARGIN} from '../../../../clientConstants';
 
 const envName = process.env.name === "Test" ? ` - ${process.env.name}` : "";
 
@@ -18,7 +18,8 @@ export const MainComponent = () => {
   https://www.google.com/search?q=how+to+use+proxy+in+package.json&oq=how+to+use+proxy+in+package.json&aqs=chrome..69i57j0i22i30l2j0i390i650l3.9517j0j7&sourceid=chrome&ie=UTF-8
   */
 
-  fetch('http://localhost:8002/ckFiles')
+  // fetch('http://localhost:8002/ckFiles')
+  fetch(`${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`)
   .then(res => res.text())
   .then(data => setCkFiles(data))
   

@@ -3,7 +3,7 @@ const cors = require('cors')
 const fs = require('fs')
 
 const app = express()
-const port = 8002
+const SERVER_PORT = 8002;
 const filesDirectory = './ckFiles'
 const ckExtName = '.ck'
 const re = /<{3}\s{0,20}\"([A-Za-z0-9,\. ]*)\"\s{0,20}>{3}\;/
@@ -51,12 +51,12 @@ app.get('/ckfiles', cors(), (req, res) => {
     res.end()
 })
 
-app.listen(port, function(error){
+app.listen(SERVER_PORT, function(error){
     if (error) {
         console.log(`error: ${error}`)
     }
     else {
-        console.log(`server is listening on ${port}`)
+        console.log(`server is listening on ${SERVER_PORT}`)
     }
 })
 
