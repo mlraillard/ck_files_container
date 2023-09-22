@@ -41,7 +41,7 @@ app.get('/ckfiles', cors(), (req, res) => {
                 "filename": filename
             })
         })
-        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.writeHead(200, {'Content-Type': 'text'})
         res.write(JSON.stringify(json))
     }
     catch(error) {
