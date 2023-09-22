@@ -8,21 +8,23 @@ import {SERVER_HOST, SERVER_PORT, BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT, BUTTO
 const envName = process.env.name === "Test" ? ` - ${process.env.name}` : "";
 
 export const MainComponent = () => {
-  const [ckFiles, setCkFiles] = useState("");
+  /****** ckFiles ******/
+  // const [ckFiles, setCkFiles] = useState("");
+  /****** ckFiles ******/
 
-  /*
-  Read about how to use the package.json proxy instead of hardcoding the URL:
-  https://create-react-app.dev/docs/proxying-api-requests-in-development/#:~:text=Configuring%20the%20Proxy%20Manually%E2%80%8B&text=You%20can%20use%20this%20feature,into%20src/setupProxy.js%20.&text=Note:%20You%20do%20not%20need,you%20start%20the%20development%20server.
+  const [ckFile, setCkFile] = useState("");
 
+  /****** ckFiles ******/
+  // fetch(`${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`)
+  // .then(res => res.text())
+  // .then(data => setCkFiles(data))
+  /****** ckFiles ******/
 
-  https://www.google.com/search?q=how+to+use+proxy+in+package.json&oq=how+to+use+proxy+in+package.json&aqs=chrome..69i57j0i22i30l2j0i390i650l3.9517j0j7&sourceid=chrome&ie=UTF-8
-  */
-
-  // fetch('http://localhost:8002/ckFiles')
-  fetch(`${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`)
+  const filename = "hoagScriptX"
+  fetch(`${SERVER_HOST}\:${SERVER_PORT}\/ckFile?filename=${filename}`)
   .then(res => res.text())
-  .then(data => setCkFiles(data))
-  
+  .then(data => setCkFile(data))
+
   return <>
     <Container>
     <Group position="center">
@@ -34,7 +36,13 @@ export const MainComponent = () => {
         </Title>
     </Group>
     <Group>
-       { ckFiles }
+       { 
+        /****** ckFiles ******/
+        // ckFiles 
+        /****** ckFiles ******/
+
+        ckFile
+       }
     </Group>
 
     {/* <Group position="center">

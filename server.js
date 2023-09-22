@@ -22,6 +22,20 @@ app.get('/onefile', cors(), (req, res) => {
     })
 })
 
+app.get('/ckfile', cors(), (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text'})
+    fs.readFile(`./ckFiles/${req.query.filename}.ck`, function(error, data) {
+        if (error) {
+            res.writeHead(404)
+            res.write('Error: File not found.')
+        }
+        else {
+            res.write(data)
+        }
+        res.end()
+    })
+})
+
 app.get('/ckfiles', cors(), (req, res) => {
     try {
         let filenames = fs.readdirSync(filesDirectory)
