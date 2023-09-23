@@ -13,7 +13,7 @@ root.render(
   <React.StrictMode>
     {/* <MantineProvider theme={{ colorScheme: mode }} withGlobalStyles withNormalizeCSS> */}
 
-    <MantineProvider theme={{ colorScheme: "dark" }} withGlobalStyles withNormalizeCSS>
+    <MantineProvider theme={{ colorScheme: mode }} withGlobalStyles withNormalizeCSS>
       <App />
     </MantineProvider>
   </React.StrictMode>
