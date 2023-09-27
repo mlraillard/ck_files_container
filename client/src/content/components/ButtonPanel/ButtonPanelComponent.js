@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useEffect, useCallback  } from 'react';
 import { ScrollArea, Group } from '@mantine/core';
-import { Button } from '@mantine/core';
 
-import { ZustandJungle } from './ZustandJungle'
-import {SERVER_HOST, SERVER_PORT, BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT, BUTTON_PANEL_VERTICAL_MARGIN} from '../../../../clientConstants';
+import { SERVER_HOST, SERVER_PORT, BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
+import { useStore } from '../../../store';
+import { PlayButton } from './PlayButton'
 
 export const ButtonPanelComponent = () => {
-  fetch(`${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`)
-    .then(res => res.text())
-    .then((data) => {
-        const bJson = JSON.parse(data)
-        console.log(`data: ${JSON.stringify(bJson)}`)
-    })
+    const asyncTodos = useStore(useCallback(state => state.asyncTodos, []))
+    const loading = useStore(state => state.loading)
+    const fetchTodos = useStore(state => state.fetchTodos)
+
+    useEffect(() => {
+      fetchTodos()
+    }, [fetchTodos])
 
     return (
       <Group>
@@ -42,7 +43,21 @@ export const ButtonPanelComponent = () => {
           },
         })}
       >
-        <ZustandJungle />
+        {/* <ZustandJungle /> */}
+        {/* { <PlayButton />} */}
+        {
+          loading ? '' :
+
+          <ul>
+          {asyncTodos.map(todo => (
+            <li key={todo.id}>
+              {todo.title}
+            </li>
+          ))}
+        </ul>
+
+
+        }
       </ScrollArea>
       </Group>
     )
