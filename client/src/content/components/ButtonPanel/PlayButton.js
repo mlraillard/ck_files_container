@@ -1,6 +1,6 @@
 import { Button } from '@mantine/core';
 
-export const PlayButton = () => {
+export const PlayButton = (props) => {
     return (
       <Button
         variant="contained"
@@ -8,9 +8,9 @@ export const PlayButton = () => {
         size="md"
         disabled={false} 
         onClick={() => { 
-          console.log(`clicked!`)
+          console.log(`clicked ${props.filename}`)
         }}
-      >
+      >{ props.desc }
       </Button>
     )
 }

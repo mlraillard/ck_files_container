@@ -17,6 +17,7 @@
     "@mantine/hooks": "^6.0.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "uuid4": "^2.0.3",
     "zustand": "^4.4.1"
   },
   "devDependencies": {
@@ -44,5 +45,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-    ]
+  ]
 }

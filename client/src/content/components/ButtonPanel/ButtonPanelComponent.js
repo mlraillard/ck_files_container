@@ -1,18 +1,19 @@
 import React, { useEffect, useCallback  } from 'react';
-import { ScrollArea, Group } from '@mantine/core';
+import { v4 as uuidv4 } from "uuid";
+import { ScrollArea, Group, Stack } from '@mantine/core';
 
-import { SERVER_HOST, SERVER_PORT, BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
+import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
 import { useStore } from '../../../store';
 import { PlayButton } from './PlayButton'
 
 export const ButtonPanelComponent = () => {
-    const asyncTodos = useStore(useCallback(state => state.asyncTodos, []))
+    const asyncCkFiles = useStore(useCallback(state => state.asyncCkFiles, []))
     const loading = useStore(state => state.loading)
-    const fetchTodos = useStore(state => state.fetchTodos)
+    const fetchCkFiles = useStore(state => state.fetchCkFiles)
 
     useEffect(() => {
-      fetchTodos()
-    }, [fetchTodos])
+      fetchCkFiles()
+    }, [fetchCkFiles])
 
     return (
       <Group>
@@ -43,26 +44,19 @@ export const ButtonPanelComponent = () => {
           },
         })}
       >
-        {/* <ZustandJungle /> */}
-        {/* { <PlayButton />} */}
         {
           loading ? '' :
-
-          <ul>
-          {asyncTodos.map(todo => (
-            <li key={todo.id}>
-              {todo.title}
-            </li>
+          <Stack align="flex-start" justify="flex-start" gap="sm">
+           {asyncCkFiles.map(ckFile => (
+            <PlayButton 
+              key={uuidv4()}
+              desc={ckFile.desc}
+              filename={ckFile.filename}
+            />
           ))}
-        </ul>
-
-
+          </Stack>
         }
       </ScrollArea>
       </Group>
     )
   }
-  
-
-  
-
