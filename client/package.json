@@ -16,7 +16,9 @@
     "@mantine/core": "^6.0.19",
     "@mantine/hooks": "^6.0.19",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "uuid4": "^2.0.3",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.20",
@@ -37,5 +39,11 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.9.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
