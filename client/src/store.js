@@ -4,6 +4,15 @@ import { SERVER_HOST, SERVER_PORT} from './constants'
 
 const CKFILES_API_URL = `${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`
 
+// const asyncTheChuckSlice = (set) => ({
+//   theChuck: null,
+//   loading: true,
+//   fetchTodos: async () => {
+//     const response = await fetch(TODOS_API_URL)
+//     set({ asyncTodos: await response.json(), loading: false })
+//   }
+// })
+
 const asyncCkFilesSlice = (set) => ({
   asyncCkFiles: [],
   loading: true,

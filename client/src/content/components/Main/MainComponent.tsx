@@ -3,7 +3,7 @@ import { Container, Title, ScrollArea, Box, Group } from '@mantine/core';
 
 import './main.css'
 import { ButtonPanelComponent } from "../ButtonPanel/ButtonPanelComponent";
-//import {SERVER_HOST, SERVER_PORT} from '../../../../clientConstants';
+import { SERVER_HOST, SERVER_PORT} from '../../../constants.js'
 
 const envName = process.env.name === "Test" ? ` - ${process.env.name}` : "";
 
@@ -16,7 +16,7 @@ export const MainComponent = () => {
   // const filename = "hoagScriptX"
   // fetch(`${SERVER_HOST}\:${SERVER_PORT}\/ckFile?filename=${filename}`)
   // .then(res => res.text())
-  // .then(data => setCkFile(data))
+  // .then(data => console.log(`data: ${data}`))
    /* ckfile */
 
   return <>

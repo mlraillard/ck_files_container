@@ -1,16 +1,26 @@
-import { Button } from '@mantine/core';
+import { useState } from "react";
+import { Group, Button, Text } from '@mantine/core';
+
+import { runChucKCode, loadAndRunChucKCode } from "../../../chuckContent/chuckRun/run.js";
 
 export const PlayButton = (props) => {
-    return (
+  const [resultText, setResultText] = useState("");
+  const resultTextfield = <Text fz="md">{ resultText }</Text>;
+
+  return (
+    <Group>
       <Button
         variant="contained"
         color="secondary"
-        size="md"
+        size="compact-lg"
         disabled={false} 
         onClick={() => { 
-          console.log(`clicked ${props.filename}`)
+          loadAndRunChucKCode(props.filename, setResultText)
         }}
       >{ props.desc }
       </Button>
-    )
+      { resultTextfield }
+    </Group>
+
+  )
 }
