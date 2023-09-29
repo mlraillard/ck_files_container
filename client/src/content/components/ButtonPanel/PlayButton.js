@@ -20,7 +20,7 @@ export const PlayButton = (props) => {
         // variant="primary"
         color="secondary"
         size="compact-lg"
-        disabled={false} 
+        disabled={ props.loop === 'true' ? !stopDiabled : false} 
         onClick={() => {
           setStopDiabled(false)
           loadAndRunChucKCode(props.filename, setResultText, Chuck, setAChuck)
