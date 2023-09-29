@@ -6,14 +6,15 @@ async function run(aPromise, setResultText) {
     setResultText(await aPromise);
 }
 
-export async function loadAndRunChucKCode(filename, setResultText, Chuck) {
+export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck) {
     const url = `${SERVER_HOST}\:${SERVER_PORT}\/ckfile?filename=${filename}`
 
     let aPromise = new Promise( async function(resolve, reject) {
         //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
         const response = await fetch(url)
         const data = await response.text()
-        let aChuck = await Chuck.init([]);
+        let aChuck = await Chuck.init([])
+        setAChuck(aChuck)
 
         aChuck.chuckPrint = (output) => {
             setResultText(output);
