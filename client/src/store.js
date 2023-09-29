@@ -4,14 +4,15 @@ import { SERVER_HOST, SERVER_PORT} from './constants'
 
 const CKFILES_API_URL = `${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`
 
-// const asyncTheChuckSlice = (set) => ({
-//   theChuck: null,
-//   loading: true,
-//   fetchTodos: async () => {
-//     const response = await fetch(TODOS_API_URL)
-//     set({ asyncTodos: await response.json(), loading: false })
-//   }
-// })
+const asyncChuckSlice = (set) => ({
+  Chuck: null,
+  chuckLoading: true,
+  fetchTheChuck: async () => {
+    import('../src/chuckContent/chuckSrc/wc-bundle.js').then(async (module) => { 
+      set({ Chuck: module.Chuck, chuckLoading: false })
+    });
+  }
+})
 
 const asyncCkFilesSlice = (set) => ({
   asyncCkFiles: [],
@@ -26,6 +27,7 @@ const asyncCkFilesSlice = (set) => ({
 
 const rootSlice = (set, get) => ({
   ...asyncCkFilesSlice(set, get),
+  ...asyncChuckSlice(set, get),
 })
 
 export const useStore = create(devtools(rootSlice))
