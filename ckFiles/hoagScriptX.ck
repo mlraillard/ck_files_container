@@ -5,6 +5,7 @@
 // //Example 2 using BRF
 // SqrOsc osc1 => ADSR env1 => BRF filter => dac;
 
+//infinite_loop=true
 
 //Example 2 using BPF
 SqrOsc osc1 => ADSR env1 => BPF filter => dac;
