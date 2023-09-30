@@ -7,13 +7,13 @@ import { useStore } from '../../../store';
 import { PlayButton } from './PlayButton'
 
 export const ButtonPanelComponent = () => {
-    const asyncCkFiles = useStore(useCallback(state => state.asyncCkFiles, []))
+    const asyncFiles = useStore(useCallback(state => state.asyncFiles, []))
     const loading = useStore(state => state.loading)
-    const fetchCkFiles = useStore(state => state.fetchCkFiles)
+    const fetchFiles = useStore(state => state.fetchFiles)
 
     useEffect(() => {
-      fetchCkFiles()
-    }, [fetchCkFiles])
+      fetchFiles()
+    }, [fetchFiles])
 
     return (
       <Group>
@@ -47,7 +47,7 @@ export const ButtonPanelComponent = () => {
         {
           loading ? '' :
           <Stack align="flex-start" justify="flex-start" gap="sm">
-           {asyncCkFiles.map(ckFile => (
+           {asyncFiles.map(ckFile => (
             <PlayButton 
               key={uuidv4()}
               desc={ckFile.desc}

@@ -10,7 +10,7 @@ const re = /<{3}\s{0,20}\"([A-Za-z0-9,\. ]*)\"\s{0,20}>{3}\;/
 const infinite_loop = /\/\/\s?(infinite_loop)\s?(\=){1,3}\s?(true|false|TRUE|FALSE)/
 
 app.get('/onefile', cors(), (req, res) => {
-    fs.readFile('./ckFiles/hoagScriptX.ck', function(error, data) {
+    fs.readFile(`${filesDirectory}/hoagScriptX.ck`, function(error, data) {
         if (error) {
             res.writeHead(404)
             res.write('Error: File not found.')
@@ -24,7 +24,7 @@ app.get('/onefile', cors(), (req, res) => {
 })
 
 app.get('/ckfile', cors(), (req, res) => {    
-    fs.readFile(`./ckFiles/${req.query.filename}`, function(error, data) {
+    fs.readFile(`${filesDirectory}/${req.query.filename}`, function(error, data) {
         if (error) {
             res.writeHead(404)
             res.write('Error: File not found.')
@@ -40,6 +40,81 @@ app.get('/ckfile', cors(), (req, res) => {
 app.get('/ckfiles', cors(), (req, res) => {
     try {
         let filenames = fs.readdirSync(filesDirectory)
+        if (filenames) {
+            filenames = filenames.filter(file => file.endsWith(ckExtName))
+        }
+        let json = []
+        filenames.forEach((filename) => {
+            let desc = "no description"
+            const fullFilename = `${filesDirectory}\/${filename}`
+            const file = fs.readFileSync(fullFilename)
+            const matches = re.exec(file)
+            if (matches) {desc = matches[1]}
+
+            let loop = "false"
+            const loop_matches = infinite_loop.exec(file)
+            if (loop_matches) {
+                if (loop_matches[0].includes("true") || loop_matches[0].includes("TRUE")) {
+                    loop = "true"
+                }
+            }
+
+            json.push({
+                "desc": desc,
+                "loop": loop,
+                "filename": filename
+            })
+        })
+        res.writeHead(200, {'Content-Type': 'text'})
+        res.write(JSON.stringify(json))
+    }
+    catch(error) {
+        res.writeHead(404, { 'Content-Type': 'text'})
+        res.write(`Error: cannot read directory: ${error}`)
+    }
+    res.end()
+})
+
+//to work on multiple directories
+app.get('/ckdirfile', cors(), (req, res) => {
+    fs.readFile(`${filesDirectory}/${req.query.dir}/${req.query.filename}`, function(error, data) {
+        if (error) {
+            res.writeHead(404)
+            res.write('Error: File not found.')
+        }
+        else {
+            res.writeHead(200, { 'Content-Type': 'text'})
+            res.write(data)
+        }
+        res.end()
+    })
+})
+
+app.get('/ckdirs', cors(), (req, res) => {
+    let dirs = []
+
+    try {
+        const files = fs.readdirSync(filesDirectory);
+        for (const file of files) {
+            const stats = fs.statSync(`${filesDirectory}/${file}`);
+
+            if (stats.isDirectory()) {
+                dirs.push(file)
+            }
+        }
+        res.writeHead(200, { 'Content-Type': 'text'})
+        res.write(JSON.stringify(dirs))
+    }
+    catch(error) {
+        res.writeHead(404, { 'Content-Type': 'text'})
+        res.write(`Error: cannot read directories: ${error}`)
+    }
+    res.end()
+})
+
+app.get('/ckdirfiles', cors(), (req, res) => {
+    try {
+        let filenames = fs.readdirSync(`${filesDirectory}/${req.query.dir}`)
         if (filenames) {
             filenames = filenames.filter(file => file.endsWith(ckExtName))
         }

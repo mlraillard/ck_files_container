@@ -1,8 +1,8 @@
 import create from 'zustand'
 import { devtools } from "zustand/middleware"
-import { SERVER_HOST, SERVER_PORT} from './constants'
+import { SERVER_HOST, SERVER_PORT, FILES_DIRECTORY} from './constants'
 
-const CKFILES_API_URL = `${SERVER_HOST}\:${SERVER_PORT}\/ckFiles`
+const API_URL = `${SERVER_HOST}\:${SERVER_PORT}\/${FILES_DIRECTORY}`
 
 const asyncChuckSlice = (set) => ({
   Chuck: null,
@@ -14,19 +14,19 @@ const asyncChuckSlice = (set) => ({
   }
 })
 
-const asyncCkFilesSlice = (set) => ({
-  asyncCkFiles: [],
+const asyncFilesSlice = (set) => ({
+  asyncFiles: [],
   loading: true,
-  fetchCkFiles: async () => {
-    const response = await fetch(CKFILES_API_URL)
-    const ckFilesText = await response.text()
-    const ckFilesJson = JSON.parse(ckFilesText)
-    set({ asyncCkFiles: ckFilesJson, loading: false })
+  fetchFiles: async () => {
+    const response = await fetch(API_URL)
+    const filesText = await response.text()
+    const filesJson = JSON.parse(filesText)
+    set({ asyncFiles: filesJson, loading: false })
   }
 })
 
 const rootSlice = (set, get) => ({
-  ...asyncCkFilesSlice(set, get),
+  ...asyncFilesSlice(set, get),
   ...asyncChuckSlice(set, get),
 })
 
