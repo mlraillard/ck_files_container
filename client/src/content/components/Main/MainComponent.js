@@ -4,12 +4,14 @@ import { Container, Title, Group } from '@mantine/core';
 import './main.css'
 import { ButtonPanelComponent } from "../ButtonPanel/ButtonPanelComponent";
 import { useStore } from '../../../store';
+import {runChucKCode} from '../../../chuckContent/chuckRun/run.js'
 
 const envName = process.env.name === "Test" ? ` - ${process.env.name}` : "";
 
 export const MainComponent = () => {
   const chuckLoading = useStore(state => state.chuckLoading)
   const fetchTheChuck = useStore(state => state.fetchTheChuck)
+  const Chuck = useStore(state => state.Chuck)
 
   useEffect(() => {
     fetchTheChuck()
@@ -31,6 +33,7 @@ export const MainComponent = () => {
             <ButtonPanelComponent />
           </Group>
         </Group>
+        <div>{ runChucKCode(Chuck, '<<< "only text here" >>>;')}</div>
       </Container>
     }
   </>

@@ -1,13 +1,11 @@
-import { SERVER_HOST, SERVER_PORT} from '../../constants'
-// below moved to store
-//let Chuck = import('../chuckSrc/wc-bundle.js').then(async (module) => { Chuck = module.Chuck; });
+import { SINGLE_DIRECTORY_FILE } from '../../routes'
 
 async function run(aPromise, setResultText) {
     setResultText(await aPromise);
 }
 
 export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck) {
-    const url = `${SERVER_HOST}\:${SERVER_PORT}\/ckfile?filename=${filename}`
+    const url = `${SINGLE_DIRECTORY_FILE }${filename}`
 
     let aPromise = new Promise( async function(resolve, reject) {
         //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
@@ -23,5 +21,16 @@ export async function loadAndRunChucKCode(filename, setResultText, Chuck, setACh
         await new Promise((resolve, reject) => { setTimeout(resolve, 750)});
     });
     run(aPromise);
+}
+
+export function runChucKCode(Chuck, code) {
+    let aPromise = new Promise( async function(resolve, reject) {
+        let aChuck = await Chuck.init([]);
+
+        aChuck.chuckPrint = (output) => {}
+        aChuck.runCode(code);
+        await new Promise((resolve, reject) => { setTimeout(resolve, 750)});
+      });
+      run(aPromise);
 }
 
