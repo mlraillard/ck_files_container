@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Title, Group } from '@mantine/core';
 
 import './main.css'
-import { ButtonPanelComponent } from "../ButtonPanel/ButtonPanelComponent";
+import { ButtonPanelComponent_forSingleDir } from "../ButtonPanel/ButtonPanelComponent_forSingleDir";
 import { useStore } from '../../../store';
 import {runChucKCode} from '../../../chuckContent/chuckRun/run.js'
 
@@ -30,7 +30,7 @@ export const MainComponent = () => {
               </Title>
           </Group>
           <Group>
-            <ButtonPanelComponent />
+            <ButtonPanelComponent_forSingleDir />
           </Group>
         </Group>
         <div>{ runChucKCode(Chuck, '<<< "only text here" >>>;')}</div>
