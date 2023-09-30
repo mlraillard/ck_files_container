@@ -23,7 +23,7 @@ export const PlayButton = (props) => {
         disabled={ props.loop === 'true' ? !stopDiabled : false} 
         onClick={() => {
           setStopDiabled(false)
-          loadAndRunChucKCode(props.filename, setResultText, Chuck, setAChuck)
+          loadAndRunChucKCode(props.filename, setResultText, Chuck, setAChuck, props.dir)
         }}
       >{ props.desc }
       </Button>

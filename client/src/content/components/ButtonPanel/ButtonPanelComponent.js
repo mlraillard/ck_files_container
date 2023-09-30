@@ -8,24 +8,32 @@ import { useStore } from '../../../store';
 import { PlayButton } from './PlayButton'
 
 export const ButtonPanelComponent = () => {
-    const asyncFiles = useStore(useCallback(state => state.asyncFiles, []))
-    const loading = useStore(state => state.loading)
-    const fetchFiles = useStore(state => state.fetchFiles)
+    const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
+    const loadingDirFiles = useStore(state => state.loadingDirFiles)
+    const fetchDirFiles = useStore(state => state.fetchDirFiles)
 
     const asyncDirs = useStore(useCallback(state => state.asyncDirs, []))
     const dirsLoading = useStore(state => state.dirsLoading)
+    const defaultDir = useStore(state => state.defaultDir)
     const fetchDirs = useStore(state => state.fetchDirs)
-    const [selectedDir, setSelectedDir] = useState(fetchDirs[0]);
+    const [selectedDir, setSelectedDir] = useState("");
 
     useEffect(() => {
-      fetchFiles()
-      fetchDirs()
-    }, [fetchFiles, fetchDirs])
+        fetchDirs(setSelectedDir)
+    }, [fetchDirs])
+
+    useEffect(() => {
+      fetchDirFiles(selectedDir)
+    }, [selectedDir, fetchDirFiles]);
 
     return (
       <Group>
         <Stack>
-          <Select data={asyncDirs} value={selectedDir} onChange={setSelectedDir} />
+          <Select 
+            data={asyncDirs}
+            value={selectedDir || defaultDir}
+            onChange={setSelectedDir}
+          />
           <ScrollArea
             w={ BUTTON_PANEL_WIDTH }
             h={ BUTTON_PANEL_HEIGHT }
@@ -54,14 +62,15 @@ export const ButtonPanelComponent = () => {
             })}
           >
             {
-              loading || dirsLoading ? '' :
+              dirsLoading ? '' :
               <Stack align="flex-start" justify="flex-start" gap="sm">
-              {asyncFiles.map(ckFile => (
+              {asyncDirFiles.map(ckFile => (
                 <PlayButton 
                   key={uuidv4()}
                   desc={ckFile.desc}
                   filename={ckFile.filename}
                   loop={ckFile.loop}
+                  dir={selectedDir}
                 />
               ))}
               </Stack>

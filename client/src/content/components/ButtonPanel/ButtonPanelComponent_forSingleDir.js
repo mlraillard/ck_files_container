@@ -12,15 +12,9 @@ export const ButtonPanelComponent_forSingleDir = () => {
     const loading = useStore(state => state.loading)
     const fetchFiles = useStore(state => state.fetchFiles)
 
-    const asyncDirs = useStore(useCallback(state => state.asyncDirs, []))
-    const dirsLoading = useStore(state => state.dirsLoading)
-    const fetchDirs = useStore(state => state.fetchDirs)
-    const [selectedDir, setSelectedDir] = useState(fetchDirs[0]);
-
     useEffect(() => {
       fetchFiles()
-      fetchDirs()
-    }, [fetchFiles, fetchDirs])
+    }, [fetchFiles])
 
     return (
       <Group>
@@ -53,7 +47,7 @@ export const ButtonPanelComponent_forSingleDir = () => {
             })}
           >
             {
-              loading || dirsLoading ? '' :
+              loading ? '' :
               <Stack align="flex-start" justify="flex-start" gap="sm">
               {asyncFiles.map(ckFile => (
                 <PlayButton 

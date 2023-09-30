@@ -1,12 +1,12 @@
-import { SINGLE_DIRECTORY_FILE } from '../../routes'
+import { SINGLE_DIRECTORY_FILE, DIRECTORY_FILE } from '../../routes'
 
 async function run(aPromise, setResultText) {
     setResultText(await aPromise);
 }
 
-//add another arg here: dirname, and url logic if exists
-export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck) {
-    const url = `${SINGLE_DIRECTORY_FILE}${filename}`
+export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck, dir) {
+    let url = !dir ? `${SINGLE_DIRECTORY_FILE}${filename}` : `${DIRECTORY_FILE}${dir}&filename=${filename}`
+    console.log(`run url: ${url}`)
 
     let aPromise = new Promise( async function(resolve, reject) {
         //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
