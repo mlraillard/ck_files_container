@@ -5,3 +5,8 @@ export const FILES_DIRECTORY = "ckFiles"
 export const BUTTON_PANEL_WIDTH = 500
 export const BUTTON_PANEL_HEIGHT = 350
 export const BUTTON_PANEL_VERTICAL_MARGIN = 50
+export const DIRECTORY_FULL_DESC = {
+    "hoagland": "Clint Hoagland tutorial exercises",
+    "ccrma": "CCRMA website examples",
+    "misc": "Miscellaneous",
+}

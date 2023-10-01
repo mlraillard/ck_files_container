@@ -14,16 +14,17 @@ export const ButtonPanelComponent = () => {
 
     const asyncDirs = useStore(useCallback(state => state.asyncDirs, []))
     const dirsLoading = useStore(state => state.dirsLoading)
-    const defaultDir = useStore(state => state.defaultDir)
     const fetchDirs = useStore(state => state.fetchDirs)
     const [selectedDir, setSelectedDir] = useState("");
 
     useEffect(() => {
-        fetchDirs(setSelectedDir)
+      fetchDirs(setSelectedDir)
     }, [fetchDirs])
 
     useEffect(() => {
-      fetchDirFiles(selectedDir)
+        if (selectedDir) {
+          fetchDirFiles(selectedDir)
+        }
     }, [selectedDir, fetchDirFiles]);
 
     return (
@@ -31,7 +32,7 @@ export const ButtonPanelComponent = () => {
         <Stack>
           <Select 
             data={asyncDirs}
-            value={selectedDir || defaultDir}
+            value={selectedDir}
             onChange={setSelectedDir}
           />
           <ScrollArea
