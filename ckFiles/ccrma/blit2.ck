@@ -1,6 +1,5 @@
 <<< "Bandlimited impulse train oscillator" >>>;
 // Blit2 - Bandlimited impulse train oscillator
-// infinite_loop = TRUE
 
 Blit s => ADSR e => JCRev r => dac;
 .5 => s.gain;

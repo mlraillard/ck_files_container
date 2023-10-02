@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Group, Button, Text } from '@mantine/core';
 
 import { useStore } from '../../../store'
@@ -11,6 +11,15 @@ export const PlayButton = (props) => {
   const [resultText, setResultText] = useState("");
   // const resultTextfield = <Text fz="md">{ resultText }</Text>;
 
+
+  useEffect(() => {
+    //&& resultText.trim === "PASSED"
+    if (resultText && resultText.includes("PASSED")) {
+      aChuck.removeLastCode();
+      setStopDiabled(true)
+    }
+  }, [resultText, aChuck, setStopDiabled]);
+
   return (
     <Group>
       <Button
@@ -20,7 +29,7 @@ export const PlayButton = (props) => {
         // variant="primary"
         color="secondary"
         size="compact-lg"
-        disabled={ props.loop === 'true' ? !stopDiabled : false} 
+        disabled={ !stopDiabled } 
         onClick={() => {
           setStopDiabled(false)
           loadAndRunChucKCode(props.filename, setResultText, Chuck, setAChuck, props.dir)
@@ -28,8 +37,6 @@ export const PlayButton = (props) => {
       >{ props.desc }
       </Button>
       {/* { resultTextfield } */}
-
-      {props.loop === 'true' ? 
       <Button
         mt="4px"
         mb="1px"
@@ -44,8 +51,6 @@ export const PlayButton = (props) => {
         >
         Stop
       </Button>
-      : ""
-    }
      </Group>
 
   )

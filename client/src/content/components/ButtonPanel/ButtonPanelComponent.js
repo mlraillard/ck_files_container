@@ -70,7 +70,6 @@ export const ButtonPanelComponent = () => {
                   key={uuidv4()}
                   desc={ckFile.desc}
                   filename={ckFile.filename}
-                  loop={ckFile.loop}
                   dir={selectedDir}
                 />
               ))}

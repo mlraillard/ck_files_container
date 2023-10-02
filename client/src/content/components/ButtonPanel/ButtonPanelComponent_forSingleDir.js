@@ -54,7 +54,6 @@ export const ButtonPanelComponent_forSingleDir = () => {
                   key={uuidv4()}
                   desc={ckFile.desc}
                   filename={ckFile.filename}
-                  loop={ckFile.loop}
                 />
               ))}
               </Stack>

@@ -7,7 +7,6 @@ const SERVER_PORT = 8002;
 const filesDirectory = './ckFiles'
 const ckExtName = '.ck'
 const re = /<{3}\s{0,20}\"([A-Za-z0-9,\. ]*)\"\s{0,20}>{3}\;/
-const infinite_loop = /\/\/\s?(infinite_loop)\s?(\=){1,3}\s?(true|false|TRUE|FALSE)/
 
 app.get('/onefile', cors(), (req, res) => {
     fs.readFile(`${filesDirectory}/hoagScriptX.ck`, function(error, data) {
@@ -51,17 +50,8 @@ app.get('/ckfiles', cors(), (req, res) => {
             const matches = re.exec(file)
             if (matches) {desc = matches[1]}
 
-            let loop = "false"
-            const loop_matches = infinite_loop.exec(file)
-            if (loop_matches) {
-                if (loop_matches[0].includes("true") || loop_matches[0].includes("TRUE")) {
-                    loop = "true"
-                }
-            }
-
             json.push({
                 "desc": desc,
-                "loop": loop,
                 "filename": filename
             })
         })
@@ -126,17 +116,8 @@ app.get('/ckdirfiles', cors(), (req, res) => {
             const matches = re.exec(file)
             if (matches) {desc = matches[1]}
 
-            let loop = "false"
-            const loop_matches = infinite_loop.exec(file)
-            if (loop_matches) {
-                if (loop_matches[0].includes("true") || loop_matches[0].includes("TRUE")) {
-                    loop = "true"
-                }
-            }
-
             json.push({
                 "desc": desc,
-                "loop": loop,
                 "filename": filename
             })
         })
