@@ -42,10 +42,15 @@ const asyncDirsSlice = (set) => ({
   fetchDirs: async (setSelectedDir) => {
     const response = await fetch(DIRECTORIES_NAMES)
     const dirsText = await response.text()
-    const dirsJson = JSON.parse(dirsText)
-    const expandedJson = addLabelsToDirsArray(dirsJson)
-    set({ asyncDirs: expandedJson, dirsLoading: false })
-    setSelectedDir(expandedJson[0].value)
+
+    console.log(`store:text: ${dirsText}`)
+
+    if (!dirsText.includes('Error')) {
+      const dirsJson = JSON.parse(dirsText)
+      const expandedJson = addLabelsToDirsArray(dirsJson)
+      set({ asyncDirs: expandedJson, dirsLoading: false })
+      setSelectedDir(expandedJson[0].value)
+    }
   }
 })
 

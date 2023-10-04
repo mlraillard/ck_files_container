@@ -1,8 +1,15 @@
 const express = require('express')
 const cors = require('cors')
 const fs = require('fs')
+const upload = require('./upload')
 
 const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: true}))
+app.use('/upload', upload)
+
+// const SERVER_PORT = +process.env.PORT || 8002;
+//const UPLOAD_SERVER_PORT = 8003;
 const SERVER_PORT = 8002;
 const filesDirectory = './ckFiles'
 const ckExtName = '.ck'
@@ -139,4 +146,13 @@ app.listen(SERVER_PORT, function(error){
         console.log(`server is listening on ${SERVER_PORT}`)
     }
 })
+
+// uploadApp.listen(UPLOAD_SERVER_PORT, function(error){
+//     if (error) {
+//         console.log(`error: ${error}`)
+//     }
+//     else {
+//         console.log(`server is listening on ${UPLOAD_SERVER_PORT}`)
+//     }
+// })
 
