@@ -6,6 +6,8 @@ const upload = require('./upload')
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
+
+
 app.use('/upload', upload)
 
 // const SERVER_PORT = +process.env.PORT || 8002;

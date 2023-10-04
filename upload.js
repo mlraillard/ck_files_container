@@ -1,22 +1,21 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const router = express.Router()
 
 router.post('/', (req, res) => {
     console.log(`hi from upload router`)
-    console.log(req.body)
-    console.log(`\n\n`)
-    // for (let pair of req.body.entries()) {
-    //     console.log(pair[0]+ ': ' + pair[1]); 
-    // }
+    console.log(req.body) // this workds
+    // console.log(req.body.dir) // this does not work
     
-    const resbody = 'ok'
+    res.status(200).json({message: "Yes, this is OK"})
     
-    // Calling response.writeHead method
-    res.writeHead(200, {
-      'Content-Length': Buffer.byteLength(resbody),
-      'Content-Type': 'text/plain'
-    });
-    res.end(resbody)
+    // const resbody = 'ok'
+    // // Calling response.writeHead method
+    // res.writeHead(200, {
+    //   'Content-Length': Buffer.byteLength(resbody),
+    //   'Content-Type': 'text/plain'
+    // });
+    // res.end(resbody)
 })
 
 module.exports = router;
