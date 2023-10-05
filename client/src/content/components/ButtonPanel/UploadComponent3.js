@@ -3,7 +3,6 @@ import { UPLOAD } from "../../../routes";
 
 export const UploadComponent3 = (props) => {
     const [fileContent, setFileContent] = useState('');
-    const [filename, setFilename] = useState('');
 
     const onChange = (e) => {
         e.preventDefault()
@@ -11,17 +10,16 @@ export const UploadComponent3 = (props) => {
         const reader = new FileReader()
         reader.readAsText(file)
         reader.onload = () => {
-            setFilename(file.name)
-            setFileContent(reader.result)
+            const desc = 'Play the Fidle'
+            const threeLines = 
+            `<<< "${desc}" >>>;<<< "filename: ${file.name}" >>>;<<< "dir: ${props.dir}" >>>;`
+            let result = threeLines.concat(reader.result)
+            setFileContent(result)
         }
     };
     
     const onSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.set('filename', filename)
-        formData.set('fileContent', fileContent)
-        formData.set('dir', props.dir)
 
         try {
             console.log(`fu3: 1`);
@@ -31,12 +29,12 @@ export const UploadComponent3 = (props) => {
                 cache: "default",
                 credentials: "same-origin",
                 headers: {
-                   //   "Content-Type": "application/json", NOT ALLOWED with NO CORS
+                   //"Content-Type": "application/json", NOT ALLOWED with NO CORS
                    //'Content-Type': 'multipart/form-data',
                    //'Content-Type': 'text/plain',
                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: formData
+                body: fileContent
             })
             const rJson = await response.json()
             const rText = JSON.stringify(rJson)
@@ -60,7 +58,7 @@ export const UploadComponent3 = (props) => {
                 />
                 <input type="submit" value="Submit" />
             </form>
-        <div>{fileContent}</div>
+        {/* <div>{fileContent}</div> */}
         </div>
     )
 }

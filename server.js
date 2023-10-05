@@ -15,7 +15,7 @@ app.use('/upload', upload)
 const SERVER_PORT = 8002;
 const filesDirectory = './ckFiles'
 const ckExtName = '.ck'
-const re = /<{3}\s{0,20}\"([A-Za-z0-9,\. ]*)\"\s{0,20}>{3}\;/
+const re = /<{3}\s{0,20}\"([A-Za-z0-9,\.\-\_ ]*)\"\s{0,20}>{3}\;/
 
 app.get('/onefile', cors(), (req, res) => {
     fs.readFile(`${filesDirectory}/hoagScriptX.ck`, function(error, data) {
@@ -113,14 +113,14 @@ app.get('/ckdirs', cors(), (req, res) => {
 
 app.get('/ckdirfiles', cors(), (req, res) => {
     try {
-        let filenames = fs.readdirSync(`${filesDirectory}/${req.query.dir}`)
+        let filenames = fs.readdirSync(`${filesDirectory}\/${req.query.dir}`)
         if (filenames) {
             filenames = filenames.filter(file => file.endsWith(ckExtName))
         }
         let json = []
         filenames.forEach((filename) => {
             let desc = "no description"
-            const fullFilename = `${filesDirectory}\/${filename}`
+            const fullFilename = `${filesDirectory}\/${req.query.dir}\/${filename}`
             const file = fs.readFileSync(fullFilename)
             const matches = re.exec(file)
             if (matches) {desc = matches[1]}
