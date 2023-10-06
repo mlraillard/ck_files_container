@@ -4,9 +4,6 @@ const fs = require('fs')
 const upload = require('./upload')
 
 const app = express()
-app.use(express.json())
-app.use(express.urlencoded({ extended: true}))
-
 
 app.use('/upload', upload)
 

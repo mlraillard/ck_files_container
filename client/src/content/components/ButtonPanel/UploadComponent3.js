@@ -12,7 +12,7 @@ export const UploadComponent3 = (props) => {
         reader.onload = () => {
             const desc = 'Play the Fidle'
             const threeLines = 
-            `<<< "${desc}" >>>;<<< "filename: ${file.name}" >>>;<<< "dir: ${props.dir}" >>>;`
+            `<<< "${desc}" >>>;\n <<< "filename: ${file.name}" >>>;\n <<< "dir: ${props.dir}" >>>;\n `
             let result = threeLines.concat(reader.result)
             setFileContent(result)
         }
