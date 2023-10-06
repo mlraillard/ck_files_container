@@ -10,7 +10,7 @@ app.use('/upload', upload)
 // const SERVER_PORT = +process.env.PORT || 8002;
 //const UPLOAD_SERVER_PORT = 8003;
 const SERVER_PORT = 8002;
-const filesDirectory = './ckFiles'
+const filesDirectory = __dirname+'/ckFiles'
 const ckExtName = '.ck'
 const re = /<{3}\s{0,20}\"([A-Za-z0-9,\.\-\_ ]*)\"\s{0,20}>{3}\;/
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs')
 const router = express.Router()
+const filesDirectory = __dirname+'\/ckFiles'
 
 router.use(express.json())
 router.use(express.urlencoded({ extended: true}))
@@ -35,16 +36,12 @@ const getDirectory = (body) => {
 }
 
 router.post('/', (req, res) => { 
-    console.log(`hi from upload router`)
-
     let body = bodyTransform(JSON.stringify(req.body))
-    // fs.writeFileSync('one.ck', body);
-
     const filename = getFilename(body)
-    console.log(filename)
     const dir = getDirectory(body)
-    console.log(dir)
-
+    fs.writeFileSync(`\/${filesDirectory}\/${dir}\/${filename}`, body, function (err) {
+        console.log(err)
+    });
     res.status(200).json({message: "Yes, this is OK"})
     
     // const resbody = 'ok'
