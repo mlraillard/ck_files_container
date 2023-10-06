@@ -1,8 +1,11 @@
 import React, { useState, useEffect, createRef } from "react";
 import { UPLOAD } from "../../../routes";
+import { useStore } from '../../../store';
 
 export const UploadComponent3 = (props) => {
+    const [desc, setDesc] = useState('');
     const [fileContent, setFileContent] = useState('');
+    const fetchDirFiles = useStore(state => state.fetchDirFiles)
 
     const onChange = (e) => {
         e.preventDefault()
@@ -10,9 +13,8 @@ export const UploadComponent3 = (props) => {
         const reader = new FileReader()
         reader.readAsText(file)
         reader.onload = () => {
-            const desc = 'Play the Fidle'
             const threeLines = 
-            `<<< "${desc}" >>>;\n <<< "filename: ${file.name}" >>>;\n <<< "dir: ${props.dir}" >>>;\n `
+            `<<< "${desc || (file.name).slice(0, -3) }" >>>;\n <<< "filename: ${file.name}" >>>;\n <<< "dir: ${props.dir}" >>>;\n `
             let result = threeLines.concat(reader.result)
             setFileContent(result)
         }
@@ -36,6 +38,10 @@ export const UploadComponent3 = (props) => {
                 },
                 body: fileContent
             })
+            setTimeout(() => {
+                console.log("Delayed for 3 seconds.");
+                fetchDirFiles(props.dir)
+              }, 1900);
             const rJson = await response.json()
             const rText = JSON.stringify(rJson)
             console.log(`rText: ${rText}`)
