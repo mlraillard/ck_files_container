@@ -7,7 +7,7 @@ import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants';
 import { useStore } from '../../../store';
 import { PlayButton } from './PlayButton'
 // import { UploadComponent } from './UploadComponent'
-import { UploadComponent2 } from './UploadComponent2'
+import { UploadComponent } from './UploadComponent'
 
 export const ButtonPanelComponent = () => {
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
@@ -78,7 +78,7 @@ export const ButtonPanelComponent = () => {
               </Stack>
             }
           </ScrollArea>
-          <UploadComponent2 dir={selectedDir} />
+          <UploadComponent dir={selectedDir} />
         </Stack>
       </Group>
     )

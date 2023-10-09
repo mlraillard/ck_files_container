@@ -6,7 +6,7 @@ import { loadAndRunChucKCode } from "../../../chuckContent/chuckRun/run.js";
 
 export const PlayButton = (props) => {
   const Chuck = useStore(state => state.Chuck)
-  const [aChuck, setAChuck] = useState(null);
+  const [aChuck, setAChuck] = useState('');
   const [stopDiabled, setStopDiabled] = useState(true);
   const [resultText, setResultText] = useState("");
   // const resultTextfield = <Text fz="md">{ resultText }</Text>;
