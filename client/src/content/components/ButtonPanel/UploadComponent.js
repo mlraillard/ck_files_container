@@ -8,17 +8,28 @@ import { useStore } from '../../../store';
 export const UploadComponent = (props) => {
     const [opened, { open, close }] = useDisclosure(false)
     const [value, setValue] = useState(File | '')
+    const [invalidFilename, setInvalidFilename] = useState(false)
     const [desc, setDesc] = useState('');
     const [fileContent, setFileContent] = useState('')
+    const [submitDisabled, setSubmitDisabled] = useState(true)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
     const { ref, focused } = useFocusWithin();
 
       useEffect(() => {
-        if ((value && desc && !focused)) {
-          loadFileContent(value)
-          //setSubmitEnabled(true)
+        if (value) {
+            let m = (value.name).match(/^([0-9a-zA-Z_-]{1,25})\.ck/) || [false,false][1]
+            if (m === false) {
+                setInvalidFilename(true)
+            }
+            else {
+                setInvalidFilename(false)
+                if ((value && desc && !focused)) {
+                    setSubmitDisabled(false)
+                    loadFileContent(value)
+                }
+            }
         }
-      }, [value, desc, focused]);
+      }, [value, desc, focused, setSubmitDisabled, setInvalidFilename]);
 
       useEffect(() => {
         if (!opened) {
@@ -26,6 +37,12 @@ export const UploadComponent = (props) => {
           setDesc('')
         }
       }, [close, setValue, setDesc]);
+
+    const reset = () => {
+        setValue(null)
+        setDesc('')
+        setSubmitDisabled(true)
+    }
 
     const loadFileContent = (file) => {
         if (value && desc) {
@@ -35,7 +52,7 @@ export const UploadComponent = (props) => {
                 const threeLines = 
                 `<<< "${desc || (value.name).slice(0, -3) }" >>>;\n <<< "filename: ${value.name}" >>>;\n <<< "dir: ${props.dir}" >>>;\n `
                 let result = threeLines.concat(reader.result)
-                console.log(result)
+                //console.log(result)
                 setFileContent(result)
             }
         }
@@ -55,11 +72,12 @@ export const UploadComponent = (props) => {
                 body: fileContent
             })
             setTimeout(() => {
-                console.log("Delayed for .4 seconds");
+                //console.log("Delayed for .4 seconds");
+                reset()
                 close()
               }, 400);
             setTimeout(() => {
-                console.log("Delayed for 3 seconds.");
+                //console.log("Delayed for 3 seconds.");
                 fetchDirFiles(props.dir)
               }, 1900);
 
@@ -71,7 +89,7 @@ export const UploadComponent = (props) => {
             //console.log(`rText: ${rText}`)
         }
         catch(error) {
-            console.log(`fu3: 6`);
+            //console.log(`fu3: 6`);
             console.error(e.message)
         }
     }
@@ -82,13 +100,23 @@ export const UploadComponent = (props) => {
             opened={opened}
             onClose={() => {
                 close()
-                setValue(null)
-                setDesc('')
+                reset()
             }}
             title="Upload a ChucK File"
         >
             <Box maw={340} mx="auto">
                 <form onSubmit={onSubmit}>
+                    {
+                    invalidFilename ?
+                    <FileInput
+                        label="File"
+                        description={`Directory: ${props.dir}`} 
+                        placeholder="Choose file to upload"
+                        value={value}
+                        onChange={setValue}
+                        error="Invalid ChucK filename"
+                    />
+                    :
                     <FileInput
                         label="File"
                         description={`Directory: ${props.dir}`} 
@@ -96,9 +124,8 @@ export const UploadComponent = (props) => {
                         value={value}
                         onChange={setValue}
                     />
-                    <span 
-                    ref={ref}
-                    > 
+                    }
+                    <span ref={ref}> 
                         <TextInput
                             label="Description"
                             placeholder="File display description"
@@ -106,10 +133,14 @@ export const UploadComponent = (props) => {
                         />
                     </span>
                     <Group justify="flex-end" mt="md">
+                        { submitDisabled ?
                         <Button 
-                            type="submit"
-                            //enabled={submitEnabled}
-                        >Save File</Button>
+                            disabled
+                            type="submit">Save File</Button> :
+                        <Button
+                            type="submit">Save File</Button>
+                        }
+
                     </Group>
                 </form>
             </Box>
