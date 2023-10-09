@@ -3,13 +3,17 @@ import { Container, Title, Group } from '@mantine/core';
 
 import './main.css'
 import { ButtonPanelComponent } from "../ButtonPanel/ButtonPanelComponent";
+import { ButtonPanelComponent_forSingleDir } from "../ButtonPanel/ButtonPanelComponent_forSingleDir";
 import { useStore } from '../../../store';
+import {runChucKCode} from '../../../chuckContent/chuckRun/run.js'
+import { SINGLE_DIRECTORY_MODE } from '../../../constants'
 
 const envName = process.env.name === "Test" ? ` - ${process.env.name}` : "";
 
 export const MainComponent = () => {
   const chuckLoading = useStore(state => state.chuckLoading)
   const fetchTheChuck = useStore(state => state.fetchTheChuck)
+  const Chuck = useStore(state => state.Chuck)
 
   useEffect(() => {
     fetchTheChuck()
@@ -28,9 +32,13 @@ export const MainComponent = () => {
               </Title>
           </Group>
           <Group>
-            <ButtonPanelComponent />
+            {
+              SINGLE_DIRECTORY_MODE ?
+              <ButtonPanelComponent_forSingleDir /> : <ButtonPanelComponent />
+            }
           </Group>
         </Group>
+        <div>{ runChucKCode(Chuck, '<<< "only text here" >>>;')}</div>
       </Container>
     }
   </>

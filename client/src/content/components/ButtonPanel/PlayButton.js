@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Group, Button, Text } from '@mantine/core';
 
 import { useStore } from '../../../store'
@@ -6,10 +6,19 @@ import { loadAndRunChucKCode } from "../../../chuckContent/chuckRun/run.js";
 
 export const PlayButton = (props) => {
   const Chuck = useStore(state => state.Chuck)
-  const [aChuck, setAChuck] = useState(null);
+  const [aChuck, setAChuck] = useState('');
   const [stopDiabled, setStopDiabled] = useState(true);
   const [resultText, setResultText] = useState("");
   // const resultTextfield = <Text fz="md">{ resultText }</Text>;
+
+
+  useEffect(() => {
+    //&& resultText.trim === "PASSED"
+    if (resultText && resultText.includes("PASSED")) {
+      aChuck.removeLastCode();
+      setStopDiabled(true)
+    }
+  }, [resultText, aChuck, setStopDiabled]);
 
   return (
     <Group>
@@ -20,16 +29,14 @@ export const PlayButton = (props) => {
         // variant="primary"
         color="secondary"
         size="compact-lg"
-        disabled={ props.loop === 'true' ? !stopDiabled : false} 
+        disabled={ !stopDiabled } 
         onClick={() => {
           setStopDiabled(false)
-          loadAndRunChucKCode(props.filename, setResultText, Chuck, setAChuck)
+          loadAndRunChucKCode(props.filename, setResultText, Chuck, setAChuck, props.dir)
         }}
       >{ props.desc }
       </Button>
       {/* { resultTextfield } */}
-
-      {props.loop === 'true' ? 
       <Button
         mt="4px"
         mb="1px"
@@ -44,8 +51,6 @@ export const PlayButton = (props) => {
         >
         Stop
       </Button>
-      : ""
-    }
      </Group>
 
   )

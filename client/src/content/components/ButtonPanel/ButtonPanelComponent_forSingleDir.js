@@ -6,37 +6,19 @@ import { useState } from "react";
 import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
 import { useStore } from '../../../store';
 import { PlayButton } from './PlayButton'
-// import { UploadComponent } from './UploadComponent'
-import { UploadComponent } from './UploadComponent'
 
-export const ButtonPanelComponent = () => {
-    const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
-    const loadingDirFiles = useStore(state => state.loadingDirFiles)
-    const fetchDirFiles = useStore(state => state.fetchDirFiles)
-
-    const asyncDirs = useStore(useCallback(state => state.asyncDirs, []))
-    const dirsLoading = useStore(state => state.dirsLoading)
-    const fetchDirs = useStore(state => state.fetchDirs)
-    const [selectedDir, setSelectedDir] = useState("");
+export const ButtonPanelComponent_forSingleDir = () => {
+    const asyncFiles = useStore(useCallback(state => state.asyncFiles, []))
+    const loading = useStore(state => state.loading)
+    const fetchFiles = useStore(state => state.fetchFiles)
 
     useEffect(() => {
-      fetchDirs(setSelectedDir)
-    }, [fetchDirs])
-
-    useEffect(() => {
-        if (selectedDir) {
-          fetchDirFiles(selectedDir)
-        }
-    }, [selectedDir, fetchDirFiles]);
+      fetchFiles()
+    }, [fetchFiles])
 
     return (
       <Group>
         <Stack>
-          <Select 
-            data={asyncDirs}
-            value={selectedDir}
-            onChange={setSelectedDir}
-          />
           <ScrollArea
             w={ BUTTON_PANEL_WIDTH }
             h={ BUTTON_PANEL_HEIGHT }
@@ -65,20 +47,18 @@ export const ButtonPanelComponent = () => {
             })}
           >
             {
-              dirsLoading ? '' :
+              loading ? '' :
               <Stack align="flex-start" justify="flex-start" gap="sm">
-              {asyncDirFiles.map(ckFile => (
+              {asyncFiles.map(ckFile => (
                 <PlayButton 
                   key={uuidv4()}
                   desc={ckFile.desc}
                   filename={ckFile.filename}
-                  dir={selectedDir}
                 />
               ))}
               </Stack>
             }
           </ScrollArea>
-          <UploadComponent dir={selectedDir} />
         </Stack>
       </Group>
     )

@@ -1,4 +1,4 @@
-<<< "Bandlimited impulse train oscillator" >>>;
+<<< "Bandlimited impulse train oscillator" >>>;<<< "filename: blit2.ck" >>>;<<< "dir: ccrma" >>>;
 // Blit2 - Bandlimited impulse train oscillator
 
 Blit s => ADSR e => JCRev r => dac;
