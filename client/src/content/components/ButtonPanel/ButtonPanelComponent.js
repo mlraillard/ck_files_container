@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback  } from 'react';
 import { v4 as uuidv4 } from "uuid";
-import { ScrollArea, Group, Stack, Select } from '@mantine/core';
+import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 
 import { useState } from "react";
 import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
 import { useStore } from '../../../store';
 import { PlayButton } from './PlayButton'
-// import { UploadComponent } from './UploadComponent'
 import { UploadComponent } from './UploadComponent'
+// import { DeleteFileComponent } from './DeleteFileComponent';
 
 export const ButtonPanelComponent = () => {
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
@@ -78,7 +78,14 @@ export const ButtonPanelComponent = () => {
               </Stack>
             }
           </ScrollArea>
-          <UploadComponent dir={selectedDir} />
+          <Grid>
+            <Grid.Col span={3}><UploadComponent dir={selectedDir} /></Grid.Col>
+            {/* {
+              selectedFilename ?
+              <Grid.Col span={3} offset={3}><DeleteFileComponent /></Grid.Col> :
+              ''
+            } */}
+          </Grid>
         </Stack>
       </Group>
     )

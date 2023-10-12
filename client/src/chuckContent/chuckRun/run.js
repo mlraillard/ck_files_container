@@ -12,6 +12,11 @@ export async function loadAndRunChucKCode(filename, setResultText, Chuck, setACh
         const response = await fetch(url)
         const data = await response.text()
         let aChuck = await Chuck.init([])
+
+        // loading audio plugins....
+        // audioPlugin in opened successfully, but format is not recognized
+        //let auxResponse = await aChuck.loadFile('./guitar.wav')
+
         setAChuck(aChuck)
 
         aChuck.chuckPrint = (output) => {
