@@ -17,7 +17,8 @@ export const ButtonPanelComponent = () => {
     const asyncDirs = useStore(useCallback(state => state.asyncDirs, []))
     const dirsLoading = useStore(state => state.dirsLoading)
     const fetchDirs = useStore(state => state.fetchDirs)
-    const [selectedDir, setSelectedDir] = useState("");
+    const selectedDir = useStore(state => state.selectedDir)
+    const setSelectedDir = useStore(state => state.setSelectedDir)
 
     useEffect(() => {
       fetchDirs(setSelectedDir)
