@@ -4,7 +4,6 @@ import { useDisclosure } from '@mantine/hooks';
 
 import './main.css'
 import { ButtonPanelComponent } from "../ButtonPanel/ButtonPanelComponent";
-import { ButtonPanelComponent_forSingleDir } from "../ButtonPanel/ButtonPanelComponent_forSingleDir";
 import { useStore } from '../../../store';
 import {runChucKCode} from '../../../chuckContent/chuckRun/run.js'
 import { SINGLE_DIRECTORY_MODE } from '../../../constants'
@@ -65,10 +64,7 @@ export const MainComponent = () => {
               </Title>
           </Group>
           <Group>
-            {
-              SINGLE_DIRECTORY_MODE ?
-              <ButtonPanelComponent_forSingleDir /> : <ButtonPanelComponent />
-            }
+            <ButtonPanelComponent />
           </Group>
         </Group>
         <Button onClick={

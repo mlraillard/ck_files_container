@@ -5,7 +5,7 @@ async function run(aPromise, setResultText) {
 }
 
 export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck, dir) {
-    let url = !dir ? `${SINGLE_DIRECTORY_FILE}${filename}` : `${DIRECTORY_FILE}${dir}&filename=${filename}`
+    let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
 
     let aPromise = new Promise( async function(resolve, reject) {
         //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
