@@ -5,9 +5,8 @@ import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 import { useState } from "react";
 import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
 import { useStore } from '../../../store';
-import { PlayButton } from './PlayButton'
+import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
 import { UploadComponent } from './UploadComponent'
-// import { DeleteFileComponent } from './DeleteFileComponent';
 
 export const ButtonPanelComponent = () => {
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
@@ -69,7 +68,7 @@ export const ButtonPanelComponent = () => {
               dirsLoading ? '' :
               <Stack align="flex-start" justify="flex-start" gap="sm">
               {asyncDirFiles.map(ckFile => (
-                <PlayButton 
+                <PlayButtonPanel
                   key={uuidv4()}
                   desc={ckFile.desc}
                   filename={ckFile.filename}

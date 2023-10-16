@@ -5,7 +5,7 @@ import { ScrollArea, Group, Stack, Select } from '@mantine/core';
 import { useState } from "react";
 import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
 import { useStore } from '../../../store';
-import { PlayButton } from './PlayButton'
+//import { PlayButton } from './PlayButtonComponents/PlayButton'
 
 export const ButtonPanelComponent_forSingleDir = () => {
     const asyncFiles = useStore(useCallback(state => state.asyncFiles, []))
@@ -50,11 +50,9 @@ export const ButtonPanelComponent_forSingleDir = () => {
               loading ? '' :
               <Stack align="flex-start" justify="flex-start" gap="sm">
               {asyncFiles.map(ckFile => (
-                <PlayButton 
-                  key={uuidv4()}
-                  desc={ckFile.desc}
-                  filename={ckFile.filename}
-                />
+                <div>
+                  {ckFile.desc}
+                </div>
               ))}
               </Stack>
             }
