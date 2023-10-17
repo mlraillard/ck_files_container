@@ -1,4 +1,4 @@
-import { SINGLE_DIRECTORY_FILE, DIRECTORY_FILE } from '../../routes'
+import { DIRECTORY_FILE } from '../../routes'
 
 async function run(aPromise, setResultText) {
     setResultText(await aPromise);

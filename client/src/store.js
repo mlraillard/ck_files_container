@@ -5,11 +5,7 @@ import { addLabelsToDirsArray } from './utils'
 
 const filenameSlice = (set) => ({
   selectedFilename: '',
-  setSelectedFilename: (fn) => {
-    console.log(`fn: ${fn}`)
-    set({ selectedFilename: fn })
-    //console.log(`selectedFilename: ${selectedFilename}`)
-  }
+  setSelectedFilename: (fn) => {set({ selectedFilename: fn })}
 })
 
 const dirSlice = (set) => ({

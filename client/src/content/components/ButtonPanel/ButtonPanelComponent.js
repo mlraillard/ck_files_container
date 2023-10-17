@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 
 import { useState } from "react";
-import { BUTTON_PANEL_WIDTH, BUTTON_PANEL_HEIGHT } from '../../../constants'; 
 import { useStore } from '../../../store';
 import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
 import { UploadComponent } from './UploadComponent'
@@ -32,14 +31,16 @@ export const ButtonPanelComponent = () => {
     return (
       <Group>
         <Stack>
-          <Select 
+          <Select
+            mt="md"
             data={asyncDirs}
             value={selectedDir}
             onChange={setSelectedDir}
           />
           <ScrollArea
-            w={ BUTTON_PANEL_WIDTH }
-            h={ BUTTON_PANEL_HEIGHT }
+            mt="xs"
+            w={{ base: 350, sm: 600, lg: 650 }}
+            h={{ base: 325 }}
             type="always"
             offsetScrollbars
             styles={(theme) => ({

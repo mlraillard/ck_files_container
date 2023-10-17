@@ -25,7 +25,7 @@ export const PlayButtonPanel = (props) => {
   }, [resultText, aChuck, setStopDiabled]);
 
   return (
-    <Group>
+    <Group noWrap={true}>
       <PlayButton
         stopDiabled = { stopDiabled}
         setStopDiabled = { setStopDiabled }
