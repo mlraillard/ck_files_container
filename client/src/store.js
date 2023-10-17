@@ -1,7 +1,17 @@
 import create from 'zustand'
 import { devtools } from "zustand/middleware"
-import { SINGLE_DIRECTORY_FILES_INFO, DIRECTORIES_NAMES, DIRECTORY_FILES_INFO } from './routes'
+import { DIRECTORIES_NAMES, DIRECTORY_FILES_INFO } from './routes'
 import { addLabelsToDirsArray } from './utils'
+
+const filenameSlice = (set) => ({
+  selectedFilename: '',
+  setSelectedFilename: (fn) => {set({ selectedFilename: fn })}
+})
+
+const dirSlice = (set) => ({
+  selectedDir: '',
+  setSelectedDir: (d) => {set({ selectedDir: d })}
+})
 
 const asyncChuckSlice = (set) => ({
   Chuck: null,
@@ -10,17 +20,6 @@ const asyncChuckSlice = (set) => ({
     import('../src/chuckContent/chuckSrc/wc-bundle.js').then(async (module) => { 
       set({ Chuck: module.Chuck, chuckLoading: false })
     });
-  }
-})
-
-const asyncFilesSlice = (set) => ({
-  asyncFiles: [],
-  loading: true,
-  fetchFiles: async () => {
-    const response = await fetch(SINGLE_DIRECTORY_FILES_INFO)
-    const filesText = await response.text()
-    const filesJson = JSON.parse(filesText)
-    set({ asyncFiles: filesJson, loading: false })
   }
 })
 
@@ -55,8 +54,9 @@ const asyncDirsSlice = (set) => ({
 })
 
 const rootSlice = (set, get) => ({
+  ...dirSlice(set,get),
+  ...filenameSlice(set, get),
   ...asyncChuckSlice(set, get),
-  ...asyncFilesSlice(set, get),
   ...asyncChuckSlice(set, get),
   ...asyncDirsSlice(set, get),
   ...asyncDirFilesSlice(set, get),

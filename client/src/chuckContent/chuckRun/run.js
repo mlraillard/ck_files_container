@@ -1,17 +1,22 @@
-import { SINGLE_DIRECTORY_FILE, DIRECTORY_FILE } from '../../routes'
+import { DIRECTORY_FILE } from '../../routes'
 
 async function run(aPromise, setResultText) {
     setResultText(await aPromise);
 }
 
 export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck, dir) {
-    let url = !dir ? `${SINGLE_DIRECTORY_FILE}${filename}` : `${DIRECTORY_FILE}${dir}&filename=${filename}`
+    let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
 
     let aPromise = new Promise( async function(resolve, reject) {
         //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
         const response = await fetch(url)
         const data = await response.text()
         let aChuck = await Chuck.init([])
+
+        // loading audio plugins....
+        // audioPlugin in opened successfully, but format is not recognized
+        //let auxResponse = await aChuck.loadFile('./guitar.wav')
+
         setAChuck(aChuck)
 
         aChuck.chuckPrint = (output) => {
