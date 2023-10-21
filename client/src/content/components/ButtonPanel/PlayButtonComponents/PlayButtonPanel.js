@@ -5,6 +5,7 @@ import { useStore } from '../../../../store'
 
 import PlayButton from './PlayButton'
 import StopButton from './StopButton'
+// import DeleteButton from "./DeleteButton";
 
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
@@ -38,12 +39,16 @@ export const PlayButtonPanel = (props) => {
         desc = { props.desc }
         memoizedSetFilename = { memoizedSetFilename }
       />
-      <StopButton 
-        stopDiabled = { stopDiabled }
-        setStopDiabled = { setStopDiabled }
-        aChuck = { aChuck }
-        memoizedSetFilename = { memoizedSetFilename }
-      />
+      {
+        !stopDiabled ?
+          <StopButton 
+            stopDiabled = { stopDiabled }
+            setStopDiabled = { setStopDiabled }
+            aChuck = { aChuck }
+            memoizedSetFilename = { memoizedSetFilename }
+          >Stop</StopButton> : ''
+      }
+
      </Group>
   )
 }

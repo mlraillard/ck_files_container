@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure, useFocusWithin } from '@mantine/hooks';
-import { Drawer, Box, Button, Group, Stack, FileInput, TextInput } from '@mantine/core';
+import { Drawer, Box, Button, Group, Stack, FileInput, TextInput, ActionIcon } from '@mantine/core';
 
+import uploadImage from'./download-2.png';
 import { UPLOAD } from "../../../routes";
 import { useStore } from '../../../store';
 
-export const UploadComponent = (props) => {
+export const UploadComponent = () => {
     const [opened, { open, close }] = useDisclosure(false)
     const [value, setValue] = useState(File | '')
     const [invalidFilename, setInvalidFilename] = useState(false)
     const [desc, setDesc] = useState('');
     const [fileContent, setFileContent] = useState('')
     const [submitDisabled, setSubmitDisabled] = useState(true)
+    const selectedDir = useStore(state => state.selectedDir)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
     const { ref, focused } = useFocusWithin();
 
@@ -50,7 +52,7 @@ export const UploadComponent = (props) => {
             reader.readAsText(file)
             reader.onload = () => {
                 const threeLines = 
-                `<<< "${desc || (value.name).slice(0, -3) }" >>>;\n <<< "filename: ${value.name}" >>>;\n <<< "dir: ${props.dir}" >>>;\n `
+                `<<< "${desc || (value.name).slice(0, -3) }" >>>;\n <<< "filename: ${value.name}" >>>;\n <<< "dir: ${selectedDir}" >>>;\n `
                 let result = threeLines.concat(reader.result)
                 //console.log(result)
                 setFileContent(result)
@@ -78,7 +80,7 @@ export const UploadComponent = (props) => {
               }, 400);
             setTimeout(() => {
                 //console.log("Delayed for 3 seconds.");
-                fetchDirFiles(props.dir)
+                fetchDirFiles(selectedDir)
               }, 1900);
 
             // Issue: unable to inspect response here, but it is viewable in Network
@@ -110,7 +112,7 @@ export const UploadComponent = (props) => {
                     invalidFilename ?
                     <FileInput
                         label="File"
-                        description={`Directory: ${props.dir}`} 
+                        description={`Directory: ${selectedDir}`} 
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
@@ -119,7 +121,7 @@ export const UploadComponent = (props) => {
                     :
                     <FileInput
                         label="File"
-                        description={`Directory: ${props.dir}`} 
+                        description={`Directory: ${selectedDir}`} 
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
@@ -146,7 +148,29 @@ export const UploadComponent = (props) => {
             </Box>
         </Drawer>
   
-        <Button onClick={open}>Upload</Button>
+        <Button
+            mt="4px"
+            mb="1px"
+            ml="0"
+            mr="0"
+            style={{ fontSize: 'calc(12px + 0.390625vw)'}}
+            //size="compact-lg"
+            disabled={ false }
+            variant="danger"
+            onClick={open}>Upload</Button>
         </>
     )
 }
+
+/*
+
+        <ActionIcon 
+            variant="filled"
+            aria-label="Settings"
+            onClick={open}
+            >
+            //<IconAdjustments style={{ width: '70%', height: '70%' }} stroke={1.5} />
+            <img  src={uploadImage} width="20" height="20" alt="fireSpot"/>
+            
+        </ActionIcon>
+*/

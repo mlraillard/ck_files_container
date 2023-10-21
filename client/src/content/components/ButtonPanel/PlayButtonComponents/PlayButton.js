@@ -2,6 +2,8 @@ import React from "react";
 import { Button } from '@mantine/core';
 
 import { loadAndRunChucKCode } from '../../../../chuckContent/chuckRun/run'
+import { useStore } from '../../../../store'
+
 
 function PlayButton({
     stopDiabled,
@@ -15,8 +17,15 @@ function PlayButton({
     memoizedSetFilename
   }) {
 
+    const selectedFilename = useStore(state => state.selectedFilename)
+    const  bc = filename === selectedFilename ? 'orange' : ''
+
   return (
     <Button
+
+      style={{
+        borderColor: bc
+      }}
       mt="4px"
       mb="1px"
       ml="5px"
