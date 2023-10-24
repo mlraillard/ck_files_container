@@ -1,39 +1,41 @@
 import React, { useCallback } from "react";
-import { Flex, Button } from '@mantine/core';
+import { Flex } from '@mantine/core';
 
 import { useStore } from '../../../../store';
-import { UploadComponent } from '../../upload/UploadComponent'
-// import DeleteButton from "../../delete/DeleteButton";
-// import { ViewCodeButton } from "../../viewCode/viewCodeButton";
+import { UploadAnchor } from '../../upload/UploadAnchor'
+import DeleteAnchor from "../../delete/DeleteAnchor";
+import { ViewCodeAnchor } from "../../viewCode/ViewCodeAnchor";
 
 function ControlPanelComponent() {
 
-    // const selectedDir = useStore(state => state.selectedDir)
-    // const selectedFilename = useStore(state => state.selectedFilename)
+    const selectedDir = useStore(state => state.selectedDir)
+    const selectedFilename = useStore(state => state.selectedFilename)
 
-    // const memoizedSelected = useCallback(() => {
-    //     return selectedFilename && selectedDir
-    // }, [selectedFilename, selectedDir]); 
+    const memoizedSelected = useCallback(() => {
+        return selectedFilename && selectedDir
+    }, [selectedFilename, selectedDir]); 
 
   return (
     <Flex
+      //mr={"25px"}
       mih={50}
       bg="rgba(0, 0, 0, .3)"
-      gap="md"
+      gap="xs"
       justify="flex-end"
       align="center"
       direction="row"
       wrap="nowrap"
 
       style={{
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        margin: "0",
       }}
     >
-      <UploadComponent />
-      {/* <DeleteButton 
+      <UploadAnchor />
+      <DeleteAnchor 
         memoizedSelected={memoizedSelected}
-      /> */}
-      {/* <ViewCodeButton /> */}
+      />
+      <ViewCodeAnchor />
     </Flex>
   );
 }

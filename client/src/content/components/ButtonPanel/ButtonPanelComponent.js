@@ -5,7 +5,6 @@ import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 import { useState } from "react";
 import { useStore } from '../../../store';
 import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
-//import { UploadComponent } from '../upload/UploadComponent'
 
 export const ButtonPanelComponent = () => {
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))

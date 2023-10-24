@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDisclosure, useFocusWithin } from '@mantine/hooks';
-import { Drawer, Box, Button, Group, Stack, FileInput, TextInput, ActionIcon } from '@mantine/core';
+import { Anchor, Drawer, Box, Button, Group, Stack, FileInput, TextInput, ActionIcon } from '@mantine/core';
 
-import uploadImage from'./download-2.png';
 import { UPLOAD } from "../../../routes";
 import { useStore } from '../../../store';
 
-export const UploadComponent = () => {
+export const UploadAnchor = () => {
     const [opened, { open, close }] = useDisclosure(false)
     const [value, setValue] = useState(File | '')
     const [invalidFilename, setInvalidFilename] = useState(false)
@@ -148,29 +147,10 @@ export const UploadComponent = () => {
             </Box>
         </Drawer>
   
-        <Button
-            mt="4px"
-            mb="1px"
-            ml="0"
-            mr="0"
-            style={{ fontSize: 'calc(12px + 0.390625vw)'}}
-            //size="compact-lg"
-            disabled={ false }
-            variant="danger"
-            onClick={open}>Upload</Button>
+        <Anchor
+            component="button"
+            style={{ fontSize: 'calc(10px + 0.390625vw)'}}
+            onClick={open}>Upload</Anchor>
         </>
     )
 }
-
-/*
-
-        <ActionIcon 
-            variant="filled"
-            aria-label="Settings"
-            onClick={open}
-            >
-            //<IconAdjustments style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            <img  src={uploadImage} width="20" height="20" alt="fireSpot"/>
-            
-        </ActionIcon>
-*/

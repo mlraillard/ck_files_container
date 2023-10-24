@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mantine/core';
 
-import './main.css'
 import { ButtonPanelComponent } from "../buttonPanel/ButtonPanelComponent";
 import { useStore } from '../../../store';
 import {runChucKCode} from '../../../chuckContent/chuckRun/run.js'
