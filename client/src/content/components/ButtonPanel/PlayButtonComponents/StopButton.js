@@ -14,6 +14,7 @@ function StopButton({
         mb="1px"
         ml="5px"
         size="compact-lg"
+        style={{color: 'orange'}}
         disabled={stopDiabled}
         variant="danger"
         onClick={() => {

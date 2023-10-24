@@ -52,15 +52,15 @@ router.post('/', (req, res) => {
      fs.writeFileSync(`\/${filesDirectory}\/${dir}\/${filename}`, body, function (err) {
          console.log(err)
     });
-    res.status(200).json({message: "Yes, this is OK"})
+    //res.status(200).json({message: "Yes, this is OK"})
     
-    // const resbody = 'ok'
-    // // Calling response.writeHead method
-    // res.writeHead(200, {
-    //   'Content-Length': Buffer.byteLength(resbody),
-    //   'Content-Type': 'text/plain'
-    // });
-    // res.end(resbody)
+    const resbody = 'ok'
+    // Calling response.writeHead method
+    res.writeHead(200, {
+      'Content-Length': Buffer.byteLength(resbody),
+      'Content-Type': 'text/plain'
+    });
+    res.end(resbody)
 })
 
 module.exports = router;

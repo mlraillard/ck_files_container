@@ -38,12 +38,16 @@ export const PlayButtonPanel = (props) => {
         desc = { props.desc }
         memoizedSetFilename = { memoizedSetFilename }
       />
-      <StopButton 
-        stopDiabled = { stopDiabled }
-        setStopDiabled = { setStopDiabled }
-        aChuck = { aChuck }
-        memoizedSetFilename = { memoizedSetFilename }
-      />
+      {
+        !stopDiabled ?
+          <StopButton 
+            stopDiabled = { stopDiabled }
+            setStopDiabled = { setStopDiabled }
+            aChuck = { aChuck }
+            memoizedSetFilename = { memoizedSetFilename }
+          >Stop</StopButton> : ''
+      }
+
      </Group>
   )
 }

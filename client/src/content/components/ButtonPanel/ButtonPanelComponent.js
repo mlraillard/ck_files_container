@@ -5,7 +5,6 @@ import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 import { useState } from "react";
 import { useStore } from '../../../store';
 import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
-import { UploadComponent } from './UploadComponent'
 
 export const ButtonPanelComponent = () => {
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
@@ -30,16 +29,18 @@ export const ButtonPanelComponent = () => {
 
     return (
       <Group>
-        <Stack>
+        <Stack
+        mt="xs"
+        w={{ base: 350, sm: 500, md: 650 }}
+        >
           <Select
-            mt="md"
             data={asyncDirs}
             value={selectedDir}
             onChange={setSelectedDir}
           />
-          <ScrollArea
+          {/* <ScrollArea
             mt="xs"
-            w={{ base: 350, sm: 600, lg: 650 }}
+            w={{ base: 350, sm: 500, md: 650 }}
             h={{ base: 325 }}
             type="always"
             offsetScrollbars
@@ -64,7 +65,7 @@ export const ButtonPanelComponent = () => {
                 background: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
               },
             })}
-          >
+          > */}
             {
               dirsLoading ? '' :
               <Stack align="flex-start" justify="flex-start" gap="sm">
@@ -78,15 +79,7 @@ export const ButtonPanelComponent = () => {
               ))}
               </Stack>
             }
-          </ScrollArea>
-          <Grid>
-            <Grid.Col span={3}><UploadComponent dir={selectedDir} /></Grid.Col>
-            {/* {
-              selectedFilename ?
-              <Grid.Col span={3} offset={3}><DeleteFileComponent /></Grid.Col> :
-              ''
-            } */}
-          </Grid>
+          {/* </ScrollArea> */}
         </Stack>
       </Group>
     )
