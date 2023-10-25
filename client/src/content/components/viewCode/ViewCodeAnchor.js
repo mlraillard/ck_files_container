@@ -65,12 +65,16 @@ export const ViewCodeAnchor = () => {
             </Anchor>
           }
 
-        <Dialog opened={opened} withCloseButton onClose={close} size="lg" radius="md">
+        <Dialog opened={opened} withCloseButton onClose={close}
+          //size="lg"
+          size={{xs: "sm", sm: "sm", md: "md", lg: "lg", xl: "xl"}}
+          radius="md">
             <Group align="flex-end">    
                 <ScrollArea
                   mt="xs"
                   //w={{ base: 350, sm: 500, md: 650 }}
-                  h={{ base: 350, sm: 450, md: 550 }}
+                  //h={{ base: 350, sm: 450, md: 550 }}
+                  h={{ base: 350, sm: 400, md: 450, lg: 500, xl: 550 }}
                   //h={height - 40}
                   //w={width - 40}
             
