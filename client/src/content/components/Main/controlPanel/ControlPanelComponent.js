@@ -5,6 +5,7 @@ import { useStore } from '../../../../store';
 import { UploadAnchor } from '../../upload/UploadAnchor'
 import DeleteAnchor from "../../delete/DeleteAnchor";
 import { ViewCodeAnchor } from "../../viewCode/ViewCodeAnchor";
+import { SettingsAnchor } from "../../settings/SettingsAnchor";
 
 function ControlPanelComponent() {
 
@@ -31,6 +32,7 @@ function ControlPanelComponent() {
         margin: "0",
       }}
     >
+      <SettingsAnchor />
       <UploadAnchor />
       <DeleteAnchor 
         memoizedSelected={memoizedSelected}

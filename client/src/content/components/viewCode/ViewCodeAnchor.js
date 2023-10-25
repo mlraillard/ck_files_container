@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Anchor, Group, Text, Dialog, ScrollArea } from '@mantine/core';
-//Container, Title, Group, Dialog, Button, TextInput, Text 
+import { Anchor, Group, Dialog, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Prism } from '@mantine/prism';
 
@@ -8,7 +7,6 @@ import { useStore } from '../../../store';
 import { DIRECTORY_FILE } from '../../../routes';
 
 export const ViewCodeAnchor = () => {
-    // const [submitDisabled, setSubmitDisabled] = useState(true)
     const [opened, { toggle, close }] = useDisclosure(false);
     //const { height, width } = useViewportSize();
     const selectedDir = useStore(state => state.selectedDir)
@@ -21,8 +19,6 @@ export const ViewCodeAnchor = () => {
     }
     
     async function loadChucKCode() {
-    //const dir = 'ccrma'
-    //const filename = 'test2.ck'
     let url = `${DIRECTORY_FILE}${selectedDir}&filename=${selectedFilename}`
 
     let aPromise = new Promise( async function(resolve, reject) {
@@ -62,7 +58,6 @@ export const ViewCodeAnchor = () => {
                 :
             <Anchor
                 component="button"
-                //style={{ fontSize: 'calc(12px + 0.390625vw)'}}
                 disabled
                 underline="never"
                 style={{color: "gray", textDecoration:'none', fontSize: 'calc(10px + 0.390625vw)'}}
@@ -71,47 +66,39 @@ export const ViewCodeAnchor = () => {
           }
 
         <Dialog opened={opened} withCloseButton onClose={close} size="lg" radius="md">
-            {/* <Text size="sm" mb="xs" fw={500}>
-            Subscribe to email newsletter
-            </Text> */}
-
-            <Group align="flex-end">
-            {/* <TextInput placeholder="hello@gluesticker.com" style={{ flex: 1 }} />
-            <Button onClick={close}>Subscribe</Button> */}
-                
+            <Group align="flex-end">    
                 <ScrollArea
-            mt="xs"
-            w={{ base: 350, sm: 500, md: 650 }}
-            h={{ base: 350 }}
+                  mt="xs"
+                  //w={{ base: 350, sm: 500, md: 650 }}
+                  h={{ base: 350, sm: 450, md: 550 }}
+                  //h={height - 40}
+                  //w={width - 40}
             
-            //h={height - 40}
-            //w={width - 40}
-            
-            type="always"
-            offsetScrollbars
-            styles={(theme) => ({
-              scrollbar: {
-                '&, &:hover': {
-                  background:
-                    theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-                },
+                  type="always"
+                  offsetScrollbars
+                  styles={(theme) => ({
+                    scrollbar: {
+                      '&, &:hover': {
+                        background:
+                          theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                      },
 
-                '&[data-orientation="vertical"] .mantine-ScrollArea-thumb': {
-                  backgroundColor: theme.colors.red[6],
-                },
+                      '&[data-orientation="vertical"] .mantine-ScrollArea-thumb': {
+                        backgroundColor: theme.colors.red[6],
+                      },
 
-                '&[data-orientation="horizontal"] .mantine-ScrollArea-thumb': {
-                  backgroundColor: theme.colors.blue[6],
-                },
-              },
+                      '&[data-orientation="horizontal"] .mantine-ScrollArea-thumb': {
+                        backgroundColor: theme.colors.blue[6],
+                      },
+                    },
 
-              corner: {
-                opacity: 1,
-                background: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-              },
-            })}
-          >
-                <Prism language="ck">{dialogText}</Prism>
+                    corner: {
+                      opacity: 1,
+                      background: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+                    },
+                  })}
+                >
+                <Prism language="c">{dialogText}</Prism>
             </ScrollArea>
             </Group>
       </Dialog>

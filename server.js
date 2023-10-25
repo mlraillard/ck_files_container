@@ -12,7 +12,7 @@ app.use('/upload', upload)
 const SERVER_PORT = 8002;
 const filesDirectory = __dirname+'/ckFiles'
 const ckExtName = '.ck'
-const re = /<{3}\s{0,20}\"([A-Za-z0-9,\.\-\_ ]*)\"\s{0,20}>{3}\;/
+const re = /<{3}\s{0,20}\"([\/A-Za-z0-9,\.\-\_ ]*)\"\s{0,20}>{3}\;/
 
 app.get('/onefile', cors(), (req, res) => {
     fs.readFile(`${filesDirectory}/hoagScriptX.ck`, function(error, data) {
