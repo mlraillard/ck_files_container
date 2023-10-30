@@ -94,8 +94,6 @@ export const UploadDrawer = (props) => {
         }
     }
 
-    console.log(`going thru UpDrawer from MI: ${props.opened}`)
-
     return (
         <>
         <Drawer
