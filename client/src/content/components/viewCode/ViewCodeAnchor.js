@@ -8,7 +8,6 @@ import { DIRECTORY_FILE } from '../../../routes';
 
 export const ViewCodeAnchor = () => {
     const [opened, { toggle, close }] = useDisclosure(false);
-    //const { height, width } = useViewportSize();
     const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
     const [dialogText, setDialogText] = useState("")
@@ -19,26 +18,22 @@ export const ViewCodeAnchor = () => {
     }
     
     async function loadChucKCode() {
-    let url = `${DIRECTORY_FILE}${selectedDir}&filename=${selectedFilename}`
+      if (selectedFilename) {
+        let url = `${DIRECTORY_FILE}${selectedDir}&filename=${selectedFilename}`
 
-    let aPromise = new Promise( async function(resolve, reject) {
-        //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
-        const response = await fetch(url)
-        setDialogText(await response.text())
-    });
-    run(aPromise);
+        let aPromise = new Promise( async function(resolve, reject) {
+            //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
+            const response = await fetch(url)
+            setDialogText(await response.text())
+        });
+        run(aPromise);
+      }
+      else {
+        Promise.resolve(
+          close()
+        )
+      }
     }
-
-    useEffect(() => {
-        if (!selectedFilename) {
-          try {
-            close()
-          }
-          catch(e) {
-            console.log(`e: ${e}`)
-          }
-        }
-    }, [dialogText, close ]);
 
     if (opened) {
         loadChucKCode()
@@ -72,12 +67,8 @@ export const ViewCodeAnchor = () => {
             <Group align="flex-end">    
                 <ScrollArea
                   mt="xs"
-                  //w={{ base: 350, sm: 500, md: 650 }}
-                  //h={{ base: 350, sm: 450, md: 550 }}
-                  h={{ base: 350, sm: 400, md: 450, lg: 500, xl: 550 }}
-                  //h={height - 40}
-                  //w={width - 40}
-            
+                  //h={{ base: 350, sm: 400, md: 450, lg: 500, xl: 550 }}
+                  h="85vh"
                   type="always"
                   offsetScrollbars
                   styles={(theme) => ({
