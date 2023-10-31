@@ -1,25 +1,31 @@
 import React from "react";
 import { Anchor } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
-function DeleteAnchor({
-  memoizedSelected
-}) {
+import { useStore } from '../../../store';
+import { DeleteDrawer } from "./DeleteDrawer";
+
+function DeleteAnchor() {
+    const [opened, { open, close }] = useDisclosure(false)
+    const selectedDir = useStore(state => state.selectedDir)
+    const selectedFilename = useStore(state => state.selectedFilename)
 
     return (
         <>
-          { memoizedSelected() ?
+          <DeleteDrawer
+              opened={opened}
+              open={open}
+              close={close}
+          />
+          { selectedFilename && selectedDir ?
           <Anchor
             component="button"
-            //style={{ fontSize: 'calc(12px + 0.390625vw)'}}
             style={{ fontSize: 'calc(10px + 0.390625vw)'}}
-            onClick={() => {
-            }}
-          >Delete
+            onClick={open}>Delete
           </Anchor>
             :
           <Anchor
             component="button"
-            //style={{ fontSize: 'calc(12px + 0.390625vw)'}}
             disabled
             underline="never"
             style={{color: "gray", textDecoration:'none', fontSize: 'calc(10px + 0.390625vw)'}}

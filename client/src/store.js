@@ -42,7 +42,7 @@ const asyncDirsSlice = (set) => ({
     const response = await fetch(DIRECTORIES_NAMES)
     const dirsText = await response.text()
 
-    console.log(`store:text: ${dirsText}`)
+    //console.log(`store:text: ${dirsText}`)
 
     if (!dirsText.includes('Error')) {
       const dirsJson = JSON.parse(dirsText)

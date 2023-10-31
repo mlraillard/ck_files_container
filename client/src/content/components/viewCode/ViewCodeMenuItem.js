@@ -12,7 +12,6 @@ function ViewCodeMenuItem ({
   toggle
 
   const openDialog = useCallback(() => {
-      console.log(`MI.openDialog`);
       setTargetName('viewCode')
       setRefTarget(true)}
   )

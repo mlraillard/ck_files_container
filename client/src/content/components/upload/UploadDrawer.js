@@ -89,7 +89,6 @@ export const UploadDrawer = (props) => {
             //console.log(`rText: ${rText}`)
         }
         catch(error) {
-            //console.log(`fu3: 6`);
             console.error(e.message)
         }
     }

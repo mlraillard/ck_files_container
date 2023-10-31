@@ -6,12 +6,12 @@ import DeleteAnchor from "../../delete/DeleteAnchor";
 import { ViewCodeAnchor } from "../../viewCode/ViewCodeAnchor";
 import { SettingsAnchor } from "../../settings/SettingsAnchor";
 
-function ControlPanelWeb(props) {
+function ControlPanelWeb() {
   return (
     <Group>
         <SettingsAnchor />
         <UploadAnchor />
-        <DeleteAnchor memoizedSelected={props.memoizedSelected}/>
+        <DeleteAnchor />
         <ViewCodeAnchor />
   </Group>
   );

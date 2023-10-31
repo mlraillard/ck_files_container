@@ -12,10 +12,6 @@ function ControlPanelComponent() {
     const selectedFilename = useStore(state => state.selectedFilename)
     const smWidth = useMediaQuery('(min-width: 490px)')
 
-    const memoizedSelected = useCallback(() => {
-        return selectedFilename && selectedDir
-    }, [selectedFilename, selectedDir]); 
-
   return (
       <Flex
       //mr={"25px"}
@@ -35,8 +31,7 @@ function ControlPanelComponent() {
     >
       {
         !smWidth ? 
-          <ControlPanelMobile /> :
-          <ControlPanelWeb memoizedSelected={memoizedSelected}/>
+          <ControlPanelMobile /> : <ControlPanelWeb />
       }
     </Flex>
   );
