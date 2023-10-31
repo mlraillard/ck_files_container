@@ -12,7 +12,6 @@ export const ViewCodeAnchor = () => {
     const selectedFilename = useStore(state => state.selectedFilename)
     const [dialogText, setDialogText] = useState("")
 
-
     async function run(aPromise, setResultText) {
         setResultText(await aPromise);
     }

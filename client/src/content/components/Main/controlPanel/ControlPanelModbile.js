@@ -8,7 +8,7 @@ import SettingsMenuItem from "../../settings/SettingsMenuItem";
 import ViewCodeMenuItem from "../../viewCode/ViewCodeMenuItem";
 import { UploadDrawer } from "../../upload/UploadDrawer";
 import { SettingsDrawer } from "../../settings/SettingsDrawer";
-import ViewCodeDialog from "../../viewCode/ViewCodeDialog";
+import { ViewCodeDrawer } from "../../viewCode/ViewCodeDrawer";
 
 function ControlPanelMobile() {
     const selectedDir = useStore(state => state.selectedDir)
@@ -16,7 +16,6 @@ function ControlPanelMobile() {
     const [refTarget, setRefTarget] = useState(false);
     const [targetName, setTargetName] = useState('');
     const [opened, { toggle }] = useDisclosure(false)
-    //const [opened, { toggle, close }] = useDisclosure(false);
 
     return (
         <>
@@ -34,13 +33,11 @@ function ControlPanelMobile() {
             /> :
 
             targetName === 'viewCode' ?
-            <ViewCodeDialog
+            <ViewCodeDrawer
                 opened={refTarget}
                 close={setRefTarget}
-                closeRefTarget={setRefTarget}
-                // close={ close } // this doesn't seem to help
-                mobile={true}
-            /> :
+            />
+            :
             ''
         }
         <Menu>
