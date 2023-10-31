@@ -3,20 +3,11 @@ import { MainComponent } from './content/components/main/MainComponent'
 import { MainHeader} from './content/components/main/header/MainHeader'
   
   export default function App() {
-    const mainContentPadding = 16;
-  
     return (
-        <AppShell
-          header={<MainHeader />}
-          styles={{
-            main: {
-            paddingTop: "xs",
-            paddingBottom: "xs",
-            paddingLeft: "xs",
-            paddingRight: "xs"
-            }
-          }} >
-            <Box p={mainContentPadding} >
+        <AppShell header={<MainHeader />}>
+            <Box
+              pl={{ base: 0, sm: 10, md: 30 }}
+            >
                 <MainComponent />
             </Box>        
         </AppShell>

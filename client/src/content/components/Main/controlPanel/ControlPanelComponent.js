@@ -1,23 +1,25 @@
 import React, { useCallback } from "react";
 import { Flex } from '@mantine/core';
+//import { useViewportSize } from '@mantine/hooks';
+import { useMediaQuery } from '@mantine/hooks';
 
 import { useStore } from '../../../../store';
-import { UploadAnchor } from '../../upload/UploadAnchor'
-import DeleteAnchor from "../../delete/DeleteAnchor";
-import { ViewCodeAnchor } from "../../viewCode/ViewCodeAnchor";
+import ControlPanelWeb from "./ControlPanelWeb";
+import ControlPanelMobile from "./ControlPanelModbile";
 
 function ControlPanelComponent() {
-
     const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
+    const smWidth = useMediaQuery('(min-width: 490px)')
 
     const memoizedSelected = useCallback(() => {
         return selectedFilename && selectedDir
     }, [selectedFilename, selectedDir]); 
 
   return (
-    <Flex
+      <Flex
       //mr={"25px"}
+      //visibleFrom="sm"
       mih={50}
       bg="rgba(0, 0, 0, .3)"
       gap="xs"
@@ -31,11 +33,11 @@ function ControlPanelComponent() {
         margin: "0",
       }}
     >
-      <UploadAnchor />
-      <DeleteAnchor 
-        memoizedSelected={memoizedSelected}
-      />
-      <ViewCodeAnchor />
+      {
+        !smWidth ? 
+          <ControlPanelMobile /> :
+          <ControlPanelWeb memoizedSelected={memoizedSelected}/>
+      }
     </Flex>
   );
 }
