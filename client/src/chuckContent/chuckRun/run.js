@@ -4,7 +4,13 @@ async function run(aPromise, setResultText) {
     setResultText(await aPromise);
 }
 
-export async function loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck, dir) {
+export async function loadAndRunChucKCode(
+    filename,
+    setResultText,
+    Chuck,
+    setAChuck,
+    dir,
+    setShredId) {
     let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
 
     let aPromise = new Promise( async function(resolve, reject) {
@@ -22,7 +28,9 @@ export async function loadAndRunChucKCode(filename, setResultText, Chuck, setACh
         aChuck.chuckPrint = (output) => {
             setResultText(output);
         }
-        aChuck.runCode(data);        
+        aChuck.runCode(data).then((id) => {
+            setShredId(id)
+        })
         await new Promise((resolve, reject) => { setTimeout(resolve, 750)});
     });
     run(aPromise);

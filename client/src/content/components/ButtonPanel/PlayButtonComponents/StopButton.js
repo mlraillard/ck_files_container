@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from '@mantine/core';
+
+import { useStore } from '../../../../store'
 
 function StopButton({
     stopDiabled,
     setStopDiabled,
-    aChuck,
     memoizedSetFilename
   }) {
+  const aChuck = useStore(state => state.aChuck)
+  const shredId = useStore(state => state.shredId)
+  const setShredId = useStore(state => state.setShredId)
 
   return (
     <Button
@@ -15,10 +19,12 @@ function StopButton({
         ml="5px"
         size="compact-lg"
         style={{color: 'orange'}}
-        disabled={stopDiabled}
+        //disabled={stopDiabled}
+        disabled={ shredId === 0 }
         variant="danger"
         onClick={() => {
           aChuck.removeLastCode();
+          setShredId(0)
           setStopDiabled(true)
           memoizedSetFilename('')
         }}

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFocusWithin } from '@mantine/hooks';
-import { Drawer, Box, Text } from '@mantine/core';
+import { Drawer, Box, Text, Radio } from '@mantine/core';
 
 import { useStore } from '../../../store';
 
 export const DeleteDrawer = (props) => {
     const { ref, focused } = useFocusWithin();
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const dirCount = useStore(state => state.asyncDirFiles.length)
     const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
 
@@ -20,7 +22,8 @@ export const DeleteDrawer = (props) => {
             title="Delete Selected WebChucK File"
         >
             <Box maw={340} mx="auto">
-            <Text c="rgb(250, 200, 152)" fs="italic" size="md">{`${selectedDir} \\ ${selectedFilename}`}</Text>
+            <Text c="rgb(250, 200, 152)" size="md">{`${selectedDir} \\ ${selectedFilename}`}</Text>
+            <Text c="rgb(250, 200, 152)" size="md">{`${selectedDir} file count: ${dirCount}`}</Text>
                 {/* <form onSubmit={onSubmit}>
                     {
                     invalidFilename ?

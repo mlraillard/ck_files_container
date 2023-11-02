@@ -3,6 +3,16 @@ import { devtools } from "zustand/middleware"
 import { DIRECTORIES_NAMES, DIRECTORY_FILES_INFO } from './routes'
 import { addLabelsToDirsArray } from './utils'
 
+const aChuckSlice = (set) => ({
+  aChuck: null,
+  setAChuck: (ac) => {set({ aChuck: ac })}
+})
+
+const shredIdSlice = (set) => ({
+  shredId: 0,
+  setShredId: (id) => {set({ shredId: id })}
+})
+
 const filenameSlice = (set) => ({
   selectedFilename: '',
   setSelectedFilename: (fn) => {set({ selectedFilename: fn })}
@@ -54,6 +64,8 @@ const asyncDirsSlice = (set) => ({
 })
 
 const rootSlice = (set, get) => ({
+  ...aChuckSlice(set, get),
+  ...shredIdSlice(set, get),
   ...dirSlice(set,get),
   ...filenameSlice(set, get),
   ...asyncChuckSlice(set, get),
