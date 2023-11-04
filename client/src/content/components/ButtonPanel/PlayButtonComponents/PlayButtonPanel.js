@@ -4,16 +4,21 @@ import { Group } from '@mantine/core';
 import { useStore } from '../../../../store'
 
 import PlayButton from './PlayButton'
-import StopButton from './StopButton'
+import StopButton2 from './StopButton2'
+import DelayedComponent from "./DelayedComponent";
 
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
   const setAChuck = useStore(state => state.setAChuck)
   const shredId = useStore(state => state.shredId)
+  const selected = useStore(state => state.selected)
+
   const setShredId = useStore(state => state.setShredId)
   const selectedFilename = useStore(state => state.selectedFilename)
   const setSelectedFilename = useStore(state => state.setSelectedFilename)
-  const [stopDiabled, setStopDiabled] = useState(true);
+  //const activeDirFilenames = useStore(state => state.activeDirFilenames)
+  const activeDirFilenames = useStore(state => state.activeDirFilenames)
+
   const [resultText, setResultText] = useState("");
 
   const memoizedSetFilename = useCallback(fn => {
@@ -24,15 +29,15 @@ export const PlayButtonPanel = (props) => {
   //   if (resultText && resultText.includes("PASSED")) {
   //     aChuck.removeLastCode();
   //     setShredId(0)
-  //     setStopDiabled(true)
+  //     setStopDisabled(true)
   //   }
-  // }, [resultText, aChuck, setStopDiabled]);
+  // }, [resultText, aChuck, setStopDisabled]);
+
+  // console.log(`active: ${JSON.stringify(activeDirFilenames)}`)
 
   return (
     <Group noWrap={true}>
       <PlayButton
-        stopDiabled = { stopDiabled}
-        setStopDiabled = { setStopDiabled }
         setResultText = { setResultText }
         Chuck = { Chuck }
         setAChuck = { setAChuck }
@@ -42,13 +47,17 @@ export const PlayButtonPanel = (props) => {
         memoizedSetFilename = { memoizedSetFilename }
       />
       {
-        //!stopDiabled ?
-        props.filename === selectedFilename && shredId > 0 ?
-          <StopButton 
-            stopDiabled = { stopDiabled }
-            setStopDiabled = { setStopDiabled }
-            memoizedSetFilename = { memoizedSetFilename }
-          >Stop</StopButton> : ''
+        activeDirFilenames.includes(`${props.dir} ${props.filename}`) ?
+          <StopButton2
+            filename = { props.filename }
+            dir = { props.dir }
+          >Stop</StopButton2> 
+          : ''
+
+          // <DelayedComponent
+          //   filename = { props.filename }
+          //   dir = { props.dir }
+          // />
       }
      </Group>
   )

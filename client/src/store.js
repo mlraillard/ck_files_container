@@ -1,7 +1,86 @@
 import create from 'zustand'
-import { devtools } from "zustand/middleware"
+import { devtools } from 'zustand/middleware'
+import Deque  from 'double-ended-queue'
 import { DIRECTORIES_NAMES, DIRECTORY_FILES_INFO } from './routes'
+import { MAX_TRACKS } from './constants.js'
 import { addLabelsToDirsArray } from './utils'
+
+const q = new Deque(MAX_TRACKS);
+// let activeDirFilenames = [];
+/*
+Deque functions:
+
+push(dynamic items...)
+unshift(dynamic items...)
+pop()
+shift()
+toArray()
+peekBack()
+peekFront()
+get(int index)
+isEmpty()
+clear()
+*/
+
+function qAfter(command) {
+  console.log(`q after ${command}: ${JSON.stringify(q.toArray())}`)
+}
+
+/*
+track = {
+  shredId: id, //string
+  filename: 'fn', //string
+  dir: 'dir' //string
+}
+*/
+const qSlice = (set) => ({
+  activeDirFilenames: [],
+  setActiveDirFilenames: () => {
+    set({
+      activeDirFilenames: (q.toArray()).map(obj => `${obj.dir} ${obj.filename}`)
+    })
+    // console.log(`st.activeDirFilenames: ${JSON.stringify(activeDirFilenames)}`)
+  },
+  print: () => {
+    console.log(`st.activeDirFilenames: ${JSON.stringify(activeDirFilenames)}`)
+  },
+  addActiveDirFilename: (dirFilename) => {
+    activeDirFilenames.push(dirFilename)
+    //qAfter('add one')
+    console.log(`add1: ${JSON.stringify(activeDirFilenames)}`)
+  },
+  removeActiveDirFilename: (dirFilename) => {
+    const index = activeDirFilenames.findIndex(dirFilename)
+    activeDirFilenames.splice(index, 1)
+    //qAfter('rmv one')
+    console.log(`rmv1: ${JSON.stringify(activeDirFilenames)}`)
+  },
+  getActiveDirFilenames: () => { return activeDirFilenames },
+  qPush: (sel) => { 
+    q.push(sel); 
+    //qAfter('push')
+    // activeDirFilenames.push(dirFilename)
+  },
+  trackByDirAndFilename: (dr, fn) => {
+    console.log(`q: ${q}`)
+    console.log(`arr: ${q.toArray}`)
+    //return q.toArray().find((o) => o.dir === dr && o.filename === fn) 
+  },
+  removeByDirAndFilename: (dr,fn) => {
+    const arr = q.toArray()
+    const track = arr.find((o) => o.dir === dr && o.filename === fn )
+    if (track) {
+      track.aChuck.removeLastCode()
+      const newArray = arr.filter(obj => obj !== track)
+      q.clear()
+      q.push(newArray)
+      //qAfter('remove')
+
+      // const index = activeDirFilenames.findIndex(`${dr} ${fn}`)
+      // activeDirFilenames.splice(index, 1)
+    }
+  },
+})
 
 const aChuckSlice = (set) => ({
   aChuck: null,
@@ -52,8 +131,6 @@ const asyncDirsSlice = (set) => ({
     const response = await fetch(DIRECTORIES_NAMES)
     const dirsText = await response.text()
 
-    //console.log(`store:text: ${dirsText}`)
-
     if (!dirsText.includes('Error')) {
       const dirsJson = JSON.parse(dirsText)
       const expandedJson = addLabelsToDirsArray(dirsJson)
@@ -64,6 +141,7 @@ const asyncDirsSlice = (set) => ({
 })
 
 const rootSlice = (set, get) => ({
+  ...qSlice(set, get),
   ...aChuckSlice(set, get),
   ...shredIdSlice(set, get),
   ...dirSlice(set,get),

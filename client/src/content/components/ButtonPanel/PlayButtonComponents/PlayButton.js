@@ -5,26 +5,28 @@ import { loadAndRunChucKCode } from '../../../../chuckContent/chuckRun/run'
 import { useStore } from '../../../../store'
 
 function PlayButton({
-    stopDiabled,
-    setStopDiabled,
     setResultText,
     Chuck,
     setAChuck,
     filename,
     dir,
     desc,
-    memoizedSetFilename
+    memoizedSetFilename,
   }) {
 
     const selectedFilename = useStore(state => state.selectedFilename)
     const shredId = useStore(state => state.shredId)
     const setShredId = useStore(state => state.setShredId)
-    const  bc = filename === selectedFilename ? 'orange' : ''
+    const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
+    const addActiveDirFilename = useStore(state => state.addActiveDirFilename)
+    const activeDirFilenames = useStore(state => state.activeDirFilenames)
 
+    const qPush = useStore(state => state.qPush)
+  
   return (
     <Button
       style={{
-        borderColor: bc
+        borderColor: activeDirFilenames.includes(`${dir} ${filename}`) ? 'orange' : ''
       }}
       mt="4px"
       mb="1px"
@@ -32,16 +34,25 @@ function PlayButton({
       // variant="primary"
       color="secondary"
       size="compact-lg"
-
-      disabled={ shredId > 0 }
-
-      // this is needed to implement playing more than one chuck script at once
-      //disabled={ !stopDiabled }
-
+      disabled={ activeDirFilenames.includes(`${dir} ${filename}`) }
       onClick={() => {
         memoizedSetFilename(filename)
-        setStopDiabled(false)
-        loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck, dir, setShredId)
+        loadAndRunChucKCode(
+          filename,
+          setResultText,
+          Chuck,
+          setAChuck,
+          dir,
+          setShredId,
+          qPush,
+          setActiveDirFilenames
+          //addActiveDirFilename
+          )
+          // setTimeout(() => {
+          //   setActiveDirFilenames()
+          //   // addActiveDirFilename(`${dir} ${filename}`)
+          //   console.log(`p.active: ${JSON.stringify(activeDirFilenames)}`)
+          // }, 200);
       }}
     >{ desc }
     </Button>
@@ -50,5 +61,5 @@ function PlayButton({
 export default React.memo(PlayButton)
 
 /*
-disabled={ !stopDiabled || (selectedFilename && filename != selectedFilename) }
+disabled={ !stopDisabled || (selectedFilename && filename != selectedFilename) }
 */
