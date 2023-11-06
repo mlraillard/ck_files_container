@@ -8,12 +8,9 @@ export async function loadAndRunChucKCode(
     filename,
     setResultText,
     Chuck,
-    setAChuck,
     dir,
-    setShredId,
     qPush,
     setActiveDirFilenames
-    //addActiveDirFilename
     ) {
     let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
 
@@ -24,16 +21,13 @@ export async function loadAndRunChucKCode(
         let aChuck = await Chuck.init([])
 
         // loading audio plugins....
-        // audioPlugin in opened successfully, but format is not recognized
+        // audioPlugin is opened successfully, but format is not recognized
         //let auxResponse = await aChuck.loadFile('./guitar.wav')
-
-        //setAChuck(aChuck)
 
         aChuck.chuckPrint = (output) => {
             setResultText(output);
         }
         aChuck.runCode(data).then((id) => {
-            setShredId(id)
             const track = {
                 id: id,
                 filename: filename,
@@ -42,7 +36,6 @@ export async function loadAndRunChucKCode(
             }
             qPush(track)
             setActiveDirFilenames()
-            //addActiveDirFilename(`${dir} ${filename}`)
         })
         await new Promise((resolve, reject) => { setTimeout(resolve, 750)});
     });

@@ -10,29 +10,21 @@ import DelayedComponent from "./DelayedComponent";
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
   const setAChuck = useStore(state => state.setAChuck)
-  const shredId = useStore(state => state.shredId)
-  const selected = useStore(state => state.selected)
-
-  const setShredId = useStore(state => state.setShredId)
-  const selectedFilename = useStore(state => state.selectedFilename)
   const setSelectedFilename = useStore(state => state.setSelectedFilename)
   const activeDirFilenames = useStore(state => state.activeDirFilenames)
-
   const [resultText, setResultText] = useState("");
 
   const memoizedSetFilename = useCallback(fn => {
       setSelectedFilename(fn);
   }, [setSelectedFilename]); 
 
+  //..to stop and remove scripts that finish w/o closing
+  //..decided - not so good
   // useEffect(() => {
   //   if (resultText && resultText.includes("PASSED")) {
-  //     aChuck.removeLastCode();
-  //     setShredId(0)
-  //     setStopDisabled(true)
+  //     .....
   //   }
-  // }, [resultText, aChuck, setStopDisabled]);
-
-  //console.log(`b active: ${JSON.stringify(activeDirFilenames)}`)
+  // }, [resultText]);
 
   return (
     <Group noWrap={true}>
@@ -54,11 +46,6 @@ export const PlayButtonPanel = (props) => {
             activeDirFilenames = { activeDirFilenames }
           >Stop</StopButton2> 
           : ''
-
-          // <DelayedComponent
-          //   filename = { props.filename }
-          //   dir = { props.dir }
-          // />
       }
      </Group>
   )
