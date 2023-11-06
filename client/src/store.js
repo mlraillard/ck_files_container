@@ -27,7 +27,7 @@ export function qLength() {
 }
 
 function qAfter(command) {
-  console.log(`q after ${command}: ${JSON.stringify(q.toArray())}`)
+  console.log(`q after ${command}: ${JSON.stringify(q.toArray(), null, 2)}`)
 }
 
 /*
@@ -46,19 +46,20 @@ const qSlice = (set) => ({
     //console.log(`st.c: ${JSON.stringify(c)}`)
   },
   resetActiveDirFilenames: (cArray, cDir, cFilename) => {
-    console.log(`cArray: ${JSON.stringify(cArray)}`)
+    //console.log(`cArray: ${JSON.stringify(cArray)}`)
+    
     // const drfn =  (dr !== undefined && fn !== undefined) ?
     // `${obj.dir} ${obj.filename}` : ``
     // // if (dr === undefined && fn === undefined)
     const s = `${cDir} ${cFilename}` + ''
-    console.log(`s: ${s}`)
+    //console.log(`s: ${s}`)
     const index = cArray.findIndex(function(o) {return o === s} )
-    console.log(`index: ${index}`)
+    //console.log(`index: ${index}`)
     cArray.splice(index, 1)
-    console.log(`cArray: ${cArray}`)
+    //console.log(`cArray: ${cArray}`)
     const cArrayExists = cArray === '' ? 'yes' : 'no'
-    console.log(`cArrayExists: ${cArrayExists}`)
-    console.log(`cArray len: ${cArray.length}`)
+    //console.log(`cArrayExists: ${cArrayExists}`)
+    //console.log(`cArray len: ${cArray.length}`)
     
     set({
       activeDirFilenames: cArray.length === 0 ? [] : cArray
@@ -82,7 +83,7 @@ const qSlice = (set) => ({
   getActiveDirFilenames: () => { return activeDirFilenames },
   qPush: (sel) => { 
     q.push(sel); 
-    //qAfter('push')
+    // qAfter('push')
     // activeDirFilenames.push(dirFilename)
   },
   trackByDirAndFilename: (dr, fn) => {
@@ -92,13 +93,20 @@ const qSlice = (set) => ({
   },
   removeByDirAndFilename: (dr,fn) => {
     const arr = q.toArray()
+
+    //console.log(`rmv arr:\n${JSON.stringify(arr, null, 2)}`)
+
     const track = arr.find((o) => o.dir === dr && o.filename === fn )
+
+    console.log(`rmv t:\n${JSON.stringify(track, null, 2)}`)
+
     if (track) {
       track.aChuck.removeLastCode()
       const newArray = arr.filter(obj => obj !== track)
       q.clear()
-      q.push(newArray)
-      //qAfter('remove')
+      //q.push(newArray)
+      for (const element of newArray) {q.push(element)}
+      qAfter('remove')
 
       // const index = activeDirFilenames.findIndex(`${dr} ${fn}`)
       // activeDirFilenames.splice(index, 1)

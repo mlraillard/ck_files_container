@@ -54,6 +54,7 @@ function StopButton2({
             const cDir = dir.slice()
             const cFilename = filename.slice() 
             removeByDirAndFilename(dir, filename)
+
             setTimeout(() => {
               resetActiveDirFilenames(cArray, cDir, cFilename)
               

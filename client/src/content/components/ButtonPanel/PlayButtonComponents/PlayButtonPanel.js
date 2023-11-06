@@ -32,7 +32,7 @@ export const PlayButtonPanel = (props) => {
   //   }
   // }, [resultText, aChuck, setStopDisabled]);
 
-  console.log(`b active: ${JSON.stringify(activeDirFilenames)}`)
+  //console.log(`b active: ${JSON.stringify(activeDirFilenames)}`)
 
   return (
     <Group noWrap={true}>
