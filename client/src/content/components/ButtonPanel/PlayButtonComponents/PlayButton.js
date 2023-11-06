@@ -12,6 +12,7 @@ function PlayButton({
     dir,
     desc,
     memoizedSetFilename,
+    activeDirFilenames
   }) {
 
     const selectedFilename = useStore(state => state.selectedFilename)
@@ -19,7 +20,7 @@ function PlayButton({
     const setShredId = useStore(state => state.setShredId)
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const addActiveDirFilename = useStore(state => state.addActiveDirFilename)
-    const activeDirFilenames = useStore(state => state.activeDirFilenames)
+    //const activeDirFilenames = useStore(state => state.activeDirFilenames)
 
     const qPush = useStore(state => state.qPush)
   

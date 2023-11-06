@@ -22,6 +22,10 @@ isEmpty()
 clear()
 */
 
+export function qLength() {
+  console.log(`q len: ${q.toArray().length}`)
+}
+
 function qAfter(command) {
   console.log(`q after ${command}: ${JSON.stringify(q.toArray())}`)
 }
@@ -39,7 +43,27 @@ const qSlice = (set) => ({
     set({
       activeDirFilenames: (q.toArray()).map(obj => `${obj.dir} ${obj.filename}`)
     })
-    // console.log(`st.activeDirFilenames: ${JSON.stringify(activeDirFilenames)}`)
+    //console.log(`st.c: ${JSON.stringify(c)}`)
+  },
+  resetActiveDirFilenames: (cArray, cDir, cFilename) => {
+    console.log(`cArray: ${JSON.stringify(cArray)}`)
+    // const drfn =  (dr !== undefined && fn !== undefined) ?
+    // `${obj.dir} ${obj.filename}` : ``
+    // // if (dr === undefined && fn === undefined)
+    const s = `${cDir} ${cFilename}` + ''
+    console.log(`s: ${s}`)
+    const index = cArray.findIndex(function(o) {return o === s} )
+    console.log(`index: ${index}`)
+    cArray.splice(index, 1)
+    console.log(`cArray: ${cArray}`)
+    const cArrayExists = cArray === '' ? 'yes' : 'no'
+    console.log(`cArrayExists: ${cArrayExists}`)
+    console.log(`cArray len: ${cArray.length}`)
+    
+    set({
+      activeDirFilenames: cArray.length === 0 ? [] : cArray
+    })
+    //console.log(`activeDirFilenames: ${JSON.stringify(activeDirFilenames)}`)
   },
   print: () => {
     console.log(`st.activeDirFilenames: ${JSON.stringify(activeDirFilenames)}`)

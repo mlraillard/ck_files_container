@@ -1,21 +1,24 @@
 import React, { useState, useCallback } from "react";
 import { Button } from '@mantine/core';
+import structuredClone from '@ungap/structured-clone';
 
-import { useStore } from '../../../../store'
+import { useStore, qLength } from '../../../../store'
 
 function StopButton2({
     filename,
-    dir
+    dir,
+    activeDirFilenames
   }) {
 
     const trackByDirAndFilename = useStore(state => state.trackByDirAndFilename) 
     const removeByDirAndFilename = useStore(state => state.removeByDirAndFilename)
-    const activeDirFilenames = useStore(state => state.activeDirFilenames)
+    //const activeDirFilenames = useStore(state => state.activeDirFilenames)
     const getActiveDirFilenames = useStore(state => state.getActiveDirFilenames)
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const removeActiveDirFilename = useStore(state => state.removeActiveDirFilename)
+    const resetActiveDirFilenames = useStore(state => state.resetActiveDirFilenames)
  
-    // const [track, setTrack] = useState(null);
+    const [track, setTrack] = useState(null);
     // const [initialized, setInitialized] = useState(false);
     const [renderComponent, setRenderComponent] = useState(false);
 
@@ -25,10 +28,11 @@ function StopButton2({
     //         setTrack(t)
     //         console.log(`track: ${track}`)
     //         setInitialized(true)
-    //       }, 500);
+    //       }, 200);
     // }
 
-    console.log(`s.${dir} ${filename}: ${JSON.stringify(activeDirFilenames)}`)
+    //console.log(`s.${dir} ${filename}: ${JSON.stringify(activeDirFilenames)}`)
+    //console.log(`qlen: ${qLength()}`)
 
   return (
     <>
@@ -46,9 +50,16 @@ function StopButton2({
           disabled={ !activeDirFilenames.includes(`${dir} ${filename}`) }
           variant="danger"
           onClick={() => {
+            const cArray = structuredClone(activeDirFilenames)
+            const cDir = dir.slice()
+            const cFilename = filename.slice() 
             removeByDirAndFilename(dir, filename)
             setTimeout(() => {
-              setActiveDirFilenames()
+              resetActiveDirFilenames(cArray, cDir, cFilename)
+              
+              
+              //setActiveDirFilenames()
+              //console.log(`s act: ${JSON.stringify(activeDirFilenames)}`)
               // removeActiveDirFilename(`${dir} ${filename}`)
             }, 200);
           }}

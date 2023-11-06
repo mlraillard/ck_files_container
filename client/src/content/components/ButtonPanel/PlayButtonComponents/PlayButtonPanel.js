@@ -16,7 +16,6 @@ export const PlayButtonPanel = (props) => {
   const setShredId = useStore(state => state.setShredId)
   const selectedFilename = useStore(state => state.selectedFilename)
   const setSelectedFilename = useStore(state => state.setSelectedFilename)
-  //const activeDirFilenames = useStore(state => state.activeDirFilenames)
   const activeDirFilenames = useStore(state => state.activeDirFilenames)
 
   const [resultText, setResultText] = useState("");
@@ -33,7 +32,7 @@ export const PlayButtonPanel = (props) => {
   //   }
   // }, [resultText, aChuck, setStopDisabled]);
 
-  // console.log(`active: ${JSON.stringify(activeDirFilenames)}`)
+  console.log(`b active: ${JSON.stringify(activeDirFilenames)}`)
 
   return (
     <Group noWrap={true}>
@@ -45,12 +44,14 @@ export const PlayButtonPanel = (props) => {
         dir = { props.dir }
         desc = { props.desc }
         memoizedSetFilename = { memoizedSetFilename }
+        activeDirFilenames = { activeDirFilenames }
       />
       {
         activeDirFilenames.includes(`${props.dir} ${props.filename}`) ?
           <StopButton2
             filename = { props.filename }
             dir = { props.dir }
+            activeDirFilenames = { activeDirFilenames }
           >Stop</StopButton2> 
           : ''
 
