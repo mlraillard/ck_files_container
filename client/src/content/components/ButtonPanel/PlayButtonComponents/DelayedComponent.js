@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import StopButton2 from './StopButton2';
+import StopButton from './StopButton';
 
 function DelayedComponent(
     filename,
@@ -19,10 +19,10 @@ function DelayedComponent(
   }, []);
 
   return renderComponent ? (
-          <StopButton2
+          <StopButton
             filename = { filename }
             dir = { dir }
-          >Stop</StopButton2> 
+          >Stop</StopButton> 
   ) : <></>;
 }
 

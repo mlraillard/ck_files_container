@@ -4,7 +4,7 @@ import { Group } from '@mantine/core';
 import { useStore } from '../../../../store'
 
 import PlayButton from './PlayButton'
-import StopButton2 from './StopButton2'
+import StopButton from './StopButton'
 import DelayedComponent from "./DelayedComponent";
 
 export const PlayButtonPanel = (props) => {
@@ -40,11 +40,11 @@ export const PlayButtonPanel = (props) => {
       />
       {
         activeDirFilenames.includes(`${props.dir} ${props.filename}`) ?
-          <StopButton2
+          <StopButton
             filename = { props.filename }
             dir = { props.dir }
             activeDirFilenames = { activeDirFilenames }
-          >Stop</StopButton2> 
+          >Stop</StopButton> 
           : ''
       }
      </Group>

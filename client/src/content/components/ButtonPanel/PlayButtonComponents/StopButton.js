@@ -4,7 +4,7 @@ import structuredClone from '@ungap/structured-clone';
 
 import { useStore } from '../../../../store'
 
-function StopButton2({
+function StopButton({
     filename,
     dir,
     activeDirFilenames
@@ -35,4 +35,4 @@ function StopButton2({
       </Button>
   );
 }
-export default React.memo(StopButton2)
+export default React.memo(StopButton)
