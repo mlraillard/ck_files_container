@@ -5,7 +5,6 @@ import { useStore } from '../../../../store'
 
 import PlayButton from './PlayButton'
 import StopButton from './StopButton'
-import DelayedComponent from "./DelayedComponent";
 
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
