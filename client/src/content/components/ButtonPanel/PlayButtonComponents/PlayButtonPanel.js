@@ -10,13 +10,8 @@ import DelayedComponent from "./DelayedComponent";
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
   const setAChuck = useStore(state => state.setAChuck)
-  const setSelectedFilename = useStore(state => state.setSelectedFilename)
   const activeDirFilenames = useStore(state => state.activeDirFilenames)
   const [resultText, setResultText] = useState("");
-
-  const memoizedSetFilename = useCallback(fn => {
-      setSelectedFilename(fn);
-  }, [setSelectedFilename]); 
 
   //..to stop and remove scripts that finish w/o closing
   //..decided - not so good
@@ -35,7 +30,6 @@ export const PlayButtonPanel = (props) => {
         filename = { props.filename }
         dir = { props.dir }
         desc = { props.desc }
-        memoizedSetFilename = { memoizedSetFilename }
         activeDirFilenames = { activeDirFilenames }
       />
       {

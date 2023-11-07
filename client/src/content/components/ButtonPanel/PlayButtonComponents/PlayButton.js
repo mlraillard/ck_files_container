@@ -10,12 +10,10 @@ function PlayButton({
     filename,
     dir,
     desc,
-    memoizedSetFilename,
     activeDirFilenames
   }) {
-
-    const selectedFilename = useStore(state => state.selectedFilename)
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
+    const setSelectedFilename = useStore(state => state.setSelectedFilename)
     const qPush = useStore(state => state.qPush)
   
   return (
@@ -31,14 +29,14 @@ function PlayButton({
       size="compact-lg"
       disabled={ activeDirFilenames.includes(`${dir} ${filename}`) }
       onClick={() => {
-        memoizedSetFilename(filename)
         loadAndRunChucKCode(
           filename,
           setResultText,
           Chuck,
           dir,
           qPush,
-          setActiveDirFilenames
+          setActiveDirFilenames,
+          setSelectedFilename
           )
       }}
     >{ desc }

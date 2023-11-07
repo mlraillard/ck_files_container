@@ -27,6 +27,16 @@ function qAfter(command) {
 
 const qSlice = (set) => ({
   activeDirFilenames: [],
+  selectedFilename: '',
+  setSelectedFilename: () => {
+    const track = q.peekBack()
+    if (track) {
+      set({ selectedFilename: track.filename })
+    }
+    else {
+      set({ selectedFilename: ''})
+    }
+  },
   setActiveDirFilenames: () => {
     set({
       activeDirFilenames: (q.toArray()).map(obj => `${obj.dir} ${obj.filename}`)
@@ -51,11 +61,6 @@ const qSlice = (set) => ({
       for (const element of newArray) {q.push(element)}
     }
   },
-})
-
-const filenameSlice = (set) => ({
-  selectedFilename: '',
-  setSelectedFilename: (fn) => {set({ selectedFilename: fn })}
 })
 
 const dirSlice = (set) => ({
@@ -104,7 +109,6 @@ const asyncDirsSlice = (set) => ({
 const rootSlice = (set, get) => ({
   ...qSlice(set, get),
   ...dirSlice(set,get),
-  ...filenameSlice(set, get),
   ...asyncChuckSlice(set, get),
   ...asyncChuckSlice(set, get),
   ...asyncDirsSlice(set, get),
