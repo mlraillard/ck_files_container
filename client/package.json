@@ -16,6 +16,8 @@
     "@mantine/form": "^7.1.1",
     "@mantine/hooks": "^6.0.19",
     "@mantine/prism": "^6.0.21",
+    "@ungap/structured-clone": "^1.2.0",
+    "double-ended-queue": "^2.1.0-0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "uuid4": "^2.0.3",

@@ -138,9 +138,8 @@ app.get('/ckdirfiles', cors(), (req, res) => {
 })
 
 app.get('/ckdirfileRemove', cors(), (req, res) => {
-    const url = `${filesDirectory}/${req.query.dir}/${req.query.filename}}`
+    const url = `${filesDirectory}/${req.query.dir}/${req.query.filename}`
 
-    
     fs.unlink(url, (err) => {
         if (err) {
           console.log(err);
@@ -166,6 +165,20 @@ app.get('/ckdirfileRemove', cors(), (req, res) => {
     // }
     // //res.status(200).json({message: url})
 })
+
+// app.get('/ckdirfileCount', cors(), (req, res) => {
+//     const url = `${filesDirectory}/${req.query.dir}\/`
+//     console.log(`getcount.url: ${url}`)
+
+//     try {
+//         const length = fs.readdirSync(url).length
+//         console.log(`length: ${length}`)
+//         res.status(200).json({message: length})
+//     }
+//     catch(err) {
+//         res.status(500).json({message: `Cannot count files in directory`})
+//     }
+// })
 
 app.listen(SERVER_PORT, function(error){
     if (error) {

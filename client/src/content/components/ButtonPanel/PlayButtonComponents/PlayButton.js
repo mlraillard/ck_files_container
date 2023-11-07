@@ -4,27 +4,22 @@ import { Button } from '@mantine/core';
 import { loadAndRunChucKCode } from '../../../../chuckContent/chuckRun/run'
 import { useStore } from '../../../../store'
 
-
 function PlayButton({
-    stopDiabled,
-    setStopDiabled,
     setResultText,
     Chuck,
-    setAChuck,
     filename,
     dir,
     desc,
-    memoizedSetFilename
+    activeDirFilenames
   }) {
-
-    const selectedFilename = useStore(state => state.selectedFilename)
-    const  bc = filename === selectedFilename ? 'orange' : ''
-
+    const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
+    const setSelectedFilename = useStore(state => state.setSelectedFilename)
+    const qPush = useStore(state => state.qPush)
+  
   return (
     <Button
-
       style={{
-        borderColor: bc
+        borderColor: activeDirFilenames.includes(`${dir} ${filename}`) ? 'orange' : ''
       }}
       mt="4px"
       mb="1px"
@@ -32,11 +27,17 @@ function PlayButton({
       // variant="primary"
       color="secondary"
       size="compact-lg"
-      disabled={ !stopDiabled } 
+      disabled={ activeDirFilenames.includes(`${dir} ${filename}`) }
       onClick={() => {
-        memoizedSetFilename(filename)
-        setStopDiabled(false)
-        loadAndRunChucKCode(filename, setResultText, Chuck, setAChuck, dir)
+        loadAndRunChucKCode(
+          filename,
+          setResultText,
+          Chuck,
+          dir,
+          qPush,
+          setActiveDirFilenames,
+          setSelectedFilename
+          )
       }}
     >{ desc }
     </Button>

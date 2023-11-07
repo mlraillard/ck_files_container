@@ -10,3 +10,5 @@ export const DIRECTORY_FULL_DESC = {
     "ccrma": "CCRMA website examples",
     "misc": "Miscellaneous",
 }
+
+export const MAX_TRACKS = 8; 

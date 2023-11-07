@@ -1,11 +1,66 @@
 import create from 'zustand'
-import { devtools } from "zustand/middleware"
+import { devtools } from 'zustand/middleware'
+import Deque  from 'double-ended-queue'
 import { DIRECTORIES_NAMES, DIRECTORY_FILES_INFO } from './routes'
+import { MAX_TRACKS } from './constants.js'
 import { addLabelsToDirsArray } from './utils'
 
-const filenameSlice = (set) => ({
+const q = new Deque(MAX_TRACKS);
+/*
+Deque functions:
+
+push(dynamic items...)
+unshift(dynamic items...)
+pop()
+shift()
+toArray()
+peekBack()
+peekFront()
+get(int index)
+isEmpty()
+clear()
+*/
+
+function qAfter(command) {
+  console.log(`q after ${command}: ${JSON.stringify(q.toArray(), null, 2)}`)
+}
+
+const qSlice = (set) => ({
+  activeDirFilenames: [],
   selectedFilename: '',
-  setSelectedFilename: (fn) => {set({ selectedFilename: fn })}
+  setSelectedFilename: () => {
+    const track = q.peekBack()
+    if (track) {
+      set({ selectedFilename: track.filename })
+    }
+    else {
+      set({ selectedFilename: ''})
+    }
+  },
+  setActiveDirFilenames: () => {
+    set({
+      activeDirFilenames: (q.toArray()).map(obj => `${obj.dir} ${obj.filename}`)
+    })
+  },
+  resetActiveDirFilenames: (cArray, cDir, cFilename) => {
+    const s = `${cDir} ${cFilename}` + ''
+    const index = cArray.findIndex(function(o) {return o === s})
+    cArray.splice(index, 1)    
+    set({
+      activeDirFilenames: cArray.length === 0 ? [] : cArray
+    })
+  },
+  qPush: (sel) => { q.push(sel) },
+  removeByDirAndFilename: (dr,fn) => {
+    const arr = q.toArray()
+    const track = arr.find((o) => o.dir === dr && o.filename === fn )
+    if (track) {
+      track.aChuck.removeLastCode()
+      const newArray = arr.filter(obj => obj !== track)
+      q.clear()
+      for (const element of newArray) {q.push(element)}
+    }
+  },
 })
 
 const dirSlice = (set) => ({
@@ -42,8 +97,6 @@ const asyncDirsSlice = (set) => ({
     const response = await fetch(DIRECTORIES_NAMES)
     const dirsText = await response.text()
 
-    console.log(`store:text: ${dirsText}`)
-
     if (!dirsText.includes('Error')) {
       const dirsJson = JSON.parse(dirsText)
       const expandedJson = addLabelsToDirsArray(dirsJson)
@@ -54,8 +107,8 @@ const asyncDirsSlice = (set) => ({
 })
 
 const rootSlice = (set, get) => ({
+  ...qSlice(set, get),
   ...dirSlice(set,get),
-  ...filenameSlice(set, get),
   ...asyncChuckSlice(set, get),
   ...asyncChuckSlice(set, get),
   ...asyncDirsSlice(set, get),
