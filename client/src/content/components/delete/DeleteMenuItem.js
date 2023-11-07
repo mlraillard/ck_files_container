@@ -11,7 +11,7 @@ function DeleteMenuItem(props) {
   return (
       !props.disabled ?
       <Menu.Item ref={ref} onClick={ props.toggle }>Delete</Menu.Item>
-      : ''      
+      : ''
   )
 }
 export default DeleteMenuItem
