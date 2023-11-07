@@ -72,7 +72,7 @@ const asyncChuckSlice = (set) => ({
   Chuck: null,
   chuckLoading: true,
   fetchTheChuck: async () => {
-    import('../src/chuckContent/chuckSrc/wc-bundle.js').then(async (module) => { 
+    import('../src/chuckContent/chuckSrc/wc-bundle.js').then(async (module) => {
       set({ Chuck: module.Chuck, chuckLoading: false })
     });
   }

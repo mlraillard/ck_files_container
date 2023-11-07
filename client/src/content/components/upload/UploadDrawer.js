@@ -6,23 +6,33 @@ import { UPLOAD } from "../../../routes";
 import { useStore } from '../../../store';
 
 export const UploadDrawer = (props) => {
+    
     const [value, setValue] = useState(File | '')
     const [invalidFilename, setInvalidFilename] = useState(false)
+    const [invalidError, setInvalidError] = useState('')
     const [desc, setDesc] = useState('');
     const [fileContent, setFileContent] = useState('')
     const [submitDisabled, setSubmitDisabled] = useState(true)
     const selectedDir = useStore(state => state.selectedDir)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
+    const asyncDirFiles = useStore(state => state.asyncDirFiles)
     const { ref, focused } = useFocusWithin();
 
       useEffect(() => {
         if (value) {
+            const filenames = asyncDirFiles.map((object) => object.filename);
             let m = (value.name).match(/^([0-9a-zA-Z_-]{1,25})\.ck/) || [false,false][1]
             if (m === false) {
                 setInvalidFilename(true)
+                setInvalidError("Invalid ChucK filename.")
+            }
+            else if (filenames.includes(value.name)) {
+                setInvalidFilename(true)
+                setInvalidError("Duplicate filenames are not allowed.")
             }
             else {
                 setInvalidFilename(false)
+                setInvalidError('')
                 if ((value && desc && !focused)) {
                     setSubmitDisabled(false)
                     loadFileContent(value)
@@ -42,6 +52,7 @@ export const UploadDrawer = (props) => {
         setValue(null)
         setDesc('')
         setSubmitDisabled(true)
+        setInvalidError('')
     }
 
     const loadFileContent = (file) => {
@@ -113,7 +124,7 @@ export const UploadDrawer = (props) => {
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
-                        error="Invalid ChucK filename"
+                        error={invalidError}
                     />
                     :
                     <FileInput
@@ -139,7 +150,6 @@ export const UploadDrawer = (props) => {
                         <Button
                             type="submit">Save File</Button>
                         }
-
                     </Group>
                 </form>
             </Box>

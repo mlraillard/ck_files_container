@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Drawer, Button, Box, Text, Radio, CheckIcon, Divider, Group } from '@mantine/core';
+import { Drawer, Button, Box, Text, Radio, CheckIcon, Divider, Group, Stack } from '@mantine/core';
 
 import { useStore } from '../../../store';
 
@@ -16,7 +16,8 @@ export const DeleteDrawer = (props) => {
             (confirmDelete === 'true' && 
             confirmDeleteFolder === 'true'))
             || 
-            (confirmDelete === 'true')) {
+            (dirCount > 1 &&
+            confirmDelete === 'true')) {
             setSubmitDisabled(false)
         }
       }, [confirmDelete, confirmDeleteFolder, dirCount, setSubmitDisabled]);   
@@ -68,10 +69,10 @@ export const DeleteDrawer = (props) => {
                     withAsterisk
                     error={!confirmDelete ? 'Required' : ''}
                     >
-                    <Group mt="xs">
-                        <Radio icon={CheckIcon} value='true' label="Yes, delete the file." />
+                    <Stack mt="xs">
+                        <Radio icon={CheckIcon} value='true' label="Yes, delete this file." />
                         <Radio icon={CheckIcon} value='false' label="No, cancel." />
-                    </Group>
+                    </Stack>
                 </Radio.Group>
                 {
                     dirCount === 1 ?
@@ -91,10 +92,10 @@ export const DeleteDrawer = (props) => {
                             withAsterisk
                             error={!confirmDeleteFolder ? 'Required' : ''}
                             >
-                            <Group mt="xs">
+                            <Stack mt="xs">
                                 <Radio icon={CheckIcon} value='true' label="Yes, delete the folder." />
-                                <Radio icon={CheckIcon} value='false' label="No, cancel." />
-                            </Group>
+                                <Radio icon={CheckIcon} value='false' label="No, do not delete the folder." />
+                            </Stack>
                         </Radio.Group>
                     </>
                     : ''
