@@ -8,7 +8,6 @@ import StopButton from './StopButton'
 
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
-  const setAChuck = useStore(state => state.setAChuck)
   const activeDirFilenames = useStore(state => state.activeDirFilenames)
   const [resultText, setResultText] = useState("");
 
@@ -25,9 +24,9 @@ export const PlayButtonPanel = (props) => {
       <PlayButton
         setResultText = { setResultText }
         Chuck = { Chuck }
-        setAChuck = { setAChuck }
         filename = { props.filename }
         dir = { props.dir }
+        associatedDirCount = { props.associatedDirCount }
         desc = { props.desc }
         activeDirFilenames = { activeDirFilenames }
       />

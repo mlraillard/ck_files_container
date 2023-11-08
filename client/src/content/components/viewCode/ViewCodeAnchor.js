@@ -8,8 +8,8 @@ import { DIRECTORY_FILE } from '../../../routes';
 
 export const ViewCodeAnchor = () => {
     const [opened, { toggle, close }] = useDisclosure(false);
-    const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
+    const associatedDir = useStore(state => state.associatedDir)
     const [dialogText, setDialogText] = useState("")
 
     async function run(aPromise, setResultText) {
@@ -18,7 +18,7 @@ export const ViewCodeAnchor = () => {
     
     async function loadChucKCode() {
       if (selectedFilename) {
-        let url = `${DIRECTORY_FILE}${selectedDir}&filename=${selectedFilename}`
+        let url = `${DIRECTORY_FILE}${associatedDir}&filename=${selectedFilename}`
 
         let aPromise = new Promise( async function(resolve, reject) {
             //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
@@ -40,7 +40,7 @@ export const ViewCodeAnchor = () => {
 
     return (
         <>
-          { selectedFilename && selectedDir ?
+          { selectedFilename && associatedDir ?
             <Anchor
                 component="button"
                 style={{ fontSize: 'calc(10px + 0.390625vw)'}}

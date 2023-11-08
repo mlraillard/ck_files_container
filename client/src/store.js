@@ -28,13 +28,23 @@ function qAfter(command) {
 const qSlice = (set) => ({
   activeDirFilenames: [],
   selectedFilename: '',
+  associatedDir: '',
+  associatedDirCount: -1,
   setSelectedFilename: () => {
     const track = q.peekBack()
     if (track) {
-      set({ selectedFilename: track.filename })
+      set({
+        selectedFilename: track.filename,
+        associatedDir: track.dir,
+        associatedDirCount: track.associatedDirCount
+      })
     }
     else {
-      set({ selectedFilename: ''})
+      set({
+        selectedFilename: '',
+        associatedDir: '',
+        associatedDirCount: -1
+      })
     }
   },
   setActiveDirFilenames: () => {

@@ -9,8 +9,8 @@ import { DIRECTORY_FILE } from '../../../routes';
 
 export const ViewCodeDrawer = (props) => {
 
-    const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
+    const associatedDir = useStore(state => state.associatedDir)
     const [dialogText, setDialogText] = useState("")
 
     async function run(aPromise, setResultText) {
@@ -19,7 +19,7 @@ export const ViewCodeDrawer = (props) => {
 
     async function loadChucKCode() {
         if (selectedFilename) {
-          let url = `${DIRECTORY_FILE}${selectedDir}&filename=${selectedFilename}`
+          let url = `${DIRECTORY_FILE}${associatedDir}&filename=${selectedFilename}`
     
           let aPromise = new Promise( async function(resolve, reject) {
               //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");

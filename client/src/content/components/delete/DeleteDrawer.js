@@ -4,23 +4,26 @@ import { Drawer, Button, Box, Text, Radio, CheckIcon, Divider, Group, Stack } fr
 import { useStore } from '../../../store';
 
 export const DeleteDrawer = (props) => {
-    const dirCount = useStore(state => state.asyncDirFiles.length)
-    const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
-    let [confirmDelete, setConfirmDelete] = useState('');
-    let [confirmDeleteFolder, setConfirmDeleteFolder] = useState('');
+    const associatedDir = useStore(state => state.associatedDir)
+    const associatedDirCount = useStore(state => state.associatedDirCount)
+    let [confirmDelete, setConfirmDelete] = useState('')
+    let [confirmDeleteFolder, setConfirmDeleteFolder] = useState('')
     const [submitDisabled, setSubmitDisabled] = useState(true)
 
     useEffect(() => {
-        if ((dirCount === 1 &&
+        if ((associatedDirCount === 1 &&
             (confirmDelete === 'true' && 
             confirmDeleteFolder === 'true'))
             || 
-            (dirCount > 1 &&
+            (associatedDirCount > 1 &&
             confirmDelete === 'true')) {
             setSubmitDisabled(false)
         }
-      }, [confirmDelete, confirmDeleteFolder, dirCount, setSubmitDisabled]);   
+        else {
+            setSubmitDisabled(true)
+        }
+      }, [confirmDelete, confirmDeleteFolder, associatedDirCount, setSubmitDisabled]);   
 
     useEffect(() => {
         if (!props.opened) {
@@ -38,6 +41,49 @@ export const DeleteDrawer = (props) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log(`delete submit was clicked`)
+
+        try {
+
+            // let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
+
+            // let aPromise = new Promise( async function(resolve, reject) {
+            //     //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
+            //     const response = await fetch(url)
+            //     const data = await response.text()
+
+
+            // const response = await fetch(UPLOAD, {
+            //     method: "POST",
+            //     mode: "no-cors", // no-cors, *cors, same-origin
+            //     cache: "default",
+            //     credentials: "same-origin",
+            //     headers: {
+            //        'Content-Type': 'application/x-www-form-urlencoded'
+            //     },
+            //     body: fileContent
+            // })
+            // setTimeout(() => {
+            //     //console.log("Delayed for .4 seconds");
+            //     reset()
+            //     props.close()
+            //   }, 400);
+            // setTimeout(() => {
+            //     //console.log("Delayed for 3 seconds.");
+            //     fetchDirFiles(selectedDir)
+            //   }, 1900);
+
+            // // Issue: unable to inspect response here, but it is viewable in Network
+            // // is this a no-cors thing?
+            // //console.log(`${JSON.stringify(response)}`)
+            // //const rJson = await response.json()
+            // //const rText = JSON.stringify(rJson)
+            // //console.log(`rText: ${rText}`)
+        }
+        catch(error) {
+            // console.error(e.message)
+        }
+
+
     }
 
     return (
@@ -52,8 +98,8 @@ export const DeleteDrawer = (props) => {
         >
             <Box maw={340} mx="auto">
                 <form onSubmit={onSubmit}>
-                <Text c="rgb(250, 200, 152)" size="md">{`${selectedDir} \\ ${selectedFilename}`}</Text>
-                <Text c="rgb(250, 200, 152)" size="md">{`${selectedDir} file count: ${dirCount}`}</Text>
+                <Text c="rgb(250, 200, 152)" size="md">{`${associatedDir} \\ ${selectedFilename}`}</Text>
+                <Text c="rgb(250, 200, 152)" size="md">{`${associatedDir} file count: ${associatedDirCount}`}</Text>
                 <br />
                 <Divider
                     size="md"
@@ -71,11 +117,21 @@ export const DeleteDrawer = (props) => {
                     >
                     <Stack mt="xs">
                         <Radio icon={CheckIcon} value='true' label="Yes, delete this file." />
-                        <Radio icon={CheckIcon} value='false' label="No, cancel." />
+                        <Radio
+                            icon={CheckIcon}
+                            value='false'
+                            label="No, cancel."
+                            onClick={(value) => {
+                                setTimeout(() => {
+                                    props.close()
+                                    reset()
+                                }, 1000);
+                            }}
+                        />
                     </Stack>
                 </Radio.Group>
                 {
-                    dirCount === 1 ?
+                    associatedDirCount === 1 ?
                     <>
                         <br />
                         <Divider
