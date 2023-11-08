@@ -139,14 +139,29 @@ app.get('/ckdirfiles', cors(), (req, res) => {
 
 app.get('/ckdirfileRemove', cors(), (req, res) => {
     const url = `${filesDirectory}/${req.query.dir}/${req.query.filename}`
+    const deleteDir = req.query.ddir
 
     fs.unlink(url, (err) => {
         if (err) {
           console.log(err);
           res.status(500).json({message: `Bad delete`})
         } else {
-          console.log('File deleted successfully!');
-          res.status(200).json({message: url})
+            if (deleteDir && deleteDir === 'Y') {
+                const durl = `${filesDirectory}/${req.query.dir}`
+                fs.rmdir(durl, (derr) => {
+                    if (derr) {
+                      console.log(derr);
+                      res.status(500).json({message: `Bad dir delete: ${derr}`})
+                    } else {
+                        console.log('File and dir deleted successfully!');
+                        res.status(200).json({message: `OK ${durl} ${url}`})
+                    }
+                });
+            }
+            else {
+                console.log('File deleted successfully!');
+                res.status(200).json({message: `OK ${url}`})
+            }
         }
     });
 

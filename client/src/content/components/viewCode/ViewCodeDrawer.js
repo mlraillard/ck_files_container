@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useFocusWithin } from '@mantine/hooks';
-import { Drawer, Box, Group, Dialog, ScrollArea } from '@mantine/core';
+import { Drawer, Box, Group, Dialog, ScrollArea, Stack } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 
 import { useStore } from '../../../store';
@@ -45,14 +45,16 @@ export const ViewCodeDrawer = (props) => {
             }}
         >
             <Box maw={340} mx="auto">
-            <Group align="flex-end">    
+            {/* <Group align="flex-end">     */}
+            <Stack align="flex-start" gap="0">
                 <ScrollArea
                   mt="xs"
                   h="500px"
-                  style={{ 
-                    //width: "350px",
-                    maxWidth: "350px"
-                   }}
+                  maw="350px"
+                  // style={{ 
+                  //   //width: "350px",
+                  //   maxWidth: "350px"
+                  //  }}
                   type="always"
                   offsetScrollbars
                   styles={(theme) => ({
@@ -79,7 +81,8 @@ export const ViewCodeDrawer = (props) => {
                 >
                 <Prism language="c">{dialogText}</Prism>
             </ScrollArea>
-            </Group>
+            </Stack>
+            {/* </Group> */}
             </Box>
         </Drawer>
         </>
