@@ -2,7 +2,6 @@ import React, { useEffect, useCallback  } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 
-import { useState } from "react";
 import { useStore } from '../../../store';
 import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
 
@@ -15,6 +14,7 @@ export const ButtonPanelComponent = () => {
     const dirsLoading = useStore(state => state.dirsLoading)
     const fetchDirs = useStore(state => state.fetchDirs)
     const selectedDir = useStore(state => state.selectedDir)
+    const associatedDirCount = useStore(state => state.asyncDirFiles.length)
     const setSelectedDir = useStore(state => state.setSelectedDir)
 
     useEffect(() => {
@@ -75,6 +75,7 @@ export const ButtonPanelComponent = () => {
                   desc={ckFile.desc}
                   filename={ckFile.filename}
                   dir={selectedDir}
+                  associatedDirCount={associatedDirCount}
                 />
               ))}
               </Stack>

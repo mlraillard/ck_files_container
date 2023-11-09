@@ -9,6 +9,7 @@ function PlayButton({
     Chuck,
     filename,
     dir,
+    associatedDirCount,
     desc,
     activeDirFilenames
   }) {
@@ -36,7 +37,8 @@ function PlayButton({
           dir,
           qPush,
           setActiveDirFilenames,
-          setSelectedFilename
+          setSelectedFilename,
+          associatedDirCount
           )
       }}
     >{ desc }

@@ -28,13 +28,23 @@ function qAfter(command) {
 const qSlice = (set) => ({
   activeDirFilenames: [],
   selectedFilename: '',
+  associatedDir: '',
+  associatedDirCount: -1,
   setSelectedFilename: () => {
     const track = q.peekBack()
     if (track) {
-      set({ selectedFilename: track.filename })
+      set({
+        selectedFilename: track.filename,
+        associatedDir: track.dir,
+        associatedDirCount: track.associatedDirCount
+      })
     }
     else {
-      set({ selectedFilename: ''})
+      set({
+        selectedFilename: '',
+        associatedDir: '',
+        associatedDirCount: -1
+      })
     }
   },
   setActiveDirFilenames: () => {
@@ -45,7 +55,7 @@ const qSlice = (set) => ({
   resetActiveDirFilenames: (cArray, cDir, cFilename) => {
     const s = `${cDir} ${cFilename}` + ''
     const index = cArray.findIndex(function(o) {return o === s})
-    cArray.splice(index, 1)    
+    cArray.splice(index, 1)
     set({
       activeDirFilenames: cArray.length === 0 ? [] : cArray
     })
@@ -72,7 +82,7 @@ const asyncChuckSlice = (set) => ({
   Chuck: null,
   chuckLoading: true,
   fetchTheChuck: async () => {
-    import('../src/chuckContent/chuckSrc/wc-bundle.js').then(async (module) => { 
+    import('../src/chuckContent/chuckSrc/wc-bundle.js').then(async (module) => {
       set({ Chuck: module.Chuck, chuckLoading: false })
     });
   }

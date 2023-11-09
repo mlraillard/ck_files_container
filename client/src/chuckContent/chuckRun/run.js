@@ -9,9 +9,11 @@ export async function loadAndRunChucKCode(
     setResultText,
     Chuck,
     dir,
+    // you want to store the dir count here..
     qPush,
     setActiveDirFilenames,
-    setSelectedFilename
+    setSelectedFilename,
+    associatedDirCount
     ) {
     let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
 
@@ -33,6 +35,7 @@ export async function loadAndRunChucKCode(
                 id: id,
                 filename: filename,
                 dir: dir,
+                associatedDirCount: associatedDirCount,
                 aChuck: aChuck
             }
             qPush(track)
