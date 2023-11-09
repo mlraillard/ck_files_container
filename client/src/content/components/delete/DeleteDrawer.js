@@ -1,20 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Drawer, Button, Box, Text, Radio, CheckIcon, Divider, Group, Stack } from '@mantine/core';
+import structuredClone from '@ungap/structured-clone';
 
 import { useStore } from '../../../store';
+import { DELETE } from "../../../routes";
 
 export const DeleteDrawer = (props) => {
     const selectedFilename = useStore(state => state.selectedFilename)
     const associatedDir = useStore(state => state.associatedDir)
     const associatedDirCount = useStore(state => state.associatedDirCount)
+    const setSelectedFilename = useStore(state => state.setSelectedFilename)
+    const fetchDirs = useStore(state => state.fetchDirs)
+    const setSelectedDir = useStore(state => state.setSelectedDir)
+    const fetchDirFiles = useStore(state => state.fetchDirFiles)
+    const resetActiveDirFilenames = useStore(state => state.resetActiveDirFilenames)
+    const activeDirFilenames = useStore(state => state.activeDirFilenames)
+    const removeByDirAndFilename = useStore(state => state.removeByDirAndFilename)
+    
     let [confirmDelete, setConfirmDelete] = useState('')
     let [confirmDeleteFolder, setConfirmDeleteFolder] = useState('')
     const [submitDisabled, setSubmitDisabled] = useState(true)
 
+
     useEffect(() => {
         if ((associatedDirCount === 1 &&
             (confirmDelete === 'true' && 
-            confirmDeleteFolder === 'true'))
+            confirmDeleteFolder === 'true' || confirmDeleteFolder === 'false'))
             || 
             (associatedDirCount > 1 &&
             confirmDelete === 'true')) {
@@ -40,50 +51,47 @@ export const DeleteDrawer = (props) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(`delete submit was clicked`)
-
-        try {
-
-            // let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
-
-            // let aPromise = new Promise( async function(resolve, reject) {
-            //     //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
-            //     const response = await fetch(url)
-            //     const data = await response.text()
-
-
-            // const response = await fetch(UPLOAD, {
-            //     method: "POST",
-            //     mode: "no-cors", // no-cors, *cors, same-origin
-            //     cache: "default",
-            //     credentials: "same-origin",
-            //     headers: {
-            //        'Content-Type': 'application/x-www-form-urlencoded'
-            //     },
-            //     body: fileContent
-            // })
-            // setTimeout(() => {
-            //     //console.log("Delayed for .4 seconds");
-            //     reset()
-            //     props.close()
-            //   }, 400);
-            // setTimeout(() => {
-            //     //console.log("Delayed for 3 seconds.");
-            //     fetchDirFiles(selectedDir)
-            //   }, 1900);
-
-            // // Issue: unable to inspect response here, but it is viewable in Network
-            // // is this a no-cors thing?
-            // //console.log(`${JSON.stringify(response)}`)
-            // //const rJson = await response.json()
-            // //const rText = JSON.stringify(rJson)
-            // //console.log(`rText: ${rText}`)
+        if (confirmDelete) {
+            try {
+                let url = confirmDeleteFolder === 'true' ?
+                `${DELETE}?dir=${associatedDir}&filename=${selectedFilename}&ddir=Y` :
+                `${DELETE}?dir=${associatedDir}&filename=${selectedFilename}`
+                const response = await fetch(url, {
+                    method: "GET",
+                    mode: "no-cors", // no-cors, *cors, same-origin
+                    cache: "default",
+                    credentials: "same-origin",
+                    // alternative to 'no-cors', but response is still opaque
+                    // accessControlAllowOrigin: "*"
+                })
+                //
+                const cArray = structuredClone(activeDirFilenames)
+                const cDir = associatedDir.slice()
+                const cFilename = selectedFilename.slice() 
+                removeByDirAndFilename(associatedDir, selectedFilename)
+                //
+                setTimeout(() => {
+                    resetActiveDirFilenames(cArray, cDir, cFilename)
+                    setSelectedFilename()
+                    if (confirmDeleteFolder === 'true') {
+                        fetchDirs(setSelectedDir)
+                    }
+                    else {
+                        fetchDirFiles(associatedDir)
+                    }
+                }, 200);
+                setTimeout(() => {
+                    reset()
+                    props.close()
+                  }, 500)
+            //Issue: unable to inspect response here
+            //opaque responses
+            //https://stackoverflow.com/questions/45696999/fetch-unexpected-end-of-input
+            }
+            catch(error) {
+                console.log(error)
+            }
         }
-        catch(error) {
-            // console.error(e.message)
-        }
-
-
     }
 
     return (

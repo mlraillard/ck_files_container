@@ -55,7 +55,7 @@ const qSlice = (set) => ({
   resetActiveDirFilenames: (cArray, cDir, cFilename) => {
     const s = `${cDir} ${cFilename}` + ''
     const index = cArray.findIndex(function(o) {return o === s})
-    cArray.splice(index, 1)    
+    cArray.splice(index, 1)
     set({
       activeDirFilenames: cArray.length === 0 ? [] : cArray
     })
