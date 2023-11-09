@@ -92,12 +92,9 @@ export const UploadDrawer = (props) => {
                 fetchDirFiles(selectedDir)
               }, 1900);
 
-            // Issue: unable to inspect response here, but it is viewable in Network
-            // is this a no-cors thing?
-            //console.log(`${JSON.stringify(response)}`)
-            //const rJson = await response.json()
-            //const rText = JSON.stringify(rJson)
-            //console.log(`rText: ${rText}`)
+            //Issue: unable to inspect response here
+            //opaque responses
+            //https://stackoverflow.com/questions/45696999/fetch-unexpected-end-of-input
         }
         catch(error) {
             console.error(e.message)
@@ -116,6 +113,7 @@ export const UploadDrawer = (props) => {
         >
             <Box maw={340} mx="auto">
                 <form onSubmit={onSubmit}>
+                <Stack>
                     {
                     invalidFilename ?
                     <FileInput
@@ -151,6 +149,7 @@ export const UploadDrawer = (props) => {
                             type="submit">Save File</Button>
                         }
                     </Group>
+                    </Stack>
                 </form>
             </Box>
         </Drawer>
