@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Anchor, Group, Dialog, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Prism } from '@mantine/prism';
+// import { Prism } from '@mantine/prism';
 
 import { useStore } from '../../../store';
 import { DIRECTORY_FILE } from '../../../routes';
@@ -92,7 +92,7 @@ export const ViewCodeAnchor = () => {
                     },
                   })}
                 >
-                <Prism language="c">{dialogText}</Prism>
+                {/* <Prism language="c">{dialogText}</Prism> */}
             </ScrollArea>
             </Group>
       </Dialog>

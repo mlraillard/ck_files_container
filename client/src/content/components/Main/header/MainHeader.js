@@ -14,14 +14,16 @@ export function MainHeader() {
                 <img  src={mainLogo} width="50" height="50" alt="fireSpot" />
               </div>
               <div style={{display: "inline-block"}}>
-            <h2
-              style={{
-                color: "rgb(250, 200, 152)",
-                fontSize: 'calc(12px + 0.390625vw)'
-              }}
-            >
-              WebChucK Player
-            </h2>
+                <h2
+                  style={{
+                    verticalAlign: "center",
+                    color: "rgb(250, 200, 152)",
+                    fontSize: 'calc(12px + 0.390625vw)',
+                    mt: 0,
+                  }}
+                >
+                  WebChucK Player
+                </h2>
               </div>
           </div>
           <ControlPanelComponent />

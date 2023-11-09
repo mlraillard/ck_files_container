@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useFocusWithin } from '@mantine/hooks';
 import { Drawer, Box, Group, Dialog, ScrollArea, Stack } from '@mantine/core';
-import { Prism } from '@mantine/prism';
+// import { Prism } from '@mantine/prism';
 
 import { useStore } from '../../../store';
 import { DIRECTORY_FILE } from '../../../routes';
@@ -79,7 +79,7 @@ export const ViewCodeDrawer = (props) => {
                     },
                   })}
                 >
-                <Prism language="c">{dialogText}</Prism>
+                {/* <Prism language="c">{dialogText}</Prism> */}
             </ScrollArea>
             </Stack>
             {/* </Group> */}
