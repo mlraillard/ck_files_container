@@ -48,8 +48,12 @@ router.post('/', (req, res) => {
     const filename = getFilename(body)
     const dir = getDirectory(body)
     //console.log(`filename: ${filename}`)
-    //console.log(`dir: ${dir}`)
-     fs.writeFileSync(`\/${filesDirectory}\/${dir}\/${filename}`, body, function (err) {
+    
+    console.log(`dir: ${dir}`)
+    if (!fs.existsSync(`\/${filesDirectory}\/${dir}\/`)) {
+        fs.mkdirSync(`\/${filesDirectory}\/${dir}\/`);
+    }
+    fs.writeFileSync(`\/${filesDirectory}\/${dir}\/${filename}`, body, function (err) {
          console.log(err)
     });
     //res.status(200).json({message: "Yes, this is OK"})

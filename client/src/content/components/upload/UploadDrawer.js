@@ -1,22 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { useFocusWithin } from '@mantine/hooks';
-import { Drawer, Box, Button, Group, Stack, FileInput, TextInput} from '@mantine/core';
+import { Drawer, Radio, Select, Box, Button, Group, Stack, FileInput, TextInput} from '@mantine/core';
 
 import { UPLOAD } from "../../../routes";
 import { useStore } from '../../../store';
 
 export const UploadDrawer = (props) => {
     
+    const [newFolder, setNewFolder] = useState('false');
+    const [dir, setDir] = useState('');
+    const [dirDesc, setDirDesc] = useState('');
+    const [invalidFoldername, setInvalidFoldername] = useState(false)
+    const [invalidDirError, setInvalidDirError] = useState('')
     const [value, setValue] = useState(File | '')
     const [invalidFilename, setInvalidFilename] = useState(false)
     const [invalidError, setInvalidError] = useState('')
     const [desc, setDesc] = useState('');
     const [fileContent, setFileContent] = useState('')
     const [submitDisabled, setSubmitDisabled] = useState(true)
+    const asyncDirsX = useStore(state => state.asyncDirsX)
     const selectedDir = useStore(state => state.selectedDir)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
     const asyncDirFiles = useStore(state => state.asyncDirFiles)
     const { ref, focused } = useFocusWithin();
+
+    useEffect(() => {
+        if (newFolder === 'true') {
+            let mf = (dir).match(/^([0-9a-zA-Z_-]{1,25})$/) || [false,false][1];
+            if (mf === false) {
+                setInvalidFoldername(true)
+                setInvalidDirError("Invalid folder name.")
+            }
+            else {
+                setInvalidFoldername(false)
+                setInvalidDirError('')
+            }
+        }
+      }, [
+        newFolder,
+        dir,
+        setInvalidFoldername,
+        setInvalidDirError
+    ]);
 
       useEffect(() => {
         if (value) {
@@ -45,6 +70,11 @@ export const UploadDrawer = (props) => {
         if (!props.opened) {
           setValue(null)
           setDesc('')
+          setNewFolder('false')
+          setDir('')
+          setDirDesc('')
+          setInvalidFoldername(false)
+          setInvalidDirError('')
         }
       }, [props.close, setValue, setDesc]);
 
@@ -53,15 +83,21 @@ export const UploadDrawer = (props) => {
         setDesc('')
         setSubmitDisabled(true)
         setInvalidError('')
+        setNewFolder('false')
+        setDir('')
+        setDirDesc('')
+        setInvalidFoldername(false)
+        setInvalidDirError('')
     }
 
     const loadFileContent = (file) => {
         if (value && desc) {
+            const theDir = newFolder === 'true' && dir ? dir : selectedDir
             const reader = new FileReader()
             reader.readAsText(file)
             reader.onload = () => {
                 const threeLines = 
-                `<<< "${desc || (value.name).slice(0, -3) }" >>>;\n <<< "filename: ${value.name}" >>>;\n <<< "dir: ${selectedDir}" >>>;\n `
+                `<<< "${desc || (value.name).slice(0, -3) }" >>>;\n <<< "filename: ${value.name}" >>>;\n <<< "dir: ${theDir}" >>>;\n `
                 let result = threeLines.concat(reader.result)
                 //console.log(result)
                 setFileContent(result)
@@ -71,6 +107,7 @@ export const UploadDrawer = (props) => {
     
     const onSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await fetch(UPLOAD, {
                 method: "POST",
@@ -116,30 +153,89 @@ export const UploadDrawer = (props) => {
         >
             <Box maw={340} mx="auto">
                 <form onSubmit={onSubmit}>
+            <Radio.Group
+                value={newFolder}
+                onChange={setNewFolder}
+                >
+                <Group mt="xs">
+                    <Radio value="false" label="Use existing folder" />
+                    <Radio value="true" label="Create new folder" />
+                </Group>
+            </Radio.Group>
+                    { newFolder === 'false' ?
+                        <Select
+                        label="Folder"
+                        data={asyncDirsX}
+                        value={selectedDir}
+                        onChange={(e) => {
+                            setDir(e.currentTarget.value)
+                        }}/>
+                        :
+                        newFolder === 'true' && invalidFoldername ?
+
+                        <>
+                        <TextInput
+                            label="Folder name"
+                            placeholder="Type new folder name"
+                            value={dir}
+                            onChange={(e) => {setDir(e.currentTarget.value)}}
+                            error={invalidDirError}
+                            withAsterisk
+                        />
+                        <TextInput
+                            label="Folder description"
+                            placeholder="Type new folder description"
+                            value={dirDesc}
+                            onChange={(e) => {setDirDesc(e.currentTarget.value)}}
+                            withAsterisk
+                        />
+                        </>
+
+                        :
+                        <>
+                        <TextInput
+                            label="Folder name"
+                            placeholder="Type new folder name"
+                            value={dir}
+                            onChange={(e) => {setDir(e.currentTarget.value)}}
+                            withAsterisk
+                        />
+                        <TextInput
+                            label="Folder description"
+                            placeholder="Type new folder description"
+                            value={dirDesc}
+                            onChange={(e) => {setDirDesc(e.currentTarget.value)}}
+                            withAsterisk
+                        />
+                        </>
+                    }
                     {
                     invalidFilename ?
                     <FileInput
                         label="File"
-                        description={`Directory: ${selectedDir}`} 
+                        //description={`Directory: ${selectedDir}`} 
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
                         error={invalidError}
+                        withAsterisk
                     />
                     :
                     <FileInput
                         label="File"
-                        description={`Directory: ${selectedDir}`} 
+                        //description={`Directory: ${selectedDir}`} 
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
+                        withAsterisk
                     />
                     }
                     <span ref={ref}> 
                         <TextInput
-                            label="Description"
+                            label="File description"
                             placeholder="File display description"
                             value={desc} onChange={(e) => {setDesc(e.currentTarget.value)}}
+                            withAsterisk
                         />
                     </span>
                     <Group justify="flex-end" mt="md">

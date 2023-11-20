@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const fs = require('fs')
 const upload = require('./upload')
+const labels = require('./labels')
 
 const app = express()
 
@@ -104,6 +105,30 @@ app.get('/ckdirs', cors(), (req, res) => {
     catch(error) {
         res.writeHead(404, { 'Content-Type': 'text'})
         res.write(`Error: cannot read directories: ${error}`)
+    }
+    res.end()
+})
+
+app.get('/cklabels', cors(), (req, res) => {
+    try {
+        const inputString = labels;
+        const pairs = inputString.split('|,|');
+        const cleanedPairs = pairs.map(pair => pair.replace(/^\|/, '').replace(/\|$/, ''));
+    
+        let jsonArray = [];
+        for (let i = 0; i < cleanedPairs.length; i++) {
+            const pair = cleanedPairs[i].split('|');
+            const obj = { value: pair[0], label: pair[1] }
+            jsonArray.push(obj);
+        }
+        jsonArray.sort((a, b) => a.value.localeCompare(b.value));
+        //console.log(`ja :${JSON.stringify(jsonArray)}`)
+        res.writeHead(200, { 'Content-Type': 'text'})
+        res.write(JSON.stringify(jsonArray))
+    }
+    catch(error) {
+        res.writeHead(404, { 'Content-Type': 'text'})
+        res.write(`Error: cannot read labels: ${error}`)
     }
     res.end()
 })

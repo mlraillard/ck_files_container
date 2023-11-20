@@ -1,9 +1,9 @@
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 import Deque  from 'double-ended-queue'
-import { DIRECTORIES_NAMES, DIRECTORY_FILES_INFO } from './routes'
+import structuredClone from '@ungap/structured-clone';
+import { DIRECTORIES_NAMES, DIRECTORIES_LABELS, DIRECTORY_FILES_INFO } from './routes'
 import { MAX_TRACKS } from './constants.js'
-import { addLabelsToDirsArray } from './utils'
 
 const q = new Deque(MAX_TRACKS);
 /*
@@ -102,16 +102,24 @@ const asyncDirFilesSlice = (set) => ({
 
 const asyncDirsSlice = (set) => ({
   asyncDirs: [],
+  asyncDirsX: [],
   dirsLoading: true,
   fetchDirs: async (setSelectedDir) => {
     const response = await fetch(DIRECTORIES_NAMES)
+    const labelsResponse = await fetch(DIRECTORIES_LABELS)
     const dirsText = await response.text()
+    const labelsResponseText = await labelsResponse.text()
 
     if (!dirsText.includes('Error')) {
       const dirsJson = JSON.parse(dirsText)
-      const expandedJson = addLabelsToDirsArray(dirsJson)
-      set({ asyncDirs: expandedJson, dirsLoading: false })
-      setSelectedDir(expandedJson[0].value)
+      let ad = JSON.parse(labelsResponseText)
+      let tempX = structuredClone(JSON.parse(labelsResponseText))
+      set({
+        asyncDirs: ad,
+        asyncDirsX: tempX,
+        dirsLoading: false
+      })
+      setSelectedDir(ad[0].value)
     }
   }
 })
