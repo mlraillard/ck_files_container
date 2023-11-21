@@ -8,3 +8,4 @@ export const DIRECTORY_FILE = `${SERVER_HOST}\:${SERVER_PORT}\/ckdirfile?dir=`
 // export const UPLOAD = `${SERVER_HOST}\:${UPLOAD_SERVER_PORT}\/upload`
 export const UPLOAD = `${SERVER_HOST}\:${SERVER_PORT}\/upload`
 export const DELETE = `${SERVER_HOST}\:${SERVER_PORT}\/ckdirfileRemove`
+export const UPDATE_LABELS = `${SERVER_HOST}\:${SERVER_PORT}\/updateLabels`

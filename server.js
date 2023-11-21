@@ -2,11 +2,13 @@ const express = require('express')
 const cors = require('cors')
 const fs = require('fs')
 const upload = require('./upload')
+const updateLabels = require('./updateLabels')
 const labels = require('./labels')
 
 const app = express()
 
 app.use('/upload', upload)
+app.use('/updateLabels', updateLabels)
 
 // const SERVER_PORT = +process.env.PORT || 8002;
 //const UPLOAD_SERVER_PORT = 8003;

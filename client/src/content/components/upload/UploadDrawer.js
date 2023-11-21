@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useFocusWithin } from '@mantine/hooks';
 import { Drawer, Radio, Select, Box, Button, Group, Stack, FileInput, TextInput} from '@mantine/core';
 
-import { UPLOAD } from "../../../routes";
+import { UPLOAD, UPDATE_LABELS } from "../../../routes";
 import { useStore } from '../../../store';
+import { formatLabelsFile } from "../../../utils";
 
 export const UploadDrawer = (props) => {
     
@@ -20,6 +21,8 @@ export const UploadDrawer = (props) => {
     const [submitDisabled, setSubmitDisabled] = useState(true)
     const asyncDirsX = useStore(state => state.asyncDirsX)
     const selectedDir = useStore(state => state.selectedDir)
+    const setSelectedDir = useStore(state => state.setSelectedDir)
+    const fetchDirs = useStore(state => state.fetchDirs)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
     const asyncDirFiles = useStore(state => state.asyncDirFiles)
     const { ref, focused } = useFocusWithin();
@@ -108,6 +111,8 @@ export const UploadDrawer = (props) => {
     const onSubmit = async (e) => {
         e.preventDefault();
 
+        const labelsFile = newFolder === 'true' ? formatLabelsFile(asyncDirsX, dir, dirDesc) : false
+        
         try {
             const response = await fetch(UPLOAD, {
                 method: "POST",
@@ -118,15 +123,34 @@ export const UploadDrawer = (props) => {
                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: fileContent
-            })
+            }).then(
+                !labelsFile ? resolve('') :
+                await fetch(UPDATE_LABELS, {
+                    method: "POST",
+                    mode: "no-cors", // no-cors, *cors, same-origin
+                    cache: "default",
+                    credentials: "same-origin",
+                    headers: {
+                       'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: labelsFile
+                })     
+            )
             setTimeout(() => {
                 //console.log("Delayed for .4 seconds");
                 reset()
                 props.close()
-              }, 400);
+            }, 400);
+            if (labelsFile) {
+                setTimeout(() => {
+                    fetchDirs(setSelectedDir)
+                }, 1100);
+            }
             setTimeout(() => {
                 //console.log("Delayed for 3 seconds.");
-                fetchDirFiles(selectedDir)
+                fetchDirFiles(
+                    selectedDir
+                )
               }, 1900);
 
             // Issue: unable to inspect response here, but it is viewable in Network
@@ -172,7 +196,6 @@ export const UploadDrawer = (props) => {
                         }}/>
                         :
                         newFolder === 'true' && invalidFoldername ?
-
                         <>
                         <TextInput
                             label="Folder name"
@@ -209,11 +232,16 @@ export const UploadDrawer = (props) => {
                         />
                         </>
                     }
+                    <br />
                     {
                     invalidFilename ?
                     <FileInput
                         label="File"
-                        //description={`Directory: ${selectedDir}`} 
+                        description={
+                            newFolder === 'true' ? 
+                            `Directory: ${dir}` :
+                            `Directory: ${selectedDir}`
+                        } 
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
@@ -223,7 +251,11 @@ export const UploadDrawer = (props) => {
                     :
                     <FileInput
                         label="File"
-                        //description={`Directory: ${selectedDir}`} 
+                        description={
+                            newFolder === 'true' ? 
+                            `Directory: ${dir}` :
+                            `Directory: ${selectedDir}`
+                        } 
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
