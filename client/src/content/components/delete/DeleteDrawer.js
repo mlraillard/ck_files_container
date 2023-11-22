@@ -127,7 +127,6 @@ export const DeleteDrawer = (props) => {
                     )
 
                 setTimeout(() => {
-                    //console.log("Delayed for .4 seconds");
                     reset()
                     props.close()
                 }, 400);

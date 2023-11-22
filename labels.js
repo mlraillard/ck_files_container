@@ -1,3 +1,3 @@
-const labels = "|hoagland|Clint Hoagland tutorial exercises|,|ccrma|CCRMA website examples|"
+const labels = "|ccrma|CCRMA website examples|,|hoagland|Clint Hoagland tutorial exercises|"
 
 module.exports = labels;

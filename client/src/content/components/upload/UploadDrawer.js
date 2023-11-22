@@ -138,7 +138,6 @@ export const UploadDrawer = (props) => {
                 })
             )
             setTimeout(() => {
-                //console.log("Delayed for .4 seconds");
                 reset()
                 props.close()
             }, 400);
@@ -148,7 +147,6 @@ export const UploadDrawer = (props) => {
                 }, 1100);
             }
             setTimeout(() => {
-                //console.log("Delayed for 3 seconds.");
                 fetchDirFiles(
                     selectedDir
                 )
