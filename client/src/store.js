@@ -78,6 +78,11 @@ const dirSlice = (set) => ({
   setSelectedDir: (d) => {set({ selectedDir: d })}
 })
 
+const chuckErrorSlice = (set) => ({
+  chuckError: '',
+  setChuckError: (e) => {set({ chuckError: e })}
+})
+
 const asyncChuckSlice = (set) => ({
   Chuck: null,
   chuckLoading: true,
@@ -125,6 +130,7 @@ const asyncDirsSlice = (set) => ({
 })
 
 const rootSlice = (set, get) => ({
+  ...chuckErrorSlice(set, get),
   ...qSlice(set, get),
   ...dirSlice(set,get),
   ...asyncChuckSlice(set, get),

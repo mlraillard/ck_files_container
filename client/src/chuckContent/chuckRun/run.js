@@ -13,7 +13,8 @@ export async function loadAndRunChucKCode(
     qPush,
     setActiveDirFilenames,
     setSelectedFilename,
-    associatedDirCount
+    associatedDirCount,
+    setChuckError
     ) {
     let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
 
@@ -41,7 +42,9 @@ export async function loadAndRunChucKCode(
             qPush(track)
             setActiveDirFilenames()
             setSelectedFilename()
-        })
+        }).catch((error) => {
+            setChuckError(`${filename}|${error}`)
+        });
         await new Promise((resolve, reject) => { setTimeout(resolve, 750)});
     });
     run(aPromise);
