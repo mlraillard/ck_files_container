@@ -3,8 +3,15 @@ export function formatLabels(dirsJson, newDir, newLabel) {
     return dirsJson.map(item => `|${item.value}|${item.label}|`).join(',');
 }
 
-export function formatLabelsFile(dirsJson, newDir, newLabel) {
-    const labels = formatLabels(dirsJson, newDir, newLabel)
+export function removeAndformatLabels(dirsJson, rmvDir) {
+    dirsJson = dirsJson.filter( obj => obj.value !== rmvDir);
+    return dirsJson.map(item => `|${item.value}|${item.label}|`).join(',');
+}
+
+export function formatLabelsFile(dirsJson, dir, label, deleteDir) {
+    const labels = deleteDir ?
+        removeAndformatLabels(dirsJson, dir) :
+        formatLabels(dirsJson, dir, label)
 
     return `const labels = \"${labels}\"\n\nmodule.exports = labels;\n`;
 }

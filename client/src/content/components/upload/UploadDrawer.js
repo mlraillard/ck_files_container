@@ -111,7 +111,8 @@ export const UploadDrawer = (props) => {
     const onSubmit = async (e) => {
         e.preventDefault();
 
-        const labelsFile = newFolder === 'true' ? formatLabelsFile(asyncDirsX, dir, dirDesc) : false
+        const labelsFile = newFolder === 'true' ?
+            formatLabelsFile(asyncDirsX, dir, dirDesc, false) : false
         
         try {
             const response = await fetch(UPLOAD, {
@@ -134,7 +135,7 @@ export const UploadDrawer = (props) => {
                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: labelsFile
-                })     
+                })
             )
             setTimeout(() => {
                 //console.log("Delayed for .4 seconds");
