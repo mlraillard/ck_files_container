@@ -15,8 +15,9 @@ function PlayButton({
   }) {
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const setSelectedFilename = useStore(state => state.setSelectedFilename)
+    const setChuckError = useStore(state => state.setChuckError)
     const qPush = useStore(state => state.qPush)
-  
+
   return (
     <Button
       style={{
@@ -38,7 +39,8 @@ function PlayButton({
           qPush,
           setActiveDirFilenames,
           setSelectedFilename,
-          associatedDirCount
+          associatedDirCount,
+          setChuckError
           )
       }}
     >{ desc }

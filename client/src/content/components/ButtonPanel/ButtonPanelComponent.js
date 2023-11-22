@@ -1,11 +1,14 @@
 import React, { useEffect, useCallback  } from 'react';
 import { v4 as uuidv4 } from "uuid";
-import { ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
+import { Alert, Modal, ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
 import { useStore } from '../../../store';
 import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
 
 export const ButtonPanelComponent = () => {
+    const [opened, { open, close }] = useDisclosure(false);
+
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
     const loadingDirFiles = useStore(state => state.loadingDirFiles)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
@@ -16,6 +19,8 @@ export const ButtonPanelComponent = () => {
     const selectedDir = useStore(state => state.selectedDir)
     const associatedDirCount = useStore(state => state.asyncDirFiles.length)
     const setSelectedDir = useStore(state => state.setSelectedDir)
+    const chuckError = useStore(state => state.chuckError)
+    const setChuckError = useStore(state => state.setChuckError)
 
     useEffect(() => {
       fetchDirs(setSelectedDir)
@@ -26,6 +31,10 @@ export const ButtonPanelComponent = () => {
           fetchDirFiles(selectedDir)
         }
     }, [selectedDir, fetchDirFiles]);
+
+    useEffect(() => {
+      if (chuckError) { open() }
+    }, [chuckError, open]);
 
     return (
       <Group>
@@ -68,17 +77,37 @@ export const ButtonPanelComponent = () => {
           > */}
             {
               dirsLoading ? '' :
-              <Stack align="flex-start" justify="flex-start" gap="sm">
-              {asyncDirFiles.map(ckFile => (
-                <PlayButtonPanel
-                  key={uuidv4()}
-                  desc={ckFile.desc}
-                  filename={ckFile.filename}
-                  dir={selectedDir}
-                  associatedDirCount={associatedDirCount}
-                />
-              ))}
-              </Stack>
+              <>
+                <Modal
+                  opened={opened}
+                  onClose={
+                    () => {
+                      setChuckError('')
+                      close()
+                    }
+                  }
+                  title={chuckError.split('|')[0]}
+                  >
+                  <Alert
+                    //icon={<IconAlertCircle size="1rem" />}
+                    title="WebChucK Error"
+                    color="red">
+                      { chuckError.split('|')[1] }
+                  </Alert>
+                </Modal>
+
+                <Stack align="flex-start" justify="flex-start" gap="sm">
+                {asyncDirFiles.map(ckFile => (
+                  <PlayButtonPanel
+                    key={uuidv4()}
+                    desc={ckFile.desc}
+                    filename={ckFile.filename}
+                    dir={selectedDir}
+                    associatedDirCount={associatedDirCount}
+                  />
+                ))}
+                </Stack>
+              </>
             }
           {/* </ScrollArea> */}
         </Stack>
