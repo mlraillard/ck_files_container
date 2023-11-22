@@ -133,7 +133,7 @@ export const DeleteDrawer = (props) => {
                 }, 400);
                 setTimeout(() => {
                     fetchDirs(setSelectedDir)
-                }, 1100);
+                }, 900);
             //Issue: unable to inspect response here
             //opaque responses
             //https://stackoverflow.com/questions/45696999/fetch-unexpected-end-of-input
