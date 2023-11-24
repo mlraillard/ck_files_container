@@ -32,7 +32,9 @@ export const WebChuckErrorDisplay = (props) => {
             color="red">
                 { chuckError.split('|')[1] }
             </Alert>
-            <Prism language="markup">{ formatTextArrayToString(props.result) }</Prism>
+            <Prism language="markup" noCopy={true}>
+                { formatTextArrayToString(props.result) }
+            </Prism>
         </Modal>
     )
 }
