@@ -2,9 +2,7 @@ import { DIRECTORY_FILE } from '../../routes'
 
 let resultArray = []
 
-function setResultText(text) {
-    resultArray.push(text)
-}
+function setResultText(text) { resultArray.push(text) }
 
 async function run(aPromise, setResultText) {
     setResultText(await aPromise);
@@ -12,7 +10,6 @@ async function run(aPromise, setResultText) {
 
 export async function loadAndRunChucKCode(
     filename,
-    //setResultText,
     Chuck,
     dir,
     // you want to store the dir count here..
@@ -37,7 +34,6 @@ export async function loadAndRunChucKCode(
         //let auxResponse = await aChuck.loadFile('./guitar.wav')
 
         aChuck.chuckPrint = (output) => {
-            console.log(`output: ${output}`)
             setResultText(output)
         }
         aChuck.runCode(data).then((id) => {

@@ -11,8 +11,7 @@ function PlayButton({
     associatedDirCount,
     desc,
     activeDirFilenames,
-    setResult,
-    // setResultText
+    setResult
   }) {
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const setSelectedFilename = useStore(state => state.setSelectedFilename)
@@ -32,10 +31,8 @@ function PlayButton({
       size="compact-lg"
       disabled={ activeDirFilenames.includes(`${dir} ${filename}`) }
       onClick={() => {
-        //setResult([])
         loadAndRunChucKCode(
           filename,
-          // setResultText,
           Chuck,
           dir,
           qPush,

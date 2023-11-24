@@ -11,7 +11,7 @@ export const PlayButtonPanel = (props) => {
   const activeDirFilenames = useStore(state => state.activeDirFilenames)
 
   //..to stop and remove scripts that finish w/o closing
-  //..decided - not so good
+  //..decided to comment out
   // useEffect(() => {
   //   if (resultText && resultText.includes("PASSED")) {
   //     .....
@@ -28,7 +28,6 @@ export const PlayButtonPanel = (props) => {
         desc = { props.desc }
         activeDirFilenames = { activeDirFilenames }
         setResult = { props.setResult }
-        // setResultText = { props.setResultText }
       />
       {
         activeDirFilenames.includes(`${props.dir} ${props.filename}`) ?

@@ -17,10 +17,7 @@ export function formatLabelsFile(dirsJson, dir, label, deleteDir) {
 }
 
 export function formatTextArrayToString(arr) {
-    console.log(`arr: ${JSON.stringify(arr)}`)
-    // return "bathroom noise\nkitchen sink"
-    if (arr && arr instanceof Array) {
+    if (arr && Array.isArray(arr)) {
         return arr.join('\n')
     }
-    // return arr.join('\n')
 }

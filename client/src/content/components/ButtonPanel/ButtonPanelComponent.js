@@ -26,12 +26,6 @@ export const ButtonPanelComponent = () => {
     const chuckError = useStore(state => state.chuckError)
     const setChuckError = useStore(state => state.setChuckError)
 
-    // function setResultText(text) {
-    //   let rslt = structuredClone(result)
-    //   rslt.push(text)
-    //   setResult(rslt)
-    // }
-
     useEffect(() => {
       fetchDirs(setSelectedDir)
     }, [fetchDirs])
@@ -116,7 +110,6 @@ export const ButtonPanelComponent = () => {
                     dir={selectedDir}
                     associatedDirCount={associatedDirCount}
                     setResult={setResult}
-                    //setResultText={setResultText}
                   />
                 ))}
                 </Stack>

@@ -12,7 +12,6 @@ function StopButton({
     const removeByDirAndFilename = useStore(state => state.removeByDirAndFilename)
     const resetActiveDirFilenames = useStore(state => state.resetActiveDirFilenames)
     const setSelectedFilename = useStore(state => state.setSelectedFilename)
-    //const clearResultText = useStore(state => state.clearResultText)
 
     return (
       <Button
@@ -31,7 +30,6 @@ function StopButton({
             setTimeout(() => {
               resetActiveDirFilenames(cArray, cDir, cFilename)
               setSelectedFilename()
-              //clearResultText()
             }, 200);
           }}
           >
