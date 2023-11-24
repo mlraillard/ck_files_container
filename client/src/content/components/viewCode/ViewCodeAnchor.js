@@ -12,9 +12,7 @@ export const ViewCodeAnchor = () => {
     const associatedDir = useStore(state => state.associatedDir)
     const [dialogText, setDialogText] = useState("")
 
-    async function run(aPromise, setResultText) {
-        setResultText(await aPromise);
-    }
+    async function run(aPromise) { await aPromise }
     
     async function loadChucKCode() {
       if (selectedFilename) {
