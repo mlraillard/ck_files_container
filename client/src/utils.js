@@ -15,3 +15,12 @@ export function formatLabelsFile(dirsJson, dir, label, deleteDir) {
 
     return `const labels = \"${labels}\"\n\nmodule.exports = labels;\n`;
 }
+
+export function formatTextArrayToString(arr) {
+    console.log(`arr: ${JSON.stringify(arr)}`)
+    // return "bathroom noise\nkitchen sink"
+    if (arr && arr instanceof Array) {
+        return arr.join('\n')
+    }
+    // return arr.join('\n')
+}

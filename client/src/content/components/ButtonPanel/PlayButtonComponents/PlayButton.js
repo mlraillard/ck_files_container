@@ -5,13 +5,14 @@ import { loadAndRunChucKCode } from '../../../../chuckContent/chuckRun/run'
 import { useStore } from '../../../../store'
 
 function PlayButton({
-    setResultText,
     Chuck,
     filename,
     dir,
     associatedDirCount,
     desc,
-    activeDirFilenames
+    activeDirFilenames,
+    setResult,
+    // setResultText
   }) {
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const setSelectedFilename = useStore(state => state.setSelectedFilename)
@@ -31,16 +32,18 @@ function PlayButton({
       size="compact-lg"
       disabled={ activeDirFilenames.includes(`${dir} ${filename}`) }
       onClick={() => {
+        //setResult([])
         loadAndRunChucKCode(
           filename,
-          setResultText,
+          // setResultText,
           Chuck,
           dir,
           qPush,
           setActiveDirFilenames,
           setSelectedFilename,
           associatedDirCount,
-          setChuckError
+          setChuckError,
+          setResult
           )
       }}
     >{ desc }

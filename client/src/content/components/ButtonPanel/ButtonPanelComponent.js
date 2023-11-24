@@ -1,13 +1,17 @@
-import React, { useEffect, useCallback  } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import { Alert, Modal, ScrollArea, Group, Stack, Select, Grid } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Prism } from '@mantine/prism';
+import structuredClone from '@ungap/structured-clone';
 
 import { useStore } from '../../../store';
+import { formatTextArrayToString } from '../../../utils';
 import { PlayButtonPanel } from './PlayButtonComponents/PlayButtonPanel';
 
 export const ButtonPanelComponent = () => {
     const [opened, { open, close }] = useDisclosure(false);
+    const [result, setResult] = useState([])
 
     const asyncDirFiles = useStore(useCallback(state => state.asyncDirFiles, []))
     const loadingDirFiles = useStore(state => state.loadingDirFiles)
@@ -21,6 +25,12 @@ export const ButtonPanelComponent = () => {
     const setSelectedDir = useStore(state => state.setSelectedDir)
     const chuckError = useStore(state => state.chuckError)
     const setChuckError = useStore(state => state.setChuckError)
+
+    // function setResultText(text) {
+    //   let rslt = structuredClone(result)
+    //   rslt.push(text)
+    //   setResult(rslt)
+    // }
 
     useEffect(() => {
       fetchDirs(setSelectedDir)
@@ -94,6 +104,7 @@ export const ButtonPanelComponent = () => {
                     color="red">
                       { chuckError.split('|')[1] }
                   </Alert>
+                  <Prism language="markup">{ formatTextArrayToString(result) }</Prism>
                 </Modal>
 
                 <Stack align="flex-start" justify="flex-start" gap="sm">
@@ -104,6 +115,8 @@ export const ButtonPanelComponent = () => {
                     filename={ckFile.filename}
                     dir={selectedDir}
                     associatedDirCount={associatedDirCount}
+                    setResult={setResult}
+                    //setResultText={setResultText}
                   />
                 ))}
                 </Stack>
