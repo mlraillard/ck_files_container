@@ -10,7 +10,7 @@ import ViewCodeMenuItem from "../../viewCode/ViewCodeMenuItem";
 import { UploadDrawer } from "../../upload/UploadDrawer";
 import { SettingsDrawer } from "../../settings/SettingsDrawer";
 import { DeleteDrawer  } from "../../delete/DeleteDrawer";
-import { ViewCodeDrawer } from "../../viewCode/ViewCodeDrawer";
+import { ViewCodeModal } from "../../viewCode/ViewCodeModal";
 
 function ControlPanelMobile(props) {
     const selectedDir = useStore(state => state.selectedDir)
@@ -41,12 +41,10 @@ function ControlPanelMobile(props) {
             /> :
 
             targetName === 'viewCode' ?
-            <ViewCodeDrawer
+            <ViewCodeModal
                 opened={refTarget}
                 close={setRefTarget}
-            />
-            :
-            ''
+            /> : ''
         }
         <Menu>
             <Menu.Target>

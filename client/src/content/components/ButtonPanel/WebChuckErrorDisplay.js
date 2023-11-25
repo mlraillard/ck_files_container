@@ -52,12 +52,10 @@ export const WebChuckErrorDisplay = (props) => {
     return (
         <Modal
             opened={ opened }
-            onClose={
-            () => {
+            onClose={() => {
                 setChuckError('')
                 close()
-            }
-            }
+            }}
             title={chuckError.split('|')[0]}
             >
               { !visible ? 
