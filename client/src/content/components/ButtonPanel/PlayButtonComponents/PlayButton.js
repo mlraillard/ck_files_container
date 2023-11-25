@@ -16,6 +16,8 @@ function PlayButton({
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const setSelectedFilename = useStore(state => state.setSelectedFilename)
     const setChuckError = useStore(state => state.setChuckError)
+    const setErrorFilename = useStore(state => state.setErrorFilename)
+    const setErrorDir = useStore(state => state.setErrorDir)
     const qPush = useStore(state => state.qPush)
 
   return (
@@ -40,7 +42,9 @@ function PlayButton({
           setSelectedFilename,
           associatedDirCount,
           setChuckError,
-          setResult
+          setResult,
+          setErrorFilename,
+          setErrorDir
           )
       }}
     >{ desc }

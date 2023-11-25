@@ -80,7 +80,11 @@ const dirSlice = (set) => ({
 
 const chuckErrorSlice = (set) => ({
   chuckError: '',
-  setChuckError: (e) => {set({ chuckError: e })}
+  errorFilename: '',
+  errorDir: '',
+  setChuckError: (e) => {set({ chuckError: e })},
+  setErrorFilename: (filename) => {set({ errorFilename: filename })},
+  setErrorDir: (dir) => {set({ errorDir: dir })}
 })
 
 const asyncChuckSlice = (set) => ({

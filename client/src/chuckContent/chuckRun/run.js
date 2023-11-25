@@ -18,7 +18,9 @@ export async function loadAndRunChucKCode(
     setSelectedFilename,
     associatedDirCount,
     setChuckError,
-    setResult
+    setResult,
+    setErrorFilename,
+    setErrorDir
     ) {
     let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
     resultArray = []
@@ -33,6 +35,8 @@ export async function loadAndRunChucKCode(
         // audioPlugin is opened successfully, but format is not recognized
         //let auxResponse = await aChuck.loadFile('./guitar.wav')
 
+        setErrorFilename(filename)
+        setErrorDir(dir)
         aChuck.chuckPrint = (output) => {
             setResultText(output)
         }
