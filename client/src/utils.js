@@ -15,3 +15,9 @@ export function formatLabelsFile(dirsJson, dir, label, deleteDir) {
 
     return `const labels = \"${labels}\"\n\nmodule.exports = labels;\n`;
 }
+
+export function formatTextArrayToString(arr) {
+    if (arr && Array.isArray(arr)) {
+        return arr.join('\n')
+    }
+}

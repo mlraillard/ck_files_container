@@ -9,10 +9,9 @@ import StopButton from './StopButton'
 export const PlayButtonPanel = (props) => {
   const Chuck = useStore(state => state.Chuck)
   const activeDirFilenames = useStore(state => state.activeDirFilenames)
-  const [resultText, setResultText] = useState("");
 
   //..to stop and remove scripts that finish w/o closing
-  //..decided - not so good
+  //..decided to comment out
   // useEffect(() => {
   //   if (resultText && resultText.includes("PASSED")) {
   //     .....
@@ -22,13 +21,13 @@ export const PlayButtonPanel = (props) => {
   return (
     <Group noWrap={true}>
       <PlayButton
-        setResultText = { setResultText }
         Chuck = { Chuck }
         filename = { props.filename }
         dir = { props.dir }
         associatedDirCount = { props.associatedDirCount }
         desc = { props.desc }
         activeDirFilenames = { activeDirFilenames }
+        setResult = { props.setResult }
       />
       {
         activeDirFilenames.includes(`${props.dir} ${props.filename}`) ?

@@ -5,17 +5,19 @@ import { loadAndRunChucKCode } from '../../../../chuckContent/chuckRun/run'
 import { useStore } from '../../../../store'
 
 function PlayButton({
-    setResultText,
     Chuck,
     filename,
     dir,
     associatedDirCount,
     desc,
-    activeDirFilenames
+    activeDirFilenames,
+    setResult
   }) {
     const setActiveDirFilenames = useStore(state => state.setActiveDirFilenames)
     const setSelectedFilename = useStore(state => state.setSelectedFilename)
     const setChuckError = useStore(state => state.setChuckError)
+    const setErrorFilename = useStore(state => state.setErrorFilename)
+    const setErrorDir = useStore(state => state.setErrorDir)
     const qPush = useStore(state => state.qPush)
 
   return (
@@ -33,14 +35,16 @@ function PlayButton({
       onClick={() => {
         loadAndRunChucKCode(
           filename,
-          setResultText,
           Chuck,
           dir,
           qPush,
           setActiveDirFilenames,
           setSelectedFilename,
           associatedDirCount,
-          setChuckError
+          setChuckError,
+          setResult,
+          setErrorFilename,
+          setErrorDir
           )
       }}
     >{ desc }

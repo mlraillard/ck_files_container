@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Anchor, Group, Dialog, ScrollArea } from '@mantine/core';
+import { Anchor, Group, ScrollArea, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Prism } from '@mantine/prism';
 
@@ -12,9 +12,7 @@ export const ViewCodeAnchor = () => {
     const associatedDir = useStore(state => state.associatedDir)
     const [dialogText, setDialogText] = useState("")
 
-    async function run(aPromise, setResultText) {
-        setResultText(await aPromise);
-    }
+    async function run(aPromise) { await aPromise }
     
     async function loadChucKCode() {
       if (selectedFilename) {
@@ -59,12 +57,13 @@ export const ViewCodeAnchor = () => {
             </Anchor>
           }
 
-        <Dialog opened={opened} withCloseButton onClose={close}
+        <Modal opened={opened} withCloseButton onClose={close}
           //size="lg"
+          title={selectedFilename}
           size={{xs: "sm", sm: "sm", md: "md", lg: "lg", xl: "xl"}}
           radius="md">
             <Group align="flex-end">    
-                <ScrollArea
+                {/* <ScrollArea
                   mt="xs"
                   //h={{ base: 350, sm: 400, md: 450, lg: 500, xl: 550 }}
                   h="85vh"
@@ -91,11 +90,11 @@ export const ViewCodeAnchor = () => {
                       background: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
                     },
                   })}
-                >
+                > */}
                 <Prism language="c">{dialogText}</Prism>
-            </ScrollArea>
+            {/* </ScrollArea> */}
             </Group>
-      </Dialog>
+      </Modal>
         </>
     )
 }

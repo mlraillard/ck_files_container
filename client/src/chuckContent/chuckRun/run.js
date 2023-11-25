@@ -1,12 +1,15 @@
 import { DIRECTORY_FILE } from '../../routes'
 
+let resultArray = []
+
+function setResultText(text) { resultArray.push(text) }
+
 async function run(aPromise, setResultText) {
     setResultText(await aPromise);
 }
 
 export async function loadAndRunChucKCode(
     filename,
-    setResultText,
     Chuck,
     dir,
     // you want to store the dir count here..
@@ -14,9 +17,13 @@ export async function loadAndRunChucKCode(
     setActiveDirFilenames,
     setSelectedFilename,
     associatedDirCount,
-    setChuckError
+    setChuckError,
+    setResult,
+    setErrorFilename,
+    setErrorDir
     ) {
     let url = `${DIRECTORY_FILE}${dir}&filename=${filename}`
+    resultArray = []
 
     let aPromise = new Promise( async function(resolve, reject) {
         //let aChuck = await Chuck.init([], undefined, undefined, "../chuckSrc/");
@@ -28,8 +35,10 @@ export async function loadAndRunChucKCode(
         // audioPlugin is opened successfully, but format is not recognized
         //let auxResponse = await aChuck.loadFile('./guitar.wav')
 
+        setErrorFilename(filename)
+        setErrorDir(dir)
         aChuck.chuckPrint = (output) => {
-            setResultText(output);
+            setResultText(output)
         }
         aChuck.runCode(data).then((id) => {
             const track = {
@@ -44,6 +53,7 @@ export async function loadAndRunChucKCode(
             setSelectedFilename()
         }).catch((error) => {
             setChuckError(`${filename}|${error}`)
+            setResult(resultArray)
         });
         await new Promise((resolve, reject) => { setTimeout(resolve, 750)});
     });
