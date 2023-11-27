@@ -1,10 +1,10 @@
 const express = require('express')
 const fs = require('fs')
 const bodyParser = require('body-parser')
-const labelsRouter = express.Router()
+const settingsRouter = express.Router()
 
-labelsRouter.use(express.json())
-labelsRouter.use(bodyParser.text({type:"*/*"}));
+settingsRouter.use(express.json())
+settingsRouter.use(bodyParser.text({type:"*/*"}));
 
 const regexReplace = (body, regex, replacement) => {
     return body.replace(regex, replacement)
@@ -23,11 +23,11 @@ const bodyTransform = (body) => {
     return body
 }
 
-labelsRouter.post('/', (req, res) => { 
+settingsRouter.post('/', (req, res) => {
     let body = bodyTransform(JSON.stringify(req.body))
-    fs.writeFileSync(`${__dirname}\/labels.js`, body, function (err) { console.log(err) });
+    fs.writeFileSync(`${__dirname}\/settings.js`, body, function (err) { console.log(err) });
     
-    const resbody = 'labelsFile ok'
+    const resbody = 'settingsFile ok'
     // Calling response.writeHead method
     res.writeHead(200, {
       'Content-Length': Buffer.byteLength(resbody),
@@ -36,4 +36,4 @@ labelsRouter.post('/', (req, res) => {
     res.end(resbody)
 })
 
-module.exports = labelsRouter;
+module.exports = settingsRouter;

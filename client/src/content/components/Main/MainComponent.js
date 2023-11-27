@@ -6,6 +6,9 @@ import { useStore } from '../../../store';
 import {runChucKCode} from '../../../chuckContent/chuckRun/run.js'
 
 export const MainComponent = () => {
+  const loadingSettings = useStore(state => state.loadingSettings)
+  const fetchSettings = useStore(state => state.fetchSettings)
+  const settings = useStore(state => state.settings)
   const chuckLoading = useStore(state => state.chuckLoading)
   const fetchTheChuck = useStore(state => state.fetchTheChuck)
   const Chuck = useStore(state => state.Chuck)
@@ -18,11 +21,12 @@ export const MainComponent = () => {
   }
 
   useEffect(() => {
+    fetchSettings()
     fetchTheChuck()
-  }, [fetchTheChuck])
+  }, [fetchSettings, fetchTheChuck])
 
   return <>
-    { chuckLoading ? '' :
+    { chuckLoading || loadingSettings ? '' :
       <Box>
         <Container fluid={ true }>
           <ButtonPanelComponent />
