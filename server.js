@@ -3,12 +3,15 @@ const cors = require('cors')
 const fs = require('fs')
 const upload = require('./upload')
 const updateLabels = require('./updateLabels')
+const updateSettings = require('./updateSettings')
 const labels = require('./labels')
+const settings = require('./settings')
 
 const app = express()
 
 app.use('/upload', upload)
 app.use('/updateLabels', updateLabels)
+app.use('/updateSettings', updateSettings)
 
 // const SERVER_PORT = +process.env.PORT || 8002;
 //const UPLOAD_SERVER_PORT = 8003;
@@ -107,6 +110,29 @@ app.get('/ckdirs', cors(), (req, res) => {
     catch(error) {
         res.writeHead(404, { 'Content-Type': 'text'})
         res.write(`Error: cannot read directories: ${error}`)
+    }
+    res.end()
+})
+
+app.get('/cksettings', cors(), (req, res) => {
+    try {
+        const inputString = settings;
+        const keyValuePairs = inputString.split(',');
+        const filteredKeyValuePairs = keyValuePairs.filter(item => item.trim() !== '');
+        const jsonObject = {};
+
+        filteredKeyValuePairs.forEach(pair => {
+            pair = pair.substring(1)
+            pair = pair.substring(0, pair.length - 1)
+            const parts = pair.split('|');
+            jsonObject[parts[0]] = isNaN(parts[1]) ? parts[1] : Number(parts[1]);
+        });
+        res.writeHead(200, { 'Content-Type': 'text'})
+        res.write(JSON.stringify(jsonObject))
+    }
+    catch(error) {
+        res.writeHead(404, { 'Content-Type': 'text'})
+        res.write(`Error: cannot read settings: ${error}`)
     }
     res.end()
 })

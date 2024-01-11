@@ -2,7 +2,7 @@ import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 import Deque  from 'double-ended-queue'
 import structuredClone from '@ungap/structured-clone';
-import { DIRECTORIES_NAMES, DIRECTORIES_LABELS, DIRECTORY_FILES_INFO } from './routes'
+import { DIRECTORIES_NAMES, DIRECTORIES_LABELS, DIRECTORY_FILES_INFO, SETTINGS } from './routes'
 import { MAX_TRACKS } from './constants.js'
 
 const q = new Deque(MAX_TRACKS);
@@ -73,6 +73,17 @@ const qSlice = (set) => ({
   },
 })
 
+const asyncSettingsSlice = (set) => ({
+  settings: [],
+  loadingSettings: true,
+  fetchSettings: async () => {
+    const response = await fetch(SETTINGS)
+    const settingsText = await response.text()
+    const settingsJson = JSON.parse(settingsText)
+    set({ settings: settingsJson, loadingSettings: false })
+  }
+})
+
 const dirSlice = (set) => ({
   selectedDir: '',
   setSelectedDir: (d) => {set({ selectedDir: d })}
@@ -134,6 +145,7 @@ const asyncDirsSlice = (set) => ({
 })
 
 const rootSlice = (set, get) => ({
+  ...asyncSettingsSlice(set, get),
   ...chuckErrorSlice(set, get),
   ...qSlice(set, get),
   ...dirSlice(set,get),

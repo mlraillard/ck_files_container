@@ -24,13 +24,7 @@ const bodyTransform = (body) => {
 }
 
 labelsRouter.post('/', (req, res) => { 
-    console.log(`b1: ${req.body}`)
-    console.log(`-------------------`);
-
     let body = bodyTransform(JSON.stringify(req.body))
-    console.log(`b2: ${req.body}`)
-    console.log(`-------------------`);
-
     fs.writeFileSync(`${__dirname}\/labels.js`, body, function (err) { console.log(err) });
     
     const resbody = 'labelsFile ok'
