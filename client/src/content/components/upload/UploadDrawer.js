@@ -13,6 +13,12 @@ export const UploadDrawer = (props) => {
     const [dirDesc, setDirDesc] = useState('');
     const [invalidFoldername, setInvalidFoldername] = useState(false)
     const [invalidDirError, setInvalidDirError] = useState('')
+
+    const [invalidFiledesc, setInvalidFiledesc] = useState(false)
+    const [invalidFiledescError, setInvalidFiledescError] = useState('')
+
+    const [invalidFoldedesc, setInvalidFolderdesc] = useState(false)
+    const [invalidFolderdescError, setInvalidFolderdescError] = useState('')
     const [value, setValue] = useState(File | '')
     const [invalidFilename, setInvalidFilename] = useState(false)
     const [invalidError, setInvalidError] = useState('')
@@ -26,60 +32,6 @@ export const UploadDrawer = (props) => {
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
     const asyncDirFiles = useStore(state => state.asyncDirFiles)
     const { ref, focused } = useFocusWithin();
-
-    useEffect(() => {
-        if (newFolder === 'true') {
-            let mf = (dir).match(/^([0-9a-zA-Z_-]{1,25})$/) || [false,false][1];
-            if (mf === false) {
-                setInvalidFoldername(true)
-                setInvalidDirError("Invalid folder name.")
-            }
-            else {
-                setInvalidFoldername(false)
-                setInvalidDirError('')
-            }
-        }
-      }, [
-        newFolder,
-        dir,
-        setInvalidFoldername,
-        setInvalidDirError
-    ]);
-
-      useEffect(() => {
-        if (value) {
-            const filenames = asyncDirFiles.map((object) => object.filename);
-            let m = (value.name).match(/^([0-9a-zA-Z_-]{1,25})\.ck/) || [false,false][1]
-            if (m === false) {
-                setInvalidFilename(true)
-                setInvalidError("Invalid ChucK filename.")
-            }
-            else if (filenames.includes(value.name)) {
-                setInvalidFilename(true)
-                setInvalidError("Duplicate filenames are not allowed.")
-            }
-            else {
-                setInvalidFilename(false)
-                setInvalidError('')
-                if ((value && desc && !focused)) {
-                    setSubmitDisabled(false)
-                    loadFileContent(value)
-                }
-            }
-        }
-      }, [value, desc, focused, setSubmitDisabled, setInvalidFilename]);
-
-      useEffect(() => {
-        if (!props.opened) {
-          setValue(null)
-          setDesc('')
-          setNewFolder('false')
-          setDir('')
-          setDirDesc('')
-          setInvalidFoldername(false)
-          setInvalidDirError('')
-        }
-      }, [props.close, setValue, setDesc]);
 
     const reset = () => {
         setValue(null)
@@ -164,6 +116,90 @@ export const UploadDrawer = (props) => {
         }
     }
 
+    useEffect(() => {
+        if (newFolder === 'true') {
+            let mf = (dir).match(/^([0-9a-zA-Z_-]{1,25})$/) || [false,false][1];
+            //console.log(`aX: ${JSON.stringify(asyncDirsX)}`)
+            let dupFoldername = asyncDirsX.filter(e => e.value === dir).length > 0
+            let dupFolderdesc = asyncDirsX.filter(e => e.value === dir).length > 0
+
+            if (mf === false) {
+                setInvalidFoldername(true)
+                setInvalidDirError("Invalid folder name.")
+            }
+            else if (dupFoldername === true) {
+                setInvalidFoldername(true)
+                setInvalidDirError("Duplicate folder name.")
+            }
+            else {
+                setInvalidFoldername(false)
+                setInvalidDirError('')
+            }
+            //
+            if (dupFolderdesc === true) {
+                setInvalidFolderdesc(true)
+                setInvalidFolderdescError("Duplicate folder description.")
+            }
+            else {
+                setInvalidFolderdesc(false)
+                setInvalidFolderdescError('')
+            }
+        }
+      }, [
+        newFolder,
+        dir,
+        setInvalidFoldername,
+        setInvalidDirError,
+        setInvalidFolderdesc,
+        setInvalidFolderdescError
+    ]);
+
+      useEffect(() => {
+        if (value) {
+            const filenames = asyncDirFiles.map((object) => object.filename);
+            let m = (value.name).match(/^([0-9a-zA-Z_-]{1,25})\.ck/) || [false,false][1]
+
+            console.log(`asF: ${JSON.stringify(asyncDirFiles)}`)
+            let dupFiledesc = asyncDirFiles.filter(e => e.asyncDirFiles === dir).length > 0
+
+
+            if (m === false) {
+                setInvalidFilename(true)
+                setInvalidError("Invalid ChucK filename.")
+            }
+            else if (filenames.includes(value.name)) {
+                setInvalidFilename(true)
+                setInvalidError("Duplicate filenames are not allowed.")
+            }
+            else {
+                setInvalidFilename(false)
+                setInvalidError('')
+            }
+            //
+            if (dupFiledesc === true) {
+                setInvalidFiledesc(true)
+                setInvalidFiledescError("Duplicate file description.")
+            }
+            else {
+                setInvalidFiledesc(false)
+                setInvalidFiledescError('')
+            }
+            //
+            if ((value && desc &&
+                !invalidFoldedesc && !invalidFoldername && !invalidFilename && !invalidFiledesc && 
+                !focused)) {
+                setSubmitDisabled(false)
+                loadFileContent(value)
+            }
+        }
+      }, [value, desc, focused, setSubmitDisabled, setInvalidFilename, setInvalidFiledesc, setInvalidFiledescError, invalidFoldedesc, invalidFoldername, invalidFilename, invalidFiledesc]);
+
+      useEffect(() => {
+        if (!props.opened) {
+            reset()
+        }
+    }, [props.opened, reset]);
+
     return (
         <>
         <Drawer
@@ -209,6 +245,7 @@ export const UploadDrawer = (props) => {
                             placeholder="Type new folder description"
                             value={dirDesc}
                             onChange={(e) => {setDirDesc(e.currentTarget.value)}}
+                            error={invalidFolderdescError}
                             withAsterisk
                         />
                         </>
@@ -258,6 +295,7 @@ export const UploadDrawer = (props) => {
                         placeholder="Choose file to upload"
                         value={value}
                         onChange={setValue}
+                        error={invalidFiledescError}
                         withAsterisk
                     />
                     }
