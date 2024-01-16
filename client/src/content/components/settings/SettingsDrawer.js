@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFocusWithin } from '@mantine/hooks';
-import { Button, Group, Drawer, Box, Select } from '@mantine/core';
+import { Button, Group, Drawer, Box, Select, Switch } from '@mantine/core';
 
 import { useStore } from '../../../store';
 
@@ -11,9 +11,14 @@ export const SettingsDrawer = (props) => {
     const [submitDisabled, setSubmitDisabled] = useState(true)
     //const [maxTracks, setMaxTracks] = useState<string | null>(null); 
     const [maxTracks, setMaxTracks] = useState(null)
+    const [maxFiles, setMaxFiles] = useState(null)
+    const [audioFileCapability, setAudioFileCapability] = useState(null)
+
 
     const reset = () => {
         setMaxTracks(null)
+        setMaxFiles(null)
+        setAudioFileCapability(false)
         setSubmitDisabled(true)
     }
 
@@ -23,7 +28,13 @@ export const SettingsDrawer = (props) => {
     }
 
     useEffect(() => {
-        if (maxTracks &&  (parseInt(maxTracks + '') !== parseInt(settings.maxTracks + '')) ) {
+        const audio = audioFileCapability + ''
+        const audioSettings = settings.audioFileCapability + ''
+        if (
+            maxTracks &&  (parseInt(maxTracks + '') !== parseInt(settings.maxTracks + '')) ||
+            maxFiles &&  (parseInt(maxFiles + '') !== parseInt(settings.maxFiles + '')) ||
+            audio != audioSettings
+        ) {
             //console.log(`mt: ${maxTracks} smt: ${settings.maxTracks}`)
             setSubmitDisabled(false)
         }
@@ -33,8 +44,12 @@ export const SettingsDrawer = (props) => {
       }, [
         settings,
         maxTracks,
+        maxFiles,
+        audioFileCapability,
         setSubmitDisabled
     ]);
+
+    console.log(`settings: ${JSON.stringify(settings)}`)
 
     return (
         <>
@@ -52,7 +67,22 @@ export const SettingsDrawer = (props) => {
                         label="Maximum Tracks"
                         value={settings.maxTracks + ''}
                         onChange={setMaxTracks}
-                        data={['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']} 
+                        data={['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',
+                    '16','17','18','19','20','21','22','23','24']} 
+                    />
+                   <Select
+                        label="File Capacity"
+                        value={settings.maxFiles + ''}
+                        onChange={setMaxFiles}
+                        data={['100','500','1000','1500','2000','2500']} 
+                        mt="5px"
+                    />
+                   <Switch
+                        labelPosition="left"
+                        label="Audio File Capability"
+                        value={  (settings.audioFileCapability + '').toLowerCase() === "true"}
+                        onChange={setAudioFileCapability}
+                        mt="10px"
                     />
                     <Group justify="flex-end" mt="md">
                         { submitDisabled ?
