@@ -10,27 +10,26 @@ export const SettingsDrawer = (props) => {
 
     const settings = useStore(state => state.settings)
     const settingsAudioFileCapability = settings.audioFileCapability === 'true'
-    // const settingsEnableUpload = settings.enableUpload === 'true'
+    const settingsEnableUpload = settings.enableUpload === 'true'
+    const settingsEnableDelete = settings.enableDelete === 'true'
+    const settingsEnableView = settings.enableView === 'true'
         
     const [submitDisabled, setSubmitDisabled] = useState(true)
     //const [maxTracks, setMaxTracks] = useState<string | null>(null); 
     const [maxTracks, setMaxTracks] = useState(null)
     const [maxFiles, setMaxFiles] = useState(null)
     const [audioFileCapability, setAudioFileCapability] = useState(null)
-
-    // const [enableUpload, setEnableUpload] = useState(null)
-    // const [enableDelete, setEnableDelete] = useState(null)
-    // const [enableView, setEnableView] = useState(null)
-    // const [enableSettings, setEnableSettings] = useState(null)
+    const [enableUpload, setEnableUpload] = useState(null)
+    const [enableDelete, setEnableDelete] = useState(null)
+    const [enableView, setEnableView] = useState(null)
 
     const reset = () => {
         setMaxTracks(null)
         setMaxFiles(null)
         setAudioFileCapability(null)
-        // setEnableUpload(null)
-        // setEnableDelete(null)
-        // setEnableView(null)
-        // setEnableSettings(null)
+        setEnableUpload(null)
+        setEnableDelete(null)
+        setEnableView(null)
         setSubmitDisabled(true)
     }
 
@@ -43,8 +42,9 @@ export const SettingsDrawer = (props) => {
         const tracksChanged = maxTracks && (parseInt(maxTracks + '') !== parseInt(settings.maxTracks + ''))
         const filesChanged = maxFiles && (parseInt(maxFiles + '') !== parseInt(settings.maxFiles + ''))
         const audioChanged = compareChangeBooleanToString(audioFileCapability, settings.audioFileCapability)
+        const uploadChanged = compareChangeBooleanToString(enableUpload, settings.enableUpload)
 
-        if ( tracksChanged || filesChanged || audioChanged) {
+        if ( tracksChanged || filesChanged || audioChanged || uploadChanged) {
             setSubmitDisabled(false)
         }
         else {
@@ -56,7 +56,7 @@ export const SettingsDrawer = (props) => {
         maxTracks,
         maxFiles,
         audioFileCapability,
-        // enableUpload,
+        enableUpload,
         // enableDelete,
         // enableView,
         // enableSettings,
@@ -101,8 +101,7 @@ export const SettingsDrawer = (props) => {
                         onChange={(event) => setAudioFileCapability(event.currentTarget.checked)}
                         mt="10px"
                     />
-
-                    {/* <Switch
+                    <Switch
                         labelPosition="left"
                         label="Enable Upload"
                         checked = { 
@@ -111,8 +110,7 @@ export const SettingsDrawer = (props) => {
                         }
                         onChange={(event) => setEnableUpload(event.currentTarget.checked)}
                         mt="10px"
-                    /> */}
-                    
+                    />
                     <Group justify="flex-end" mt="md">
                         { submitDisabled ?
                         <Button 

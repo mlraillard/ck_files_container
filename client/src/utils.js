@@ -23,11 +23,12 @@ export function formatTextArrayToString(arr) {
 }
 
 export function compareChangeBooleanToString(booleanValue, stringValue) {
-    let testStr = null
-    if (booleanValue) {
+    let testStr = null // this is a boolean
+    let valueChanged = false // this is a boolean
+    if (booleanValue === true || booleanValue === false) {
         testStr = ((booleanValue + '').toLowerCase() === "true")
+        valueChanged = stringValue === 'true' ? (testStr === false) : (testStr === true)
     }
-    let valueChanged = testStr && testStr != stringValue
 
     return valueChanged
 }
