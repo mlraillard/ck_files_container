@@ -43,8 +43,10 @@ export const SettingsDrawer = (props) => {
         const filesChanged = maxFiles && (parseInt(maxFiles + '') !== parseInt(settings.maxFiles + ''))
         const audioChanged = compareChangeBooleanToString(audioFileCapability, settings.audioFileCapability)
         const uploadChanged = compareChangeBooleanToString(enableUpload, settings.enableUpload)
+        const deleteChanged = compareChangeBooleanToString(enableDelete, settings.enableDelete)
+        const viewChanged = compareChangeBooleanToString(enableView, settings.enableView)
 
-        if ( tracksChanged || filesChanged || audioChanged || uploadChanged) {
+        if ( tracksChanged || filesChanged || audioChanged || uploadChanged || deleteChanged || viewChanged) {
             setSubmitDisabled(false)
         }
         else {
@@ -57,9 +59,8 @@ export const SettingsDrawer = (props) => {
         maxFiles,
         audioFileCapability,
         enableUpload,
-        // enableDelete,
-        // enableView,
-        // enableSettings,
+        enableDelete,
+        enableView,
         setSubmitDisabled
     ]);
 
@@ -109,6 +110,26 @@ export const SettingsDrawer = (props) => {
                             settingsEnableUpload : enableUpload
                         }
                         onChange={(event) => setEnableUpload(event.currentTarget.checked)}
+                        mt="10px"
+                    />
+                    <Switch
+                        labelPosition="left"
+                        label="Enable Delete"
+                        checked = { 
+                            enableDelete === undefined || enableDelete === null ? 
+                            settingsEnableDelete : enableDelete
+                        }
+                        onChange={(event) => setEnableDelete(event.currentTarget.checked)}
+                        mt="10px"
+                    />
+                    <Switch
+                        labelPosition="left"
+                        label="Enable View"
+                        checked = { 
+                            enableView === undefined || enableView === null ? 
+                            settingsEnableView : enableView
+                        }
+                        onChange={(event) => setEnableView(event.currentTarget.checked)}
                         mt="10px"
                     />
                     <Group justify="flex-end" mt="md">
