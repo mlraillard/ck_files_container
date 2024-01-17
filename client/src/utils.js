@@ -21,3 +21,13 @@ export function formatTextArrayToString(arr) {
         return arr.join('\n')
     }
 }
+
+export function compareChangeBooleanToString(booleanValue, stringValue) {
+    let testStr = null
+    if (booleanValue) {
+        testStr = ((booleanValue + '').toLowerCase() === "true")
+    }
+    let valueChanged = testStr && testStr != stringValue
+
+    return valueChanged
+}

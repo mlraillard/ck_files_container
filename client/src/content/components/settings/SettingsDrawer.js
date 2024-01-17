@@ -3,22 +3,34 @@ import { useFocusWithin } from '@mantine/hooks';
 import { Button, Group, Drawer, Box, Select, Switch } from '@mantine/core';
 
 import { useStore } from '../../../store';
+import { compareChangeBooleanToString } from '../../../utils';
 
 export const SettingsDrawer = (props) => {
     const { ref, focused } = useFocusWithin();
 
     const settings = useStore(state => state.settings)
+    const settingsAudioFileCapability = settings.audioFileCapability === 'true'
+    // const settingsEnableUpload = settings.enableUpload === 'true'
+        
     const [submitDisabled, setSubmitDisabled] = useState(true)
     //const [maxTracks, setMaxTracks] = useState<string | null>(null); 
     const [maxTracks, setMaxTracks] = useState(null)
     const [maxFiles, setMaxFiles] = useState(null)
     const [audioFileCapability, setAudioFileCapability] = useState(null)
 
+    // const [enableUpload, setEnableUpload] = useState(null)
+    // const [enableDelete, setEnableDelete] = useState(null)
+    // const [enableView, setEnableView] = useState(null)
+    // const [enableSettings, setEnableSettings] = useState(null)
 
     const reset = () => {
         setMaxTracks(null)
         setMaxFiles(null)
-        setAudioFileCapability(false)
+        setAudioFileCapability(null)
+        // setEnableUpload(null)
+        // setEnableDelete(null)
+        // setEnableView(null)
+        // setEnableSettings(null)
         setSubmitDisabled(true)
     }
 
@@ -28,24 +40,26 @@ export const SettingsDrawer = (props) => {
     }
 
     useEffect(() => {
-        const audio = audioFileCapability + ''
-        const audioSettings = settings.audioFileCapability + ''
-        if (
-            maxTracks &&  (parseInt(maxTracks + '') !== parseInt(settings.maxTracks + '')) ||
-            maxFiles &&  (parseInt(maxFiles + '') !== parseInt(settings.maxFiles + '')) ||
-            audio != audioSettings
-        ) {
-            //console.log(`mt: ${maxTracks} smt: ${settings.maxTracks}`)
+        const tracksChanged = maxTracks && (parseInt(maxTracks + '') !== parseInt(settings.maxTracks + ''))
+        const filesChanged = maxFiles && (parseInt(maxFiles + '') !== parseInt(settings.maxFiles + ''))
+        const audioChanged = compareChangeBooleanToString(audioFileCapability, settings.audioFileCapability)
+
+        if ( tracksChanged || filesChanged || audioChanged) {
             setSubmitDisabled(false)
         }
-        //else {
-        //    console.log(`no change`)
-        //}
+        else {
+            setSubmitDisabled(true)
+            console.log(`no change`)
+        }
       }, [
         settings,
         maxTracks,
         maxFiles,
         audioFileCapability,
+        // enableUpload,
+        // enableDelete,
+        // enableView,
+        // enableSettings,
         setSubmitDisabled
     ]);
 
@@ -80,10 +94,25 @@ export const SettingsDrawer = (props) => {
                    <Switch
                         labelPosition="left"
                         label="Audio File Capability"
-                        value={  (settings.audioFileCapability + '').toLowerCase() === "true"}
-                        onChange={setAudioFileCapability}
+                        checked ={  
+                            audioFileCapability === undefined ||  audioFileCapability === null ? 
+                            settingsAudioFileCapability : audioFileCapability
+                        }
+                        onChange={(event) => setAudioFileCapability(event.currentTarget.checked)}
                         mt="10px"
                     />
+
+                    {/* <Switch
+                        labelPosition="left"
+                        label="Enable Upload"
+                        checked = { 
+                            enableUpload === undefined || enableUpload === null ? 
+                            settingsEnableUpload : enableUpload
+                        }
+                        onChange={(event) => setEnableUpload(event.currentTarget.checked)}
+                        mt="10px"
+                    /> */}
+                    
                     <Group justify="flex-end" mt="md">
                         { submitDisabled ?
                         <Button 
