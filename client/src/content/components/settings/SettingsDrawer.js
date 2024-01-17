@@ -3,7 +3,7 @@ import { useFocusWithin } from '@mantine/hooks';
 import { Button, Group, Drawer, Box, Select, Switch, TextInput } from '@mantine/core';
 
 import { useStore } from '../../../store';
-import { compareChangeBooleanToString } from '../../../utils';
+import { compareChangeBooleanToString, formatSettingsFile } from '../../../utils';
 
 export const SettingsDrawer = (props) => {
     const { ref, focused } = useFocusWithin();
@@ -38,9 +38,26 @@ export const SettingsDrawer = (props) => {
         setSubmitDisabled(true)
     }
 
+    const formatChanges = () => {
+        let updateJson = {}
+
+        if (maxTracks !== undefined && maxTracks !== null) { updateJson['maxTracks'] = maxTracks }
+        if (maxFiles !== undefined && maxFiles !== null) { updateJson['maxFiles'] = maxFiles }
+        if (title !== undefined && title !== null) { updateJson['title'] = title }
+        if (audioFileCapability !== undefined && audioFileCapability !== null) { updateJson['audioFileCapability'] = audioFileCapability + '' }
+        if (enableUpload !== undefined && enableUpload !== null) { updateJson['enableUpload'] = enableUpload + '' }
+        if (enableDelete !== undefined && enableDelete !== null) { updateJson['enableDelete'] = enableDelete + '' }
+        if (enableView !== undefined && enableView !== null) { updateJson['enableView'] = enableView + '' }
+
+        return updateJson
+    }
+
     const onSubmit = async (e) => {
         e.preventDefault();
         console.log(`going thru onSubmit...`)
+
+        const newSettings = formatSettingsFile(settings, formatChanges())
+        console.log(`new: ${JSON.stringify(newSettings)}`)
     }
 
     useEffect(() => {
@@ -57,7 +74,6 @@ export const SettingsDrawer = (props) => {
         }
         else {
             setSubmitDisabled(true)
-            console.log(`no change`)
         }
       }, [
         settings,
@@ -70,8 +86,6 @@ export const SettingsDrawer = (props) => {
         title,
         setSubmitDisabled
     ]);
-
-    console.log(`settings: ${JSON.stringify(settings)}`)
 
     return (
         <>
