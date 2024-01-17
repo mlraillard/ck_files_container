@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFocusWithin } from '@mantine/hooks';
-import { Button, Group, Drawer, Box, Select, Switch } from '@mantine/core';
+import { Button, Group, Drawer, Box, Select, Switch, TextInput } from '@mantine/core';
 
 import { useStore } from '../../../store';
 import { compareChangeBooleanToString } from '../../../utils';
@@ -15,6 +15,7 @@ export const SettingsDrawer = (props) => {
     const settingsEnableUpload = settings.enableUpload === 'true'
     const settingsEnableDelete = settings.enableDelete === 'true'
     const settingsEnableView = settings.enableView === 'true'
+    const settingsTitle = settings.title
         
     const [submitDisabled, setSubmitDisabled] = useState(true)
     //const [maxTracks, setMaxTracks] = useState<string | null>(null); 
@@ -24,6 +25,7 @@ export const SettingsDrawer = (props) => {
     const [enableUpload, setEnableUpload] = useState(null)
     const [enableDelete, setEnableDelete] = useState(null)
     const [enableView, setEnableView] = useState(null)
+    const [title, setTitle] = useState(null)
 
     const reset = () => {
         setMaxTracks(null)
@@ -32,6 +34,7 @@ export const SettingsDrawer = (props) => {
         setEnableUpload(null)
         setEnableDelete(null)
         setEnableView(null)
+        setTitle(null)
         setSubmitDisabled(true)
     }
 
@@ -47,8 +50,9 @@ export const SettingsDrawer = (props) => {
         const uploadChanged = compareChangeBooleanToString(enableUpload, settings.enableUpload)
         const deleteChanged = compareChangeBooleanToString(enableDelete, settings.enableDelete)
         const viewChanged = compareChangeBooleanToString(enableView, settings.enableView)
+        const titleChanged = title && title !== settings.title
 
-        if ( tracksChanged || filesChanged || audioChanged || uploadChanged || deleteChanged || viewChanged) {
+        if ( tracksChanged || filesChanged || audioChanged || uploadChanged || deleteChanged || viewChanged || titleChanged) {
             setSubmitDisabled(false)
         }
         else {
@@ -63,6 +67,7 @@ export const SettingsDrawer = (props) => {
         enableUpload,
         enableDelete,
         enableView,
+        title,
         setSubmitDisabled
     ]);
 
@@ -139,6 +144,15 @@ export const SettingsDrawer = (props) => {
                         }
                         onChange={(event) => setEnableView(event.currentTarget.checked)}
                         mt="10px"
+                    />
+                    <TextInput
+                            label="Web App Title"
+                            value={
+                                title === undefined || title === null ? 
+                                settingsTitle : title
+                            } 
+                            onChange={(e) => {setTitle(e.currentTarget.value)}}
+                            mt="10px"
                     />
                     <Group justify="flex-end" mt="md">
                         { submitDisabled ?

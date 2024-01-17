@@ -2,7 +2,11 @@ import { Container, Group, Burger } from '@mantine/core';
 import mainLogo from'./chucklogo2023w.png';
 import ControlPanelComponent from '../controlPanel/ControlPanelComponent';
 
+import { useStore } from '../../../../store';
+
 export function MainHeader() {
+  const settings = useStore(state => state.settings)
+
   return (
     <header>
       <Container 
@@ -20,7 +24,7 @@ export function MainHeader() {
                 fontSize: 'calc(12px + 0.390625vw)'
               }}
             >
-              WebChucK Player
+              { settings.title }
             </h2>
               </div>
           </div>
