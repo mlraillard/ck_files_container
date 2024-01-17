@@ -9,6 +9,8 @@ export const SettingsDrawer = (props) => {
     const { ref, focused } = useFocusWithin();
 
     const settings = useStore(state => state.settings)
+    const settingsMaxTracks = settings.maxTracks + ''
+    const settingsMaxFiles = settings.maxFiles + ''
     const settingsAudioFileCapability = settings.audioFileCapability === 'true'
     const settingsEnableUpload = settings.enableUpload === 'true'
     const settingsEnableDelete = settings.enableDelete === 'true'
@@ -80,14 +82,20 @@ export const SettingsDrawer = (props) => {
                 <form onSubmit={onSubmit}>
                     <Select
                         label="Maximum Tracks"
-                        value={settings.maxTracks + ''}
+                        value={
+                            maxTracks === undefined || maxTracks === null ?
+                            settingsMaxTracks : maxTracks
+                        }
                         onChange={setMaxTracks}
                         data={['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15',
                     '16','17','18','19','20','21','22','23','24']} 
                     />
                    <Select
                         label="File Capacity"
-                        value={settings.maxFiles + ''}
+                        value={
+                            maxFiles === undefined || maxFiles === null ?
+                            settingsMaxFiles : maxFiles
+                        }
                         onChange={setMaxFiles}
                         data={['100','500','1000','1500','2000','2500']} 
                         mt="5px"
