@@ -59,63 +59,64 @@ export const UploadDrawer = (props) => {
             }
         }
     }
-    
+
     const onSubmit = async (e) => {
         e.preventDefault();
 
         const labelsFile = newFolder === 'true' ?
-            formatLabelsFile(asyncDirsX, dir, dirDesc, false) : false
-        
+        formatLabelsFile(asyncDirsX, dir, dirDesc, false) : null
+
         try {
+            console.log(`UD 1:await:`);
+
             const response = await fetch(UPLOAD, {
                 method: "POST",
-                mode: "no-cors", // no-cors, *cors, same-origin
+                ////mode: "no-cors", // no-cors, *cors, same-origin
                 cache: "default",
                 credentials: "same-origin",
                 headers: {
                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: fileContent
-            }).then(
-                !labelsFile ? resolve('') :
-                await fetch(UPDATE_LABELS, {
-                    method: "POST",
-                    mode: "no-cors", // no-cors, *cors, same-origin
-                    cache: "default",
-                    credentials: "same-origin",
-                    headers: {
-                       'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: labelsFile
-                })
-            )
-            setTimeout(() => {
-                reset()
-                props.close()
-            }, 400);
-            if (labelsFile) {
-                setTimeout(() => {
-                    fetchDirs(setSelectedDir)
-                }, 1100);
-            }
-            setTimeout(() => {
-                fetchDirFiles(
-                    selectedDir
-                )
-              }, 1900);
 
-            // Issue: unable to inspect response here, but it is viewable in Network
-            // is this a no-cors thing?
-            //console.log(`${JSON.stringify(response)}`)
-            //const rJson = await response.json()
-            //const rText = JSON.stringify(rJson)
-            //console.log(`rText: ${rText}`)
+            }).then((response, error) => {
+                if (labelsFile !== null) {
+                    fetch(UPDATE_LABELS, {
+                        method: "POST",
+                        ////mode: "no-cors", // no-cors, *cors, same-origin
+                        cache: "default",
+                        credentials: "same-origin",
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: labelsFile
+                    })
+                }
+                setTimeout(() => {
+                    console.log(`UD 20`);
+                    reset()
+                    props.close()
+                }, 400);
+                if (labelsFile !== null) {
+                    console.log(`UD 21`);
+                    setTimeout(() => {
+                        fetchDirs(setSelectedDir)
+                    }, 1100);
+                }
+                setTimeout(() => {
+                    console.log(`UD 22`);
+                    fetchDirFiles(
+                        selectedDir
+                    )
+                }, 1900);
+            });
+
         }
         catch(error) {
-            console.error(e.message)
+            console.error(`err: JSON.stringify(error)`)
         }
     }
-
+    
     useEffect(() => {
         if (newFolder === 'true') {
             let mf = (dir).match(/^([0-9a-zA-Z_-]{1,25})$/) || [false,false][1];
