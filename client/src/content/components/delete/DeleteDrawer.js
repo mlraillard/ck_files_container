@@ -60,7 +60,7 @@ export const DeleteDrawer = (props) => {
                 `${DELETE}?dir=${associatedDir}&filename=${selectedFilename}`
                 const response = await fetch(url, {
                     method: "GET",
-                    mode: "no-cors", // no-cors, *cors, same-origin
+                    ////mode: "no-cors", // no-cors, *cors, same-origin
                     cache: "default",
                     credentials: "same-origin",
                     // alternative to 'no-cors', but response is still opaque
@@ -108,7 +108,7 @@ export const DeleteDrawer = (props) => {
                     let url = `${DELETE}?dir=${associatedDir}&filename=${selectedFilename}&ddir=Y`
                     const response = await fetch(url, {
                         method: "GET",
-                        mode: "no-cors", // no-cors, *cors, same-origin
+                        ////mode: "no-cors", // no-cors, *cors, same-origin
                         cache: "default",
                         credentials: "same-origin",
                         // alternative to 'no-cors', but response is still opaque
@@ -116,7 +116,7 @@ export const DeleteDrawer = (props) => {
                     }).then(
                         await fetch(UPDATE_LABELS, {
                             method: "POST",
-                            mode: "no-cors", // no-cors, *cors, same-origin
+                            ////mode: "no-cors", // no-cors, *cors, same-origin
                             cache: "default",
                             credentials: "same-origin",
                             headers: {

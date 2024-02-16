@@ -4,11 +4,13 @@ import { Button, Group, Drawer, Box, Select, Switch, TextInput } from '@mantine/
 
 import { useStore } from '../../../store';
 import { compareChangeBooleanToString, formatSettingsFile } from '../../../utils';
+import { UPDATE_SETTINGS } from "../../../routes";
 
 export const SettingsDrawer = (props) => {
     const { ref, focused } = useFocusWithin();
 
     const settings = useStore(state => state.settings)
+    const fetchSettings = useStore(state => state.fetchSettings)
     const settingsMaxTracks = settings.maxTracks + ''
     const settingsMaxFiles = settings.maxFiles + ''
     const settingsAudioFileCapability = settings.audioFileCapability === 'true'
@@ -54,10 +56,31 @@ export const SettingsDrawer = (props) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(`going thru onSubmit...`)
 
         const newSettings = formatSettingsFile(settings, formatChanges())
         console.log(`new: ${JSON.stringify(newSettings)}`)
+
+        try {
+            const response = await fetch(UPDATE_SETTINGS, {
+                    method: "POST",
+                    cache: "default",
+                    credentials: "same-origin",
+                    headers: {
+                       'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: newSettings
+                })
+                setTimeout(() => {
+                    reset()
+                    props.close()
+                }, 400);
+                setTimeout(() => {
+                    fetchSettings()
+                }, 1100);
+        }
+        catch(e) {
+            console.error(`settings err: ` + JSON.stringify(e))
+        }
     }
 
     useEffect(() => {

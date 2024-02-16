@@ -41,5 +41,13 @@ export function formatSettingsFile(settingsJson, updateJson) {
     for (const [key, value] of Object.entries(updateJson)) {
         newSettings[key] = value
     }
-    return newSettings
+
+    let newSettingsStr = ''
+    for (const [key, value] of Object.entries(newSettings)) {
+        if (newSettingsStr !== '') { newSettingsStr += ','}
+        newSettingsStr += `|${key}|${value}|`
+    }
+
+    return `const settings = \"${newSettingsStr}\"\n\nmodule.exports = settings;\n`;
 }
+
