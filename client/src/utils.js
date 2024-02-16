@@ -1,3 +1,5 @@
+import structuredClone from '@ungap/structured-clone';
+
 export function formatLabels(dirsJson, newDir, newLabel) {
     dirsJson.push({value: newDir, label: newLabel})
     return dirsJson.map(item => `|${item.value}|${item.label}|`).join(',');
@@ -21,3 +23,31 @@ export function formatTextArrayToString(arr) {
         return arr.join('\n')
     }
 }
+
+export function compareChangeBooleanToString(booleanValue, stringValue) {
+    let testStr = null // this is a boolean
+    let valueChanged = false // this is a boolean
+    if (booleanValue === true || booleanValue === false) {
+        testStr = ((booleanValue + '').toLowerCase() === "true")
+        valueChanged = stringValue === 'true' ? (testStr === false) : (testStr === true)
+    }
+
+    return valueChanged
+}
+
+export function formatSettingsFile(settingsJson, updateJson) {
+    const newSettings = structuredClone(settingsJson)
+
+    for (const [key, value] of Object.entries(updateJson)) {
+        newSettings[key] = value
+    }
+
+    let newSettingsStr = ''
+    for (const [key, value] of Object.entries(newSettings)) {
+        if (newSettingsStr !== '') { newSettingsStr += ','}
+        newSettingsStr += `|${key}|${value}|`
+    }
+
+    return `const settings = \"${newSettingsStr}\"\n\nmodule.exports = settings;\n`;
+}
+

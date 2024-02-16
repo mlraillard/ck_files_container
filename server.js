@@ -9,6 +9,13 @@ const settings = require('./settings')
 
 const app = express()
 
+app.use(
+    cors ({
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true,
+    })
+)
 app.use('/upload', upload)
 app.use('/updateLabels', updateLabels)
 app.use('/updateSettings', updateSettings)
@@ -20,7 +27,7 @@ const filesDirectory = __dirname+'/ckFiles'
 const ckExtName = '.ck'
 const re = /<{3}\s{0,20}\"([\/A-Za-z0-9,\.\-\_ ]*)\"\s{0,20}>{3}\;/
 
-app.get('/onefile', cors(), (req, res) => {
+app.get('/onefile', (req, res) => {
     fs.readFile(`${filesDirectory}/hoagScriptX.ck`, function(error, data) {
         if (error) {
             res.writeHead(404)
@@ -48,7 +55,7 @@ app.get('/ckfile', cors(), (req, res) => {
     })
 })
 
-app.get('/ckfiles', cors(), (req, res) => {
+app.get('/ckfiles', (req, res) => {
     try {
         let filenames = fs.readdirSync(filesDirectory)
         if (filenames) {
@@ -78,7 +85,7 @@ app.get('/ckfiles', cors(), (req, res) => {
 })
 
 //to work on multiple directories
-app.get('/ckdirfile', cors(), (req, res) => {
+app.get('/ckdirfile', (req, res) => {
     fs.readFile(`${filesDirectory}/${req.query.dir}/${req.query.filename}`, function(error, data) {
         if (error) {
             res.writeHead(404)
@@ -92,7 +99,7 @@ app.get('/ckdirfile', cors(), (req, res) => {
     })
 })
 
-app.get('/ckdirs', cors(), (req, res) => {
+app.get('/ckdirs', (req, res) => {
     let dirs = []
 
     try {
@@ -114,7 +121,7 @@ app.get('/ckdirs', cors(), (req, res) => {
     res.end()
 })
 
-app.get('/cksettings', cors(), (req, res) => {
+app.get('/cksettings', (req, res) => {
     try {
         const inputString = settings;
         const keyValuePairs = inputString.split(',');
@@ -137,7 +144,7 @@ app.get('/cksettings', cors(), (req, res) => {
     res.end()
 })
 
-app.get('/cklabels', cors(), (req, res) => {
+app.get('/cklabels', (req, res) => {
     try {
         const inputString = labels;
         const pairs = inputString.split('|,|');
@@ -161,7 +168,7 @@ app.get('/cklabels', cors(), (req, res) => {
     res.end()
 })
 
-app.get('/ckdirfiles', cors(), (req, res) => {
+app.get('/ckdirfiles', (req, res) => {
     try {
         let filenames = fs.readdirSync(`${filesDirectory}\/${req.query.dir}`)
         if (filenames) {
@@ -190,7 +197,7 @@ app.get('/ckdirfiles', cors(), (req, res) => {
     res.end()
 })
 
-app.get('/ckdirfileRemove', cors(), (req, res) => {
+app.get('/ckdirfileRemove', (req, res) => {
     const url = `${filesDirectory}/${req.query.dir}/${req.query.filename}`
     const deleteDir = req.query.ddir
 

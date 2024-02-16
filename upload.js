@@ -39,25 +39,17 @@ const getDirectory = (body) => {
 }
 
 router.post('/', (req, res) => { 
-    //console.log(`b1: ${req.body}`)
-    //console.log(`-------------------`);
-
     let body = bodyTransform(JSON.stringify(req.body))
-    //console.log(`b2: ${req.body}`)
-    //console.log(`-------------------`);
     const filename = getFilename(body)
     const dir = getDirectory(body)
-    //console.log(`filename: ${filename}`)
     
-    console.log(`dir: ${dir}`)
     if (!fs.existsSync(`\/${filesDirectory}\/${dir}\/`)) {
         fs.mkdirSync(`\/${filesDirectory}\/${dir}\/`);
     }
     fs.writeFileSync(`\/${filesDirectory}\/${dir}\/${filename}`, body, function (err) {
          console.log(err)
     });
-    //res.status(200).json({message: "Yes, this is OK"})
-    
+
     const resbody = 'ok'
     // Calling response.writeHead method
     res.writeHead(200, {
