@@ -13,6 +13,12 @@ import { DeleteDrawer  } from "../../delete/DeleteDrawer";
 import { ViewCodeModal } from "../../viewCode/ViewCodeModal";
 
 function ControlPanelMobile(props) {
+    const settings = useStore(state => state.settings)
+    const settingsEnableUpload = settings.enableUpload === 'true'
+    const settingsEnableDelete = settings.enableDelete === 'true'
+    const settingsEnableView = settings.enableView === 'true'
+    const settingsEnableSettings = settings.enableSettings === 'true'
+
     const selectedDir = useStore(state => state.selectedDir)
     const selectedFilename = useStore(state => state.selectedFilename)
     const [refTarget, setRefTarget] = useState(false);
@@ -51,46 +57,46 @@ function ControlPanelMobile(props) {
                 <Burger opened={opened} onClick={toggle} size="sm" />
             </Menu.Target>
             <Menu.Dropdown>
-                <SettingsMenuItem
+                {
+                    settingsEnableSettings ?
+                    <SettingsMenuItem
                     toggle={toggle}
                     setRefTarget={setRefTarget}
                     setTargetName={setTargetName}
-                />
-                <UploadMenuItem
+                    /> : ''
+                }
+
+                {
+                    settingsEnableUpload ?
+                    <UploadMenuItem
                     toggle={toggle}
                     setRefTarget={setRefTarget}
                     setTargetName={setTargetName}
-                />
+                    /> : ''
+                }
+
                 {
                     selectedFilename && selectedDir ?
                     <>
-                        <DeleteMenuItem
-                            toggle={toggle}
-                            setRefTarget={setRefTarget}
-                            setTargetName={setTargetName}
-                            disabled={false}
-                        />
-                        <ViewCodeMenuItem
-                            toggle={toggle}
-                            setRefTarget={setRefTarget}
-                            setTargetName={setTargetName}
-                            disabled={false}
-                        />  
-                    </> :
-                    <>
-                        <DeleteMenuItem
-                            toggle={toggle}
-                            setRefTarget={setRefTarget}
-                            setTargetName={setTargetName}
-                            disabled={true}
-                        />
-                        <ViewCodeMenuItem
-                            toggle={toggle}
-                            setRefTarget={setRefTarget}
-                            setTargetName={setTargetName}
-                            disabled={true}
-                        />
-                    </>
+                        {
+                            settingsEnableDelete ?
+                            <DeleteMenuItem
+                                toggle={toggle}
+                                setRefTarget={setRefTarget}
+                                setTargetName={setTargetName}
+                                disabled={false}
+                            /> : ''
+                        }
+                        {
+                            settingsEnableView ?
+                            <ViewCodeMenuItem
+                                toggle={toggle}
+                                setRefTarget={setRefTarget}
+                                setTargetName={setTargetName}
+                                disabled={false}
+                            /> : ''
+                        }  
+                    </> : ''
                 }
             </Menu.Dropdown>
         </Menu>
