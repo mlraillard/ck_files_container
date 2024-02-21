@@ -6,6 +6,7 @@ const updateLabels = require('./updateLabels')
 const updateSettings = require('./updateSettings')
 const labels = require('./labels')
 const settings = require('./settings')
+const { get } = require('http')
 
 const app = express()
 
@@ -26,6 +27,30 @@ const SERVER_PORT = 8002;
 const filesDirectory = __dirname+'/ckFiles'
 const ckExtName = '.ck'
 const re = /<{3}\s{0,20}\"([\/A-Za-z0-9,\.\-\_ ]*)\"\s{0,20}>{3}\;/
+
+const getFileCount = () => {
+    let total = 0
+
+    try {
+        source = './ckFiles'
+        let i = 0
+
+    
+        let dirs = fs.readdirSync(source, { withFileTypes: true })
+          .filter(dirent => dirent.isDirectory())
+          .map(dirent => dirent.name)
+        while (i < dirs.length) {
+            const length = fs.readdirSync(`./ckFiles/${dirs[i]}/`).length
+            total += length
+            i++;
+        }
+    }
+    catch(error) {
+        console.log(`fileCount err: ${JSON.stringify(error)}`)
+    }
+
+    return total
+}
 
 app.get('/onefile', (req, res) => {
     fs.readFile(`${filesDirectory}/hoagScriptX.ck`, function(error, data) {
@@ -134,6 +159,7 @@ app.get('/cksettings', (req, res) => {
             const parts = pair.split('|');
             jsonObject[parts[0]] = isNaN(parts[1]) ? parts[1] : Number(parts[1]);
         });
+        jsonObject["currentFiles"] = Number(getFileCount())
         res.writeHead(200, { 'Content-Type': 'text'})
         res.write(JSON.stringify(jsonObject))
     }
@@ -241,19 +267,18 @@ app.get('/ckdirfileRemove', (req, res) => {
     // //res.status(200).json({message: url})
 })
 
-// app.get('/ckdirfileCount', cors(), (req, res) => {
-//     const url = `${filesDirectory}/${req.query.dir}\/`
-//     console.log(`getcount.url: ${url}`)
 
-//     try {
-//         const length = fs.readdirSync(url).length
-//         console.log(`length: ${length}`)
-//         res.status(200).json({message: length})
-//     }
-//     catch(err) {
-//         res.status(500).json({message: `Cannot count files in directory`})
-//     }
-// })
+app.get('/ckdirfileCount', (req, res) => {
+        try {
+            res.writeHead(200, { 'Content-Type': 'text'})
+            res.write(JSON.stringify(getFileCount()))
+        }
+        catch(error) {
+            res.writeHead(404, { 'Content-Type': 'text'})
+            res.write(`Error: cannot read fileCount: ${error}`)
+        }
+        res.end()
+})
 
 app.listen(SERVER_PORT, function(error){
     if (error) {

@@ -11,3 +11,6 @@ export const UPLOAD = `${SERVER_HOST}\:${SERVER_PORT}\/upload`
 export const DELETE = `${SERVER_HOST}\:${SERVER_PORT}\/ckdirfileRemove`
 export const UPDATE_LABELS = `${SERVER_HOST}\:${SERVER_PORT}\/updateLabels`
 export const UPDATE_SETTINGS = `${SERVER_HOST}\:${SERVER_PORT}\/updateSettings`
+//
+export const FILECOUNT = `${SERVER_HOST}\:${SERVER_PORT}\/ckdirfileCount`
+//

@@ -9,7 +9,7 @@ import { SettingsAnchor } from "../../settings/SettingsAnchor";
 
 function ControlPanelWeb() {
   const settings = useStore(state => state.settings)
-  const settingsEnableUpload = settings.enableUpload === 'true'
+  const settingsEnableUpload = settings.enableUpload === 'true' && (settings.currentFiles < settings.maxFiles)
   const settingsEnableDelete = settings.enableDelete === 'true'
   const settingsEnableView = settings.enableView === 'true'
   const settingsEnableSettings = settings.enableSettings === 'true'
