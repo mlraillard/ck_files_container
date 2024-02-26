@@ -19,11 +19,14 @@ function PlayButton({
     const setErrorFilename = useStore(state => state.setErrorFilename)
     const setErrorDir = useStore(state => state.setErrorDir)
     const qPush = useStore(state => state.qPush)
+    const settings = useStore(state => state.settings)
 
+  const actv = activeDirFilenames.includes(`${dir} ${filename}`)
+  const mxd = activeDirFilenames.length >= settings.maxTracks
   return (
     <Button
       style={{
-        borderColor: activeDirFilenames.includes(`${dir} ${filename}`) ? 'orange' : ''
+        borderColor: actv ? 'orange' : ( mxd ? "rgb(25, 113, 194)" : '')
       }}
       mt="4px"
       mb="1px"
@@ -31,7 +34,7 @@ function PlayButton({
       // variant="primary"
       color="secondary"
       size="compact-lg"
-      disabled={ activeDirFilenames.includes(`${dir} ${filename}`) }
+      disabled={ actv || mxd }
       onClick={() => {
         loadAndRunChucKCode(
           filename,
