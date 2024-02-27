@@ -6,6 +6,7 @@ import { useStore } from '../../../../store';
 
 export function MainHeader() {
   const settings = useStore(state => state.settings)
+  const titleColor = settings.darkTheme === "true" ? "rgb(250, 200, 152)" : "orange"
 
   return (
     <header>
@@ -20,7 +21,7 @@ export function MainHeader() {
               <div style={{display: "inline-block"}}>
             <h2
               style={{
-                color: "rgb(250, 200, 152)",
+                color: `${titleColor}`,
                 fontSize: 'calc(12px + 0.390625vw)'
               }}
             >
