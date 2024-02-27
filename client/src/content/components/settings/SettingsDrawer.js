@@ -17,6 +17,7 @@ export const SettingsDrawer = (props) => {
     const settingsEnableUpload = settings.enableUpload === 'true'
     const settingsEnableDelete = settings.enableDelete === 'true'
     const settingsEnableView = settings.enableView === 'true'
+    const settingsDarkTheme = settings.darkTheme === 'true'
     const settingsTitle = settings.title
         
     const [submitDisabled, setSubmitDisabled] = useState(true)
@@ -27,6 +28,7 @@ export const SettingsDrawer = (props) => {
     const [enableUpload, setEnableUpload] = useState(null)
     const [enableDelete, setEnableDelete] = useState(null)
     const [enableView, setEnableView] = useState(null)
+    const [darkTheme, setDarkTheme] = useState(null)
     const [title, setTitle] = useState(null)
 
     const reset = () => {
@@ -36,6 +38,7 @@ export const SettingsDrawer = (props) => {
         setEnableUpload(null)
         setEnableDelete(null)
         setEnableView(null)
+        setDarkTheme(null)
         setTitle(null)
         setSubmitDisabled(true)
     }
@@ -50,6 +53,7 @@ export const SettingsDrawer = (props) => {
         if (enableUpload !== undefined && enableUpload !== null) { updateJson['enableUpload'] = enableUpload + '' }
         if (enableDelete !== undefined && enableDelete !== null) { updateJson['enableDelete'] = enableDelete + '' }
         if (enableView !== undefined && enableView !== null) { updateJson['enableView'] = enableView + '' }
+        if (darkTheme !== undefined && darkTheme !== null) { updateJson['darkTheme'] = darkTheme + '' }
 
         return updateJson
     }
@@ -84,15 +88,20 @@ export const SettingsDrawer = (props) => {
     }
 
     useEffect(() => {
+        
+    });
+
+    useEffect(() => {
         const tracksChanged = maxTracks && (parseInt(maxTracks + '') !== parseInt(settings.maxTracks + ''))
         const filesChanged = maxFiles && (parseInt(maxFiles + '') !== parseInt(settings.maxFiles + ''))
         const audioChanged = compareChangeBooleanToString(audioFileCapability, settings.audioFileCapability)
         const uploadChanged = compareChangeBooleanToString(enableUpload, settings.enableUpload)
         const deleteChanged = compareChangeBooleanToString(enableDelete, settings.enableDelete)
         const viewChanged = compareChangeBooleanToString(enableView, settings.enableView)
+        const themeChanged = compareChangeBooleanToString(darkTheme, settings.darkTheme)
         const titleChanged = title && title !== settings.title
 
-        if ( tracksChanged || filesChanged || audioChanged || uploadChanged || deleteChanged || viewChanged || titleChanged) {
+        if ( tracksChanged || filesChanged || audioChanged || uploadChanged || deleteChanged || viewChanged || titleChanged || themeChanged ) {
             setSubmitDisabled(false)
         }
         else {
@@ -106,6 +115,7 @@ export const SettingsDrawer = (props) => {
         enableUpload,
         enableDelete,
         enableView,
+        darkTheme,
         title,
         setSubmitDisabled
     ]);
@@ -200,6 +210,16 @@ export const SettingsDrawer = (props) => {
                             type="submit">Save File</Button>
                         }
                     </Group>
+                    <Switch
+                        labelPosition="left"
+                        label="Dark Theme"
+                        checked = { 
+                            darkTheme === undefined || darkTheme === null ? 
+                            settingsDarkTheme : darkTheme
+                        }
+                        onChange={(event) => setDarkTheme(event.currentTarget.checked)}
+                        mt="10px"
+                    />
                 </form>
             </Box>
         </Drawer>

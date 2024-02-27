@@ -7,6 +7,9 @@ import { DELETE, UPDATE_LABELS  } from "../../../routes";
 import { formatLabelsFile } from "../../../utils";
 
 export const DeleteDrawer = (props) => {
+    const settings = useStore(state => state.settings)
+    const titleColor = settings.darkTheme === "true" ? "rgb(250, 200, 152)" : "orange"
+    
     const selectedFilename = useStore(state => state.selectedFilename)
     const associatedDir = useStore(state => state.associatedDir)
     const associatedDirCount = useStore(state => state.associatedDirCount)
@@ -158,8 +161,8 @@ export const DeleteDrawer = (props) => {
                     confirmDeleteFolder === 'true' ?
                     onSubmitFileAndDir : onSubmitFileOnly
                 }>
-                <Text c="rgb(250, 200, 152)" size="md">{`${associatedDir} \\ ${selectedFilename}`}</Text>
-                <Text c="rgb(250, 200, 152)" size="md">{`${associatedDir} file count: ${associatedDirCount}`}</Text>
+                <Text c={`${titleColor}`} size="md">{`${associatedDir} \\ ${selectedFilename}`}</Text>
+                <Text c={`${titleColor}`} size="md">{`${associatedDir} file count: ${associatedDirCount}`}</Text>
                 <br />
                 <Divider
                     size="md"

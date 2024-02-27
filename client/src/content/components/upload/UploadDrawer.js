@@ -31,6 +31,7 @@ export const UploadDrawer = (props) => {
     const fetchDirs = useStore(state => state.fetchDirs)
     const fetchDirFiles = useStore(state => state.fetchDirFiles)
     const asyncDirFiles = useStore(state => state.asyncDirFiles)
+    const fetchSettings = useStore(state => state.fetchSettings)
     const { ref, focused } = useFocusWithin();
 
     const reset = () => {
@@ -108,6 +109,7 @@ export const UploadDrawer = (props) => {
                     fetchDirFiles(
                         selectedDir
                     )
+                    fetchSettings()
                 }, 1900);
             });
 

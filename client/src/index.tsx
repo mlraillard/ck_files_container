@@ -1,20 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { MantineProvider } from '@mantine/core';
+import CkFilesProvider from './CkFilesProvider';
 
-//ReactDOM.render(<App/>, document.getElementById("root"));
-
-const mode = process.env.mode === "dark" ? "dark" : "light";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+//const settings = useStore(state => state.settings)
 root.render(
   <React.StrictMode>
-    {/* <MantineProvider theme={{ colorScheme: mode }} withGlobalStyles withNormalizeCSS> */}
-
-    <MantineProvider theme={{ colorScheme: mode }} withGlobalStyles withNormalizeCSS>
-      <App />
-    </MantineProvider>
+    <CkFilesProvider />
   </React.StrictMode>
 );
